@@ -357,8 +357,8 @@ services:
             - { name: jms_translation.file_visitor }
 
     Shopsys\FrameworkBundle\Component\Translation\ConstraintViolationExtractor:
-      tags:
-        - { name: jms_translation.file_visitor }
+        tags:
+            - { name: jms_translation.file_visitor }
 
     Shopsys\FrameworkBundle\Component\Translation\PoDumper:
         tags:

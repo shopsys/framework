@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopsys\FrameworkBundle\Model\Product\ProductSearchExport;
+namespace Shopsys\FrameworkBundle\Model\Product\Search\Export;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;

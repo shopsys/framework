@@ -2,26 +2,26 @@
 
 namespace Shopsys\FrameworkBundle\Command;
 
-use Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade;
+use Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class MicroserviceProductSearchDeleteStructureCommand extends Command
+class ProductSearchDeleteStructureCommand extends Command
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'shopsys:microservice:product-search:delete-structure';
+    protected static $defaultName = 'shopsys:product-search:delete-structure';
 
     /**
-     * @var \Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade
+     * @var \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade
      */
     private $productSearchExportStructureFacade;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade $productSearchExportStructureFacade
+     * @param \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade $productSearchExportStructureFacade
      */
     public function __construct(ProductSearchExportStructureFacade $productSearchExportStructureFacade)
     {

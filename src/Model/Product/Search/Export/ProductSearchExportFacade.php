@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopsys\FrameworkBundle\Model\Product\ProductSearchExport;
+namespace Shopsys\FrameworkBundle\Model\Product\Search\Export;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 
@@ -12,15 +12,15 @@ class ProductSearchExportFacade
     protected $domain;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportExporter
+     * @var \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExporter
      */
     protected $exporter;
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
-     * @param \Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportExporter $exporter
+     * @param \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExporter $exporter
      */
-    public function __construct(Domain $domain, ProductSearchExportExporter $exporter)
+    public function __construct(Domain $domain, ProductSearchExporter $exporter)
     {
         $this->domain = $domain;
         $this->exporter = $exporter;

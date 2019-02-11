@@ -2,26 +2,27 @@
 
 namespace Shopsys\FrameworkBundle\Command;
 
-use Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade;
+use Shopsys\FrameworkBundle\Component\Elasticsearch\Exception\ElasticsearchStructureException;
+use Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class MicroserviceProductSearchCreateStructureCommand extends Command
+class ProductSearchCreateStructureCommand extends Command
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'shopsys:microservice:product-search:create-structure';
+    protected static $defaultName = 'shopsys:product-search:create-structure';
 
     /**
-     * @var \Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade
+     * @var \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade
      */
-    private $productSearchExportStructureFacade;
+    protected $productSearchExportStructureFacade;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\ProductSearchExportStructureFacade $productSearchExportStructureFacade
+     * @param \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportStructureFacade $productSearchExportStructureFacade
      */
     public function __construct(ProductSearchExportStructureFacade $productSearchExportStructureFacade)
     {
@@ -46,7 +47,7 @@ class MicroserviceProductSearchCreateStructureCommand extends Command
         try {
             $this->productSearchExportStructureFacade->createIndexes($output);
             $symfonyStyleIo->success('Structure created successfully!');
-        } catch (\Shopsys\FrameworkBundle\Component\Microservice\ProductSearchExport\Exception\ProductSearchExportStructureException $e) {
+        } catch (ElasticsearchStructureException $e) {
             $symfonyStyleIo->error($e->getMessage());
         }
     }

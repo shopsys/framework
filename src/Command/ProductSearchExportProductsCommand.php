@@ -2,31 +2,31 @@
 
 namespace Shopsys\FrameworkBundle\Command;
 
-use Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportFacade;
+use Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class MicroserviceProductSearchExportProductsCommand extends Command
+class ProductSearchExportProductsCommand extends Command
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'shopsys:microservice:product-search:export-products';
+    protected static $defaultName = 'shopsys:product-search:export-products';
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportFacade
+     * @var \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportFacade
      */
-    protected $exportFacade;
+    private $productSearchExportFacade;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportFacade $exportFacade
+     * @param \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportFacade $productSearchExportFacade
      */
-    public function __construct(ProductSearchExportFacade $exportFacade)
+    public function __construct(ProductSearchExportFacade $productSearchExportFacade)
     {
         parent::__construct();
-        $this->exportFacade = $exportFacade;
+        $this->productSearchExportFacade = $productSearchExportFacade;
     }
 
     protected function configure()
@@ -43,7 +43,7 @@ class MicroserviceProductSearchExportProductsCommand extends Command
     {
         $symfonyStyleIo = new SymfonyStyle($input, $output);
         $output->writeln('Exporting products to microservice');
-        $this->exportFacade->exportAll();
+        $this->productSearchExportFacade->exportAll();
         $symfonyStyleIo->success('All products successfully exported');
     }
 }

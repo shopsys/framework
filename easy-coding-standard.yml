@@ -1,5 +1,6 @@
 imports:
     - { resource: '%vendor_dir%/shopsys/coding-standards/easy-coding-standard.yml', ignore_errors: true  }
+    - { resource: '%vendor_dir%/symplify/better-phpdoc-parser/config/config.yaml', ignore_errors: true  }
 
 services:
     # this package is meant to be extensible using class inheritance, so we want to avoid private visibilities in these namespaces

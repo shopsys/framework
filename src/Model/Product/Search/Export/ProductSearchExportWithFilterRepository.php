@@ -94,15 +94,10 @@ class ProductSearchExportWithFilterRepository extends ProductSearchExportReposit
             ->join(ProductVisibility::class, 'prv', Join::WITH, 'prv.product = p.id')
                 ->andWhere('prv.domainId = :domainId')
                 ->andWhere('prv.visible = TRUE')
-            ->join('p.translations', 't')
-                ->andWhere('t.locale = :locale')
-            ->join('p.domains', 'd')
-                ->andWhere('d.domainId = :domainId')
             ->groupBy('p.id')
             ->orderBy('p.id');
 
         $queryBuilder->setParameter('domainId', $domainId)
-            ->setParameter('locale', $locale)
             ->setParameter('variantTypeVariant', Product::VARIANT_TYPE_VARIANT);
 
         return $queryBuilder;

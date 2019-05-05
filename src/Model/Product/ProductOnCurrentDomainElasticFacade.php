@@ -144,9 +144,9 @@ class ProductOnCurrentDomainElasticFacade implements ProductOnCurrentDomainFacad
 
         $productIds = $this->productElasticsearchRepository->getSortedProductIdsByFilterQuery($filterQuery);
 
-        $offeredProductsByIds = $this->productRepository->getOfferedByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
+        $listableProductsByIds = $this->productRepository->getListableByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
 
-        return new PaginationResult($page, $limit, $productIds->getTotal(), $offeredProductsByIds);
+        return new PaginationResult($page, $limit, $productIds->getTotal(), $listableProductsByIds);
     }
 
     /**
@@ -174,9 +174,9 @@ class ProductOnCurrentDomainElasticFacade implements ProductOnCurrentDomainFacad
 
         $productIds = $this->productElasticsearchRepository->getSortedProductIdsByFilterQuery($filterQuery);
 
-        $offeredProductsByIds = $this->productRepository->getOfferedByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
+        $listableProductsByIds = $this->productRepository->getListableByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
 
-        return new PaginationResult($page, $limit, $productIds->getTotal(), $offeredProductsByIds);
+        return new PaginationResult($page, $limit, $productIds->getTotal(), $listableProductsByIds);
     }
 
     /**
@@ -202,9 +202,9 @@ class ProductOnCurrentDomainElasticFacade implements ProductOnCurrentDomainFacad
 
         $productIds = $this->productElasticsearchRepository->getSortedProductIdsByFilterQuery($filterQuery);
 
-        $offeredProductsByIds = $this->productRepository->getOfferedByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
+        $listableProductsByIds = $this->productRepository->getListableByIds($this->domain->getId(), $this->currentCustomer->getPricingGroup(), $productIds->getIds());
 
-        return new PaginationResult($page, $limit, $productIds->getTotal(), $offeredProductsByIds);
+        return new PaginationResult($page, $limit, $productIds->getTotal(), $listableProductsByIds);
     }
 
     /**

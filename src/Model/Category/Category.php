@@ -125,7 +125,9 @@ class Category extends AbstractTranslatableEntity
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Category\CategoryTranslation $categoryTranslation */
+        $categoryTranslation = $this->translation($locale);
+        return $categoryTranslation->getName();
     }
 
     /**
@@ -212,7 +214,9 @@ class Category extends AbstractTranslatableEntity
     protected function setTranslations(CategoryData $categoryData)
     {
         foreach ($categoryData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Category\CategoryTranslation $categoryTranslation */
+            $categoryTranslation = $this->translation($locale);
+            $categoryTranslation->setName($name);
         }
     }
 
@@ -244,7 +248,7 @@ class Category extends AbstractTranslatableEntity
     }
 
     /**
-     * @param $domainId
+     * @param int $domainId
      * @return bool
      */
     public function isVisible(int $domainId)

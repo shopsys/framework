@@ -417,7 +417,9 @@ class Product extends AbstractTranslatableEntity
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\ProductTranslation $productTranslation */
+        $productTranslation = $this->translation($locale);
+        return $productTranslation->getName();
     }
 
     /**
@@ -426,7 +428,9 @@ class Product extends AbstractTranslatableEntity
      */
     public function getVariantAlias($locale = null)
     {
-        return $this->translation($locale)->getVariantAlias();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\ProductTranslation $productTranslation */
+        $productTranslation = $this->translation($locale);
+        return $productTranslation->getVariantAlias();
     }
 
     /**
@@ -687,7 +691,7 @@ class Product extends AbstractTranslatableEntity
     }
 
     /**
-     * @return \Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]
      */
     public function getFlags()
     {
@@ -889,10 +893,14 @@ class Product extends AbstractTranslatableEntity
     protected function setTranslations(ProductData $productData)
     {
         foreach ($productData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Product\ProductTranslation $productTranslation */
+            $productTranslation = $this->translation($locale);
+            $productTranslation->setName($name);
         }
         foreach ($productData->variantAlias as $locale => $variantAlias) {
-            $this->translation($locale)->setVariantAlias($variantAlias);
+            /** @var \Shopsys\FrameworkBundle\Model\Product\ProductTranslation $productTranslation */
+            $productTranslation = $this->translation($locale);
+            $productTranslation->setVariantAlias($variantAlias);
         }
     }
 

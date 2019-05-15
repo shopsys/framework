@@ -60,7 +60,9 @@ class Parameter extends AbstractTranslatableEntity
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterTranslation $parameterTranslation */
+        $parameterTranslation = $this->translation($locale);
+        return $parameterTranslation->getName();
     }
 
     /**
@@ -77,7 +79,9 @@ class Parameter extends AbstractTranslatableEntity
     protected function setTranslations(ParameterData $parameterData)
     {
         foreach ($parameterData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterTranslation $parameterTranslation */
+            $parameterTranslation = $this->translation($locale);
+            $parameterTranslation->setName($name);
         }
     }
 

@@ -52,7 +52,9 @@ class Unit extends AbstractTranslatableEntity
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\Unit\UnitTranslation $unitTranslation */
+        $unitTranslation = $this->translation($locale);
+        return $unitTranslation->getName();
     }
 
     /**
@@ -61,7 +63,9 @@ class Unit extends AbstractTranslatableEntity
     protected function setTranslations(UnitData $unitData)
     {
         foreach ($unitData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Product\Unit\UnitTranslation $unitTranslation */
+            $unitTranslation = $this->translation($locale);
+            $unitTranslation->setName($name);
         }
     }
 

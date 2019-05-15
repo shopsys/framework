@@ -166,13 +166,19 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
     protected function setTranslations(PaymentData $paymentData)
     {
         foreach ($paymentData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+            $paymentTranslation = $this->translation($locale);
+            $paymentTranslation->setName($name);
         }
         foreach ($paymentData->description as $locale => $description) {
-            $this->translation($locale)->setDescription($description);
+            /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+            $paymentTranslation = $this->translation($locale);
+            $paymentTranslation->setDescription($description);
         }
         foreach ($paymentData->instructions as $locale => $instructions) {
-            $this->translation($locale)->setInstructions($instructions);
+            /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+            $paymentTranslation = $this->translation($locale);
+            $paymentTranslation->setInstructions($instructions);
         }
     }
 
@@ -222,7 +228,9 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+        $paymentTranslation = $this->translation($locale);
+        return $paymentTranslation->getName();
     }
 
     /**
@@ -263,7 +271,9 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
      */
     public function getDescription($locale = null)
     {
-        return $this->translation($locale)->getDescription();
+        /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+        $paymentTranslation = $this->translation($locale);
+        return $paymentTranslation->getDescription();
     }
 
     /**
@@ -272,7 +282,9 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
      */
     public function getInstructions($locale = null)
     {
-        return $this->translation($locale)->getInstructions();
+        /** @var \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation $paymentTranslation */
+        $paymentTranslation = $this->translation($locale);
+        return $paymentTranslation->getInstructions();
     }
 
     /**

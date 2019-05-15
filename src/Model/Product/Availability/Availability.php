@@ -60,7 +60,9 @@ class Availability extends AbstractTranslatableEntity
      */
     public function getName($locale = null)
     {
-        return $this->translation($locale)->getName();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityTranslation $availabilityTranslation */
+        $availabilityTranslation = $this->translation($locale);
+        return $availabilityTranslation->getName();
     }
 
     /**
@@ -69,7 +71,9 @@ class Availability extends AbstractTranslatableEntity
     protected function setTranslations(AvailabilityData $availabilityData)
     {
         foreach ($availabilityData->name as $locale => $name) {
-            $this->translation($locale)->setName($name);
+            /** @var \Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityTranslation $availabilityTranslation */
+            $availabilityTranslation = $this->translation($locale);
+            $availabilityTranslation->setName($name);
         }
     }
 

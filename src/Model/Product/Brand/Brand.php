@@ -89,8 +89,8 @@ class Brand extends AbstractTranslatableEntity
     protected function setTranslations(BrandData $brandData)
     {
         foreach ($brandData->descriptions as $locale => $description) {
+            /** @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation $brandTranslation */
             $brandTranslation = $this->translation($locale);
-            /* @var $brandTranslation \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation */
             $brandTranslation->setDescription($description);
         }
     }
@@ -179,6 +179,8 @@ class Brand extends AbstractTranslatableEntity
      */
     public function getDescription($locale = null)
     {
-        return $this->translation($locale)->getDescription();
+        /** @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation $brandTranslation */
+        $brandTranslation = $this->translation($locale);
+        return $brandTranslation->getDescription();
     }
 }

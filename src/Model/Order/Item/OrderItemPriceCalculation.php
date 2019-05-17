@@ -84,10 +84,6 @@ class OrderItemPriceCalculation
         $prices = [];
 
         foreach ($orderItems as $orderItem) {
-            if ($orderItem->getId() === null) {
-                $message = 'OrderItem must have ID filled';
-                throw new \Shopsys\FrameworkBundle\Model\Order\Item\Exception\OrderItemHasNoIdException($message);
-            }
             $prices[$orderItem->getId()] = $this->calculateTotalPrice($orderItem);
         }
 

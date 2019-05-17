@@ -947,7 +947,7 @@ class Order
      */
     public function isCancelled()
     {
-        return $this->status === OrderStatus::TYPE_CANCELED;
+        return $this->status->getType() === OrderStatus::TYPE_CANCELED;
     }
 
     /**

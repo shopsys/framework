@@ -81,7 +81,7 @@ class ProductCachedAttributesFacade
         $productParameterValues = $this->parameterRepository->getProductParameterValuesByProductSortedByName($product, $locale);
         foreach ($productParameterValues as $index => $productParameterValue) {
             $parameter = $productParameterValue->getParameter();
-            if ($parameter->getName() === null
+            if ($parameter->getName() === ''
                 || $productParameterValue->getValue()->getLocale() !== $locale
             ) {
                 unset($productParameterValues[$index]);

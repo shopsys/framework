@@ -265,7 +265,7 @@ class Order
     protected $note;
 
     /**
-     * @var int
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
@@ -439,6 +439,8 @@ class Order
     }
 
     /**
+     * @deprecated Use removeProductTypeItem() instead as transport and payment is not nullable
+     *
      * @param \Shopsys\FrameworkBundle\Model\Order\Item\OrderItem $item
      */
     public function removeItem(OrderItem $item)
@@ -450,6 +452,16 @@ class Order
             $this->payment = null;
         }
         $this->items->removeElement($item);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Order\Item\OrderItem $item
+     */
+    public function removeProductTypeItem(OrderItem $item)
+    {
+        if ($item->isTypePayment() === false && $item->isTypeTransport() === false) {
+            $this->items->removeElement($item);
+        }
     }
 
     /**
@@ -640,7 +652,7 @@ class Order
     }
 
     /**
-     * @return \Shopsys\FrameworkBundle\Model\Order\Item\OrderItem[]
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Shopsys\FrameworkBundle\Model\Order\Item\OrderItem[]
      */
     public function getItems()
     {
@@ -1010,7 +1022,7 @@ class Order
                 $orderItemData->priceWithoutVat = $orderItemPriceCalculation->calculatePriceWithoutVat($orderItemData);
                 $orderItem->edit($orderItemData);
             } else {
-                $this->removeItem($orderItem);
+                $this->removeProductTypeItem($orderItem);
             }
         }
 

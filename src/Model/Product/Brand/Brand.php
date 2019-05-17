@@ -31,7 +31,7 @@ class Brand extends AbstractTranslatableEntity
     protected $name;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation[]
      *
      * @Prezent\Translations(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation")
      */

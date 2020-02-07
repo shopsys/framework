@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\Exception\ElasticsearchIndexException;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\IndexRegistry;
-use Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductIndex;
 use Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ExportWithFilterRepository;
+use Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductIndex;
 use Tests\FrameworkBundle\Unit\Model\Elasticsearch\__fixtures\CategoryIndex;
 
 class IndexRegistryTest extends TestCase

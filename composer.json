@@ -20,6 +20,7 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.2",
         "ext-bcmath": "*",
@@ -101,6 +102,7 @@
         "phpunit/phpunit": "^8.0",
         "phpstan/phpstan-doctrine": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
+        "shopsys/coding-standards": "dev-tp-symfony4 as dev-master",
         "sspooky13/yaml-standards": "^5.0.0",
         "symfony/var-dumper": "^4.4",
         "symfony/web-server-bundle": "^4.4"

@@ -686,6 +686,20 @@
         </exec>
     </target>
 
+    <target name="npm-build" description="Create production build.">
+        <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
+            <arg value="run"/>
+            <arg value="build"/>
+        </exec>
+    </target>
+
+    <target name="npm-dev" description="Compile assets once.">
+        <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
+            <arg value="run"/>
+            <arg value="dev"/>
+        </exec>
+    </target>
+
     <target name="npm-export-translations" description="Exported used translations for javascripts." hidden="true">
         <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
             <arg value="run"/>
@@ -711,7 +725,7 @@
         </exec>
     </target>
 
-    <target name="npm-watch" description="Installs node modules dependencies.">
+    <target name="npm-watch" description="Recompile assets automatically when files change.">
         <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
             <arg value="run"/>
             <arg value="watch"/>

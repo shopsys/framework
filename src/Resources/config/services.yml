@@ -164,10 +164,6 @@ services:
         arguments:
             - '@monolog.logger.cron'
 
-    Shopsys\FrameworkBundle\Component\Css\CssFacade:
-        arguments:
-            - '%shopsys.css_version_filepath%'
-
     Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade:
         public: true
 
@@ -979,3 +975,4 @@ services:
     Shopsys\FrameworkBundle\Component\ClassExtension\FileContentsReplacer: ~
 
     Shopsys\FrameworkBundle\Model\Pricing\PriceConverter: ~
+

@@ -709,7 +709,7 @@
             <arg value="trans"/>
             <arg value="--"/>
             <arg value="source-dir=${path.assets}/**/*.js"/>
-            <arg value="source-dir=${path.framework.assets}/js/*.js"/>
+            <arg value="source-dir=${path.framework.assets}/js/**/*.js"/>
             <arg value="translations-dir=${path.root}/translations/*.po"/>
             <arg value="translations-dir=${path.framework}/src/Resources/translations/*.po"/>
         </exec>

@@ -689,14 +689,14 @@
         </exec>
     </target>
 
-    <target name="npm-build" description="Create production build.">
+    <target name="npm-prod" description="Compile assets for production.">
         <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
             <arg value="run"/>
             <arg value="build"/>
         </exec>
     </target>
 
-    <target name="npm-dev" description="Compile assets once.">
+    <target name="npm-dev" description="Compile assets for development (without minification and with generated source maps).">
         <exec executable="${path.npm.executable}" dir="${path.root}" logoutput="true" passthru="true" checkreturn="true">
             <arg value="run"/>
             <arg value="dev"/>

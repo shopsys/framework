@@ -5,7 +5,6 @@ namespace Shopsys\FrameworkBundle\Model\Newsletter;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormData;
-use Shopsys\FrameworkBundle\Model\Newsletter\Exception\EmailWasAlreadySubscribedException;
 
 class NewsletterFacade
 {
@@ -49,8 +48,6 @@ class NewsletterFacade
             $newsletterSubscriber = $this->newsletterSubscriberFactory->create($email, new DateTimeImmutable(), $domainId);
             $this->em->persist($newsletterSubscriber);
             $this->em->flush($newsletterSubscriber);
-        } else {
-            throw new EmailWasAlreadySubscribedException();
         }
     }
 

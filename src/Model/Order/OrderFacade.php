@@ -269,7 +269,7 @@ class OrderFacade
 
         $order = $this->orderFactory->create(
             $orderData,
-            $orderNumber,
+            (string)$orderNumber,
             $orderUrlHash,
             $customerUser
         );
@@ -547,7 +547,12 @@ class OrderFacade
             );
 
             if ($quantifiedItemDiscount !== null) {
-                $this->addOrderItemDiscount($orderItem, $quantifiedItemDiscount, $locale, $orderPreview->getPromoCodeDiscountPercent());
+                $this->addOrderItemDiscount(
+                    $orderItem,
+                    $quantifiedItemDiscount,
+                    $locale,
+                    (float)$orderPreview->getPromoCodeDiscountPercent()
+                );
             }
         }
     }
@@ -614,7 +619,7 @@ class OrderFacade
                 $order,
                 t('Rounding', [], 'messages', $locale),
                 $orderPreview->getRoundingPrice(),
-                0,
+                '0',
                 1,
                 null,
                 null,

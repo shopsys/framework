@@ -124,6 +124,7 @@ class OrderFacadeHeurekaTest extends TestCase
     private function runHeurekaTest(HeurekaFacade $heurekaFacade, $disallowHeurekaVerifiedByCustomers): void
     {
         $orderFacade = $this->createOrderFacade($heurekaFacade);
+        /** @var \Shopsys\FrameworkBundle\Model\Order\Order $order */
         $order = $this->createOrderMock();
         $orderFacade->sendHeurekaOrderInfo($order, $disallowHeurekaVerifiedByCustomers);
     }

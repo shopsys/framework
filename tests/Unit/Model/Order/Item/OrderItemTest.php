@@ -26,7 +26,10 @@ class OrderItemTest extends TestCase
         $orderItem = $this->createOrderPayment();
 
         $this->expectException(WrongItemTypeException::class);
-        $orderItem->setTransport($this->createTransportMock());
+
+        /** @var \App\Model\Transport\Transport $transportMock */
+        $transportMock = $this->createTransportMock();
+        $orderItem->setTransport($transportMock);
     }
 
     public function testTransportCannotBeGottenFromWrongType(): void
@@ -57,7 +60,9 @@ class OrderItemTest extends TestCase
         $orderItem = $this->createOrderProduct();
 
         $this->expectException(WrongItemTypeException::class);
-        $orderItem->setPayment($this->createPaymentMock());
+        /** @var \App\Model\Payment\Payment $paymentMock */
+        $paymentMock = $this->createPaymentMock();
+        $orderItem->setPayment($paymentMock);
     }
 
     public function testPaymentCannotBeGottenFromWrongType(): void
@@ -88,7 +93,9 @@ class OrderItemTest extends TestCase
         $orderItem = $this->createOrderTransport();
 
         $this->expectException(WrongItemTypeException::class);
-        $orderItem->setProduct($this->createProductMock());
+        /** @var \App\Model\Product\Product $productMock */
+        $productMock = $this->createProductMock();
+        $orderItem->setProduct($productMock);
     }
 
     public function testProductCannotBeGottenFromWrongType(): void
@@ -116,7 +123,9 @@ class OrderItemTest extends TestCase
         $orderItemData->quantity = 2;
         $orderItemData->vatPercent = '10';
 
-        $orderItem = $this->createOrderProduct($this->createProductMock());
+        /** @var \App\Model\Product\Product $productMock */
+        $productMock = $this->createProductMock();
+        $orderItem = $this->createOrderProduct($productMock);
         $orderItem->edit($orderItemData);
 
         $this->assertSame('newName', $orderItem->getName());
@@ -160,17 +169,21 @@ class OrderItemTest extends TestCase
      */
     private function createOrderPayment(): OrderItem
     {
+        /** @var \App\Model\Order\Order $orderMock */
+        $orderMock = $this->createOrderMock();
         $orderPayment = new OrderItem(
-            $this->createOrderMock(),
+            $orderMock,
             '',
             new Price(Money::create(10), Money::create(12)),
-            0.2,
+            '0.2',
             1,
             OrderItem::TYPE_PAYMENT,
             null,
             null
         );
-        $orderPayment->setPayment($this->createPaymentMock());
+        /** @var \App\Model\Payment\Payment $paymentMock */
+        $paymentMock = $this->createPaymentMock();
+        $orderPayment->setPayment($paymentMock);
         return $orderPayment;
     }
 
@@ -179,17 +192,21 @@ class OrderItemTest extends TestCase
      */
     private function createOrderTransport(): OrderItem
     {
+        /** @var \App\Model\Order\Order $orderMock */
+        $orderMock = $this->createOrderMock();
         $orderTransport = new OrderItem(
-            $this->createOrderMock(),
+            $orderMock,
             '',
             new Price(Money::create(10), Money::create(12)),
-            0.2,
+            '0.2',
             1,
             OrderItem::TYPE_TRANSPORT,
             null,
             null
         );
-        $orderTransport->setTransport($this->createTransportMock());
+        /** @var \App\Model\Transport\Transport $transportMock */
+        $transportMock = $this->createTransportMock();
+        $orderTransport->setTransport($transportMock);
         return $orderTransport;
     }
 
@@ -199,11 +216,13 @@ class OrderItemTest extends TestCase
      */
     private function createOrderProduct(?Product $product = null): OrderItem
     {
+        /** @var \App\Model\Order\Order $orderMock */
+        $orderMock = $this->createOrderMock();
         $orderProduct = new OrderItem(
-            $this->createOrderMock(),
+            $orderMock,
             '',
             new Price(Money::create(10), Money::create(12)),
-            0.2,
+            '0.2',
             1,
             OrderItem::TYPE_PRODUCT,
             null,

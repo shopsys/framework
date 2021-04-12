@@ -85,9 +85,6 @@ msgstr ""
 msgid "Add item"
 msgstr ""
 
-msgid "Add only to order confirmation page"
-msgstr ""
-
 msgid "Add product"
 msgstr ""
 
@@ -164,9 +161,6 @@ msgid "All emails will be sent only to entered address."
 msgstr ""
 
 msgid "All emails will be sent only to entered addresses."
-msgstr ""
-
-msgid "All pages"
 msgstr ""
 
 msgid "All prices have to be handled manually if checked, otherwise the unit price without VAT and the total prices for that item will be recalculated automatically."
@@ -566,9 +560,6 @@ msgid "Cron with serviceID `%serviceId%` was scheduled"
 msgstr ""
 
 msgid "Cropping"
-msgstr ""
-
-msgid "Currencies"
 msgstr ""
 
 msgid "Currencies and rounding"

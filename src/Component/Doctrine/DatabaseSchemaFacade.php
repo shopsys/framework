@@ -56,7 +56,7 @@ class DatabaseSchemaFacade
 
         $line = fgets($handle);
         while ($line !== false) {
-            $connection->query($line);
+            $connection->executeQuery($line);
             $line = fgets($handle);
         }
         fclose($handle);

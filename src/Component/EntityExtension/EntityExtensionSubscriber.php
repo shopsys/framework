@@ -6,6 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use LogicException;
 use ReflectionClass;
@@ -213,11 +214,11 @@ class EntityExtensionSubscriber implements EventSubscriber
 
     /**
      * @param class-string $entityClass
-     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+     * @return \Doctrine\ORM\Mapping\ClassMetadata
      */
-    protected function getClassMetadataForEntity(string $entityClass): ClassMetadataInfo
+    protected function getClassMetadataForEntity(string $entityClass): ClassMetadata
     {
-        $classMetadata = new ClassMetadataInfo(
+        $classMetadata = new ClassMetadata(
             $entityClass,
             $this->configuration->getNamingStrategy()
         );

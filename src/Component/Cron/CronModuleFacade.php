@@ -47,7 +47,7 @@ class CronModuleFacade
         foreach ($cronModuleConfigs as $cronModuleConfig) {
             $cronModule = $this->cronModuleRepository->getCronModuleByServiceId($cronModuleConfig->getServiceId());
             $cronModule->schedule();
-            $this->em->flush($cronModule);
+            $this->em->flush();
         }
     }
 
@@ -69,7 +69,7 @@ class CronModuleFacade
     {
         $cronModule = $this->cronModuleRepository->getCronModuleByServiceId($cronModuleConfig->getServiceId());
         $cronModule->unschedule();
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -79,7 +79,7 @@ class CronModuleFacade
     {
         $cronModule = $this->cronModuleRepository->getCronModuleByServiceId($cronModuleConfig->getServiceId());
         $cronModule->suspend();
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -113,7 +113,7 @@ class CronModuleFacade
         $cronModule->setStatusRunning();
         $cronModule->updateLastStartedAt();
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -130,7 +130,7 @@ class CronModuleFacade
             $cronModule->setLastDuration($lastCronDuration);
         }
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -141,7 +141,7 @@ class CronModuleFacade
         $cronModule = $this->cronModuleRepository->getCronModuleByServiceId($cronModuleConfig->getServiceId());
         $cronModule->setStatusFailed();
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -152,7 +152,7 @@ class CronModuleFacade
         $cronModule = $this->getCronModuleByServiceId($serviceId);
         $cronModule->disable();
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -163,7 +163,7 @@ class CronModuleFacade
         $cronModule = $this->getCronModuleByServiceId($serviceId);
         $cronModule->enable();
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 
     /**
@@ -191,6 +191,6 @@ class CronModuleFacade
         $cronModule = $this->getCronModuleByServiceId($serviceId);
         $cronModule->schedule();
 
-        $this->em->flush($cronModule);
+        $this->em->flush();
     }
 }

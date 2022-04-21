@@ -7,29 +7,38 @@ namespace Shopsys\FrameworkBundle\Component\ClassExtension;
 use OutOfBoundsException;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
+use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserException;
 
 class MethodAnnotationsFactory
 {
     /**
      * @var \Shopsys\FrameworkBundle\Component\ClassExtension\AnnotationsReplacementsMap
      */
-    protected $annotationsReplacementsMap;
+    protected AnnotationsReplacementsMap $annotationsReplacementsMap;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\ClassExtension\AnnotationsReplacer
      */
-    protected $annotationsReplacer;
+    protected AnnotationsReplacer $annotationsReplacer;
+
+    /**
+     * @var \Shopsys\FrameworkBundle\Component\ClassExtension\DocBlockParser
+     */
+    protected DocBlockParser $docBlockParser;
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\ClassExtension\AnnotationsReplacementsMap $annotationsReplacementsMap
      * @param \Shopsys\FrameworkBundle\Component\ClassExtension\AnnotationsReplacer $annotationsReplacer
+     * @param \Shopsys\FrameworkBundle\Component\ClassExtension\DocBlockParser $docBlockParser
      */
     public function __construct(
         AnnotationsReplacementsMap $annotationsReplacementsMap,
-        AnnotationsReplacer $annotationsReplacer
+        AnnotationsReplacer $annotationsReplacer,
+        DocBlockParser $docBlockParser
     ) {
         $this->annotationsReplacementsMap = $annotationsReplacementsMap;
         $this->annotationsReplacer = $annotationsReplacer;
+        $this->docBlockParser = $docBlockParser;
     }
 
     /**
@@ -71,7 +80,7 @@ class MethodAnnotationsFactory
 
             $methodReturnTypeIsExtended = $this->methodReturningTypeIsExtendedInProject(
                 $frameworkClassPattern,
-                $reflectionMethodFromFrameworkClass->getDocBlockReturnTypes()
+                $this->docBlockParser->getReturnTypes($reflectionMethodFromFrameworkClass->getDocComment())
             );
 
             $methodParameterTypeIsExtended = $this->methodParameterTypeIsExtendedInProject(
@@ -151,6 +160,7 @@ class MethodAnnotationsFactory
                 return true;
             }
         }
+
         return false;
     }
 
@@ -164,10 +174,14 @@ class MethodAnnotationsFactory
         array $methodParameters
     ): bool {
         foreach ($methodParameters as $methodParameter) {
-            foreach ($methodParameter->getDocBlockTypeStrings() as $typeString) {
-                if (preg_match($frameworkClassPattern, $typeString)) {
-                    return true;
-                }
+            try {
+                $paramTypeString = (string)$this->docBlockParser->getParameterType($methodParameter);
+            } catch (DocBlockParserException $exception) {
+                $paramTypeString = '';
+            }
+
+            if (preg_match($frameworkClassPattern, $paramTypeString)) {
+                return true;
             }
         }
 

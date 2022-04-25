@@ -18,7 +18,7 @@ class DocBlockParser
     /**
      * @var \phpDocumentor\Reflection\DocBlockFactory
      */
-    private DocBlockFactory $docBlockFactory;
+    protected DocBlockFactory $docBlockFactory;
 
     public function __construct()
     {
@@ -43,8 +43,6 @@ class DocBlockParser
 
     /**
      * @param \Roave\BetterReflection\Reflection\ReflectionParameter $reflectionParameter
-     * @throws \Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserEmptyDocBlockException
-     * @throws \Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserMissingTagException
      * @return \phpDocumentor\Reflection\Type
      */
     public function getParameterType(ReflectionParameter $reflectionParameter): Type
@@ -78,9 +76,6 @@ class DocBlockParser
 
     /**
      * @param \Roave\BetterReflection\Reflection\ReflectionProperty $reflectionProperty
-     * @throws \Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserEmptyDocBlockException
-     * @throws \Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserAmbiguousTagException
-     * @throws \Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserMissingTagException
      * @return \phpDocumentor\Reflection\Type
      */
     public function getPropertyType(ReflectionProperty $reflectionProperty): Type

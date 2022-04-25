@@ -67,7 +67,7 @@ class AnnotationsReplacer
     public function replaceInPropertyType(ReflectionProperty $reflectionProperty): string
     {
         try {
-            return (string)$this->docBlockParser->getPropertyType($reflectionProperty);
+            return $this->replaceIn((string)$this->docBlockParser->getPropertyType($reflectionProperty));
         } catch (DocBlockParserEmptyDocBlockException $exception) {
             return '';
         }

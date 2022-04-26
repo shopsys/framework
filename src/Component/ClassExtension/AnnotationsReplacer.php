@@ -7,8 +7,6 @@ namespace Shopsys\FrameworkBundle\Component\ClassExtension;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 use Roave\BetterReflection\Reflection\ReflectionProperty;
-use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserEmptyDocBlockException;
-use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserException;
 
 class AnnotationsReplacer
 {
@@ -66,11 +64,13 @@ class AnnotationsReplacer
      */
     public function replaceInPropertyType(ReflectionProperty $reflectionProperty): string
     {
-        try {
-            return $this->replaceIn((string)$this->docBlockParser->getPropertyType($reflectionProperty));
-        } catch (DocBlockParserEmptyDocBlockException $exception) {
+        $type = $this->docBlockParser->getPropertyType($reflectionProperty);
+
+        if ($type === null) {
             return '';
         }
+
+        return $this->replaceIn((string)$type);
     }
 
     /**
@@ -79,10 +79,12 @@ class AnnotationsReplacer
      */
     public function replaceInParameterType(ReflectionParameter $reflectionParameter): string
     {
-        try {
-            return $this->replaceIn((string)$this->docBlockParser->getParameterType($reflectionParameter));
-        } catch (DocBlockParserException $e) {
+        $type = $this->docBlockParser->getParameterType($reflectionParameter);
+
+        if ($type === null) {
             return '';
         }
+
+        return $this->replaceIn((string)$type);
     }
 }

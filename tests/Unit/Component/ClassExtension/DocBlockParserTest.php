@@ -96,13 +96,6 @@ class DocBlockParserTest extends TestCase
                 $reflectionClass->getMethod('acceptsVariousParameters')->getDocComment(),
                 [],
             ],
-            /*
-            [
-                //TODO This does not work in installed version phpdocumentor/type-resolver required
-                $reflectionClass->getMethod('returnsAssocArray')->getDocComment(),
-                [new Array_(new Integer(), new String_())],
-            ],
-            */
             [
                 $reflectionClass->getMethod('returnsNotTypedArray')->getDocComment(),
                 [new Array_()],

@@ -10,8 +10,6 @@ use phpDocumentor\Reflection\Type;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 use Roave\BetterReflection\Reflection\ReflectionProperty;
 use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserAmbiguousTagException;
-use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserEmptyDocBlockException;
-use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserMissingTagException;
 
 class DocBlockParser
 {
@@ -43,14 +41,14 @@ class DocBlockParser
 
     /**
      * @param \Roave\BetterReflection\Reflection\ReflectionParameter $reflectionParameter
-     * @return \phpDocumentor\Reflection\Type
+     * @return \phpDocumentor\Reflection\Type|null
      */
-    public function getParameterType(ReflectionParameter $reflectionParameter): Type
+    public function getParameterType(ReflectionParameter $reflectionParameter): ?Type
     {
         $docBlock = $reflectionParameter->getDeclaringFunction()->getDocComment();
 
         if ($docBlock === '') {
-            throw new DocBlockParserEmptyDocBlockException();
+            return null;
         }
 
         /** @var \phpDocumentor\Reflection\DocBlock\Tags\Param[] $functionParamTags */
@@ -67,23 +65,19 @@ class DocBlockParser
             }
         }
 
-        if ($paramType === null) {
-            throw new DocBlockParserMissingTagException('@param', $reflectionParameter->getName());
-        }
-
         return $paramType;
     }
 
     /**
      * @param \Roave\BetterReflection\Reflection\ReflectionProperty $reflectionProperty
-     * @return \phpDocumentor\Reflection\Type
+     * @return \phpDocumentor\Reflection\Type|null
      */
-    public function getPropertyType(ReflectionProperty $reflectionProperty): Type
+    public function getPropertyType(ReflectionProperty $reflectionProperty): ?Type
     {
         $docBlock = $reflectionProperty->getDocComment();
 
         if ($docBlock === '') {
-            throw new DocBlockParserEmptyDocBlockException();
+            return null;
         }
 
         /** @var \phpDocumentor\Reflection\DocBlock\Tags\Var_[] $propertyVarTags */
@@ -96,7 +90,7 @@ class DocBlockParser
         }
 
         if (!isset($propertyVarTags[0])) {
-            throw new DocBlockParserMissingTagException('@var', $reflectionProperty->getName());
+            return null;
         }
 
         return $propertyVarTags[0]->getType();

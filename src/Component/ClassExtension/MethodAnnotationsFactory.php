@@ -7,7 +7,6 @@ namespace Shopsys\FrameworkBundle\Component\ClassExtension;
 use OutOfBoundsException;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
-use Shopsys\FrameworkBundle\Component\ClassExtension\Exception\DocBlockParserException;
 
 class MethodAnnotationsFactory
 {
@@ -174,13 +173,13 @@ class MethodAnnotationsFactory
         array $methodParameters
     ): bool {
         foreach ($methodParameters as $methodParameter) {
-            try {
-                $paramTypeString = (string)$this->docBlockParser->getParameterType($methodParameter);
-            } catch (DocBlockParserException $exception) {
-                $paramTypeString = '';
+            $type = $this->docBlockParser->getParameterType($methodParameter);
+
+            if ($type === null) {
+                return false;
             }
 
-            if (preg_match($frameworkClassPattern, $paramTypeString)) {
+            if (preg_match($frameworkClassPattern, (string)$type)) {
                 return true;
             }
         }

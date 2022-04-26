@@ -95,7 +95,7 @@ class MethodAnnotationsFactory
                 $docBlockReturnTypes = $this->docBlockParser
                     ->getReturnTypes($reflectionMethodFromFrameworkClass->getDocComment());
             } catch (InvalidArgumentException $exception) {
-                $this->warningBag[md5($exception->getMessage())] = $exception;
+                $this->warningBag[] = $exception;
                 continue;
             }
 

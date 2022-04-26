@@ -86,7 +86,13 @@ class DocBlockParser
             ->getTagsByName('var');
 
         if (count($propertyVarTags) > 1) {
-            throw new DocBlockParserAmbiguousTagException('@var');
+            $filePath = sprintf(
+                '%s:%s',
+                $reflectionProperty->getImplementingClass()->getLocatedSource()->getFileName(),
+                $reflectionProperty->getStartLine()
+            );
+
+            throw new DocBlockParserAmbiguousTagException('@var', $filePath);
         }
 
         if (!isset($propertyVarTags[0])) {

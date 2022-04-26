@@ -8,9 +8,10 @@ class DocBlockParserAmbiguousTagException extends DocBlockParserException
 {
     /**
      * @param string $tagName
+     * @param string $filePath
      */
-    public function __construct(string $tagName)
+    public function __construct(string $tagName, string $filePath)
     {
-        parent::__construct("Doc block should have only 1 ${tagName} tag.");
+        parent::__construct("Doc block should have only 1 ${tagName} tag. File: ${filePath}");
     }
 }

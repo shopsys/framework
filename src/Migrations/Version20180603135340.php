@@ -69,12 +69,16 @@ class Version20180603135340 extends AbstractMigration
 
     private function createNormalizeFunction(): void
     {
-        $this->sql('CREATE OR REPLACE FUNCTION normalize(text)
-            RETURNS text AS
-            $$
-            SELECT pg_catalog.lower(public.immutable_unaccent($1))
-            $$
-            LANGUAGE SQL IMMUTABLE');
+        $versionQuery = $this->sql('SHOW server_version;');
+
+        if (intval($versionQuery->fetchOne()) < 13) {
+            $this->sql('CREATE OR REPLACE FUNCTION normalized(text)
+                RETURNS text AS
+                $$
+                SELECT pg_catalog.lower(public.immutable_unaccent($1))
+                $$
+                LANGUAGE SQL IMMUTABLE');
+        }
     }
 
     private function createDefaultDbIndexes(): void

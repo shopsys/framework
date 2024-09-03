@@ -358,9 +358,7 @@ class ProductFormType extends AbstractType
 
         $mainCategoriesOptionsByDomainId = [];
 
-        foreach ($this->domain->getAll() as $domainConfig) {
-            $domainId = $domainConfig->getId();
-
+        foreach ($this->domain->getAdminEnabledDomainIds() as $domainId) {
             if (count($productMainCategoriesIndexedByDomainId) <= 0) {
                 continue;
             }
@@ -382,7 +380,7 @@ class ProductFormType extends AbstractType
 
         $categoriesOptionsByDomainId = [];
 
-        foreach ($this->domain->getAllIds() as $domainId) {
+        foreach ($this->domain->getAdminEnabledDomainIds() as $domainId) {
             $categoriesOptionsByDomainId[$domainId] = [
                 'domain_id' => $domainId,
             ];
@@ -591,9 +589,8 @@ class ProductFormType extends AbstractType
         $seoMetaDescriptionsOptionsByDomainId = [];
         $seoH1OptionsByDomainId = [];
 
-        foreach ($this->domain->getAll() as $domainConfig) {
-            $domainId = $domainConfig->getId();
-            $locale = $domainConfig->getLocale();
+        foreach ($this->domain->getAdminEnabledDomainIds() as $domainId) {
+            $locale = $this->domain->getDomainConfigById($domainId)->getLocale();
 
             $seoTitlesOptionsByDomainId[$domainId] = [
                 'attr' => [

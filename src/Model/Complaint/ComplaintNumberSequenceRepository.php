@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Shopsys\FrameworkBundle\Model\Order;
+namespace Shopsys\FrameworkBundle\Model\Complaint;
 
 use Doctrine\ORM\EntityRepository;
 use Shopsys\FrameworkBundle\Model\NumberSequence\AbstractNumberSequenceRepository;
 
-class OrderNumberSequenceRepository extends AbstractNumberSequenceRepository
+class ComplaintNumberSequenceRepository extends AbstractNumberSequenceRepository
 {
     /**
      * @return \Doctrine\ORM\EntityRepository
      */
     protected function getNumberSequenceRepository(): EntityRepository
     {
-        return $this->em->getRepository(OrderNumberSequence::class);
+        return $this->em->getRepository(ComplaintNumberSequence::class);
     }
 }

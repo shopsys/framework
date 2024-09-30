@@ -691,6 +691,9 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
+msgid "Company (Company number)"
+msgstr ""
+
 msgid "Company data"
 msgstr ""
 
@@ -2128,6 +2131,9 @@ msgstr ""
 msgid "Input price without VAT"
 msgstr ""
 
+msgid "Inquired product"
+msgstr ""
+
 msgid "Inquiries"
 msgstr ""
 
@@ -2135,6 +2141,12 @@ msgid "Inquiries - view"
 msgstr ""
 
 msgid "Inquiries overview"
+msgstr ""
+
+msgid "Inquiry by"
+msgstr ""
+
+msgid "Inquiry detail"
 msgstr ""
 
 msgid "Instagram URL"
@@ -3112,6 +3124,9 @@ msgstr ""
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr ""
 
+msgid "Product associated with this inquiry is no longer available in the catalog."
+msgstr ""
+
 msgid "Product excluded from sale"
 msgstr ""
 
@@ -3626,6 +3641,9 @@ msgid "Short description can be set in the main variant."
 msgstr ""
 
 msgid "Short description of category"
+msgstr ""
+
+msgid "Show detail"
 msgstr ""
 
 msgid "Show combinations"
@@ -4464,4 +4482,3 @@ msgstr ""
 
 msgid "{1}Sales representative \"%label%\" is assigned to %count% customer and will be removed if you proceed.<br><br> Customer:<br> %customersEnumeration%<br><br> Do you really want to remove sales representative \"%label%\" permanently? |[2,10]Sales representative \"%label%\" is assigned to %count% customers and will be removed if you proceed.<br><br> Customers:<br> %customersEnumeration%<br><br> Do you really want to remove sales representative \"%label%\" permanently? |[11,Inf]Sales representative \"%label%\" is assigned to %count% customers and will be removed if you proceed.<br><br> Customers:<br> %customersEnumeration%<br> +%extraCount% more<br><br> Do you really want to remove sales representative \"%label%\" permanently?"
 msgstr ""
-

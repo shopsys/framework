@@ -691,6 +691,9 @@ msgstr "Komunikace se zákazníkem"
 msgid "Company"
 msgstr "Firma"
 
+msgid "Company (Company number)"
+msgstr "Firma (IČ)"
+
 msgid "Company data"
 msgstr "Firemní údaje"
 
@@ -2128,6 +2131,9 @@ msgstr "Vstupní cena s DPH"
 msgid "Input price without VAT"
 msgstr "Vstupní cena bez DPH"
 
+msgid "Inquired product"
+msgstr "Poptávaný produkt"
+
 msgid "Inquiries"
 msgstr "Poptávky"
 
@@ -2136,6 +2142,12 @@ msgstr "Poptávky - zobrazení"
 
 msgid "Inquiries overview"
 msgstr "Přehled poptávek"
+
+msgid "Inquiry by"
+msgstr "Poptávka od"
+
+msgid "Inquiry detail"
+msgstr "Detail poptávky"
 
 msgid "Instagram URL"
 msgstr "Instagram URL"
@@ -3112,6 +3124,9 @@ msgstr "Bylo upraveno zboží <strong><a href=\"{{ url }}\">{{ product|productDi
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr "Produkt <strong>{{ product|productDisplayName }}</strong> byl smazán"
 
+msgid "Product associated with this inquiry is no longer available in the catalog."
+msgstr "Produkt v této poptávce není již dostupný v katalogu."
+
 msgid "Product excluded from sale"
 msgstr "Zboží je vyřazeno z prodeje"
 
@@ -3627,6 +3642,9 @@ msgstr "Krátký popis se nastavuje u hlavní varianty."
 
 msgid "Short description of category"
 msgstr "Krátký popis kategorie"
+
+msgid "Show detail"
+msgstr "Zobrazit detail"
 
 msgid "Show combinations"
 msgstr "Zobrazit kombinace"
@@ -4464,4 +4482,3 @@ msgstr "{1} Byl vytvořen <strong>%count%</strong> slevový kupón|[2,4] Byly vy
 
 msgid "{1}Sales representative \"%label%\" is assigned to %count% customer and will be removed if you proceed.<br><br> Customer:<br> %customersEnumeration%<br><br> Do you really want to remove sales representative \"%label%\" permanently? |[2,10]Sales representative \"%label%\" is assigned to %count% customers and will be removed if you proceed.<br><br> Customers:<br> %customersEnumeration%<br><br> Do you really want to remove sales representative \"%label%\" permanently? |[11,Inf]Sales representative \"%label%\" is assigned to %count% customers and will be removed if you proceed.<br><br> Customers:<br> %customersEnumeration%<br> +%extraCount% more<br><br> Do you really want to remove sales representative \"%label%\" permanently?"
 msgstr "{1}Obchodní zástupce \"%label%\" je přiřazen k %count% zákazníkovi a bude odstraněn, pokud budete pokračovat.<br><br>Zákazník:<br>%customersEnumeration%<br><br>Opravdu chcete obchodního zástupce \"%label%\" trvale odstranit?|[2,10]Obchodní zástupce \"%label%\" je přiřazen k %count% zákazníkům a bude odstraněn, pokud budete pokračovat.<br><br>Zákazníci:<br>%customersEnumeration%<br><br>Opravdu chcete obchodního zástupce \"%label%\" trvale odstranit?|[11,14]Obchodní zástupce \"%label%\" je přiřazen k %count% zákazníkům a bude odstraněn, pokud budete pokračovat.<br><br>Zákazníci:<br>%customersEnumeration%<br>+%extraCount% další<br><br>Opravdu chcete obchodního zástupce \"%label%\" trvale odstranit?|[15,Inf]Obchodní zástupce \"%label%\" je přiřazen k %count% zákazníkům a bude odstraněn, pokud budete pokračovat.<br><br>Zákazníci:<br>%customersEnumeration%<br>+%extraCount% dalších<br><br>Opravdu chcete obchodního zástupce \"%label%\" trvale odstranit?"
-

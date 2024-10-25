@@ -187,6 +187,8 @@ class ProductExportRepository
             ProductExportFieldProvider::ACCESSORIES => $this->extractAccessoriesIds($product),
             ProductExportFieldProvider::HREFLANG_LINKS => $this->hreflangLinksFacade->getForProduct($product, $domainId),
             ProductExportFieldProvider::PRODUCT_TYPE => $this->extractProductType($product, $domainId),
+            ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE => $this->extractPriorityByProductType($product, $domainId),
+
             default => throw new InvalidArgumentException(sprintf('There is no definition for exporting "%s" field to Elasticsearch', $field)),
         };
     }
@@ -329,6 +331,22 @@ class ProductExportRepository
         }
 
         return $product->getProductType();
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return int
+     */
+    protected function extractPriorityByProductType(Product $product, int $domainId): int
+    {
+        $productType = $this->extractProductType($product, $domainId);
+
+        return match ($productType) {
+            ProductTypeEnum::TYPE_BASIC => 20,
+            ProductTypeEnum::TYPE_INQUIRY => 10,
+            default => -100,
+        };
     }
 
     /**

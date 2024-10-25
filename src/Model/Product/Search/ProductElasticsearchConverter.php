@@ -55,6 +55,7 @@ class ProductElasticsearchConverter
         $result['seo_meta_description'] = $product['seo_meta_description'] ?? null;
         $result['hreflang_links'] = $product['hreflang_links'] ?? [];
         $result['product_type'] = $product['product_type'] ?? ProductTypeEnum::TYPE_BASIC;
+        $result['priority_by_product_type'] = $product['priority_by_product_type'] ?? 0;
 
         return $result;
     }

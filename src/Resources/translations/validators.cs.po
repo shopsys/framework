@@ -40,6 +40,9 @@ msgstr "Název státu nesmí být delší než {{ limit }} znaků"
 msgid "Country with code {{ country_code }} does not exists. Available country codes are {{ available_country_codes }}."
 msgstr "Kód státu {{ country_code }} neexistuje. Povolené kódy státu jsou {{ available_country_codes }}."
 
+msgid "Description background color must be a valid hexadecimal color code e.g. #fff or #ffffff"
+msgstr "Popis pozadí musí být platný hexadecimální kód barvy, například #fff nebo #ffffff"
+
 msgid "EAN cannot be longer than {{ limit }} characters"
 msgstr "EAN nesmí být delší než {{ limit }} znaků"
 
@@ -129,6 +132,12 @@ msgstr "Odkaz musí být validní URL adresa"
 
 msgid "Name cannot be longer than {{ limit }} characters"
 msgstr "Název nesmí být delší než {{ limit }} znaků"
+
+msgid "Opacity must be a number with up to two decimal places"
+msgstr "Průhlednost musí být číslo s až dvěma desetinnými místy"
+
+msgid "Opacity must be between {{ min }} and {{ max }}"
+msgstr "Průhlednost musí být mezi {{ min }} a {{ max }}"
 
 msgid "Opening hours setting is not valid"
 msgstr "Neplaté nastavení otevírací doby"
@@ -282,6 +291,12 @@ msgstr "Prosím zadejte výchozí cenovou skupinu"
 
 msgid "Please enter description"
 msgstr "Prosím zadejte popis"
+
+msgid "Please enter description box background color"
+msgstr "Prosím vyplňte barvu pozadí popisu"
+
+msgid "Please enter description box opacity"
+msgstr "Prosím vyplňte průhlednost popisu"
 
 msgid "Please enter discount percentage"
 msgstr "Vyplňte prosím procento slevy."

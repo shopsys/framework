@@ -58,5 +58,8 @@ class SliderItemDataFactory implements SliderItemDataFactoryInterface
         $sliderItemData->hidden = $sliderItem->isHidden();
         $sliderItemData->domainId = $sliderItem->getDomainId();
         $sliderItemData->image = $this->imageUploadDataFactory->createFromEntityAndType($sliderItem);
+        $sliderItemData->description = $sliderItem->getDescription();
+        $sliderItemData->rgbBackgroundColor = $sliderItem->getRgbBackgroundColor();
+        $sliderItemData->opacity = $sliderItem->getOpacity();
     }
 }

@@ -6,14 +6,17 @@ namespace Shopsys\FrameworkBundle\Form\Admin\Slider;
 
 use Shopsys\FormTypesBundle\YesNoType;
 use Shopsys\FrameworkBundle\Component\Image\Processing\ImageProcessor;
+use Shopsys\FrameworkBundle\Form\ColorPickerType;
 use Shopsys\FrameworkBundle\Form\DisplayOnlyType;
 use Shopsys\FrameworkBundle\Form\DomainType;
 use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
+use Shopsys\FrameworkBundle\Form\NumberSliderType;
 use Shopsys\FrameworkBundle\Model\Slider\SliderItem;
 use Shopsys\FrameworkBundle\Model\Slider\SliderItemData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -80,6 +83,37 @@ class SliderItemFormType extends AbstractType
                     new Constraints\Url(['message' => 'Link must be valid URL address']),
                 ],
                 'label' => t('Link'),
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => false,
+                'label' => t('Description'),
+            ])
+            ->add('rgbBackgroundColor', ColorPickerType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Constraints\NotBlank(['message' => 'Please enter description box background color']),
+                    new Constraints\Regex([
+                        'pattern' => '/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/',
+                        'message' => 'Description background color must be a valid hexadecimal color code e.g. #fff or #ffffff',
+                    ]),
+                ],
+                'label' => t('Description background color'),
+            ])
+            ->add('opacity', NumberSliderType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Constraints\NotBlank(['message' => 'Please enter description box opacity']),
+                    new Constraints\Range([
+                        'min' => 0,
+                        'max' => 1,
+                        'notInRangeMessage' => 'Opacity must be between {{ min }} and {{ max }}',
+                    ]),
+                    new Constraints\Regex([
+                        'pattern' => '/^\d(\.\d{1,2})?$/',
+                        'message' => 'Opacity must be a number with up to two decimal places',
+                    ]),
+                ],
+                'label' => t('Description opacity'),
             ])
             ->add('hidden', YesNoType::class, [
                 'required' => false,

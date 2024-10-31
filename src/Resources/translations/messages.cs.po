@@ -1201,8 +1201,14 @@ msgstr "Obchodní domy"
 msgid "Description"
 msgstr "Popis"
 
+msgid "Description background color"
+msgstr "Barva pozadí popisu"
+
 msgid "Description can be set on product detail of the main product."
 msgstr "Popis můžete nastavit na kartě hlavní varianty."
+
+msgid "Description opacity"
+msgstr "Průhlednost popisu"
 
 msgid "Disable"
 msgstr "Vypnout"

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Controller\Admin;
 
 use Shopsys\FrameworkBundle\Component\Domain\AdminDomainFilterTabsFacade;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormData;
 use Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormType;
 use Shopsys\FrameworkBundle\Model\Inquiry\InquiryFacade;
@@ -21,12 +22,14 @@ class InquiryController extends AdminBaseController
      * @param \Shopsys\FrameworkBundle\Model\Inquiry\InquiryFacade $inquiryFacade
      * @param \Shopsys\FrameworkBundle\Model\Localization\Localization $localization
      * @param \Shopsys\FrameworkBundle\Component\Domain\AdminDomainFilterTabsFacade $adminDomainFilterTabsFacade
+     * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      */
     public function __construct(
         protected readonly InquiryGridFactory $inquiryGridFactory,
         protected readonly InquiryFacade $inquiryFacade,
         protected readonly Localization $localization,
         protected readonly AdminDomainFilterTabsFacade $adminDomainFilterTabsFacade,
+        protected readonly Domain $domain,
     ) {
     }
 
@@ -53,6 +56,10 @@ class InquiryController extends AdminBaseController
             $queryBuilder
                 ->andWhere('i.domainId = :selectedDomainId')
                 ->setParameter('selectedDomainId', $selectedDomainId);
+        } else {
+            $queryBuilder
+                ->andWhere('i.domainId IN (:domainIds)')
+                ->setParameter('domainIds', $this->domain->getAdminEnabledDomainIds());
         }
 
         return $this->render('@ShopsysFramework/Admin/Content/Inquiry/list.html.twig', [

@@ -24,8 +24,10 @@ class ProductStockFormType extends AbstractType
                 'placeholder' => '0',
             ],
             'constraints' => [
-                new Constraints\GreaterThanOrEqual(['value' => 0]),
-                new Constraints\Regex(['pattern' => '/^\d+$/']),
+                new Constraints\Regex([
+                    'pattern' => '/^-?\d+$/',
+                    'message' => 'Quantity must be an integer',
+                ]),
             ],
         ]);
     }

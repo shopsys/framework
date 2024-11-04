@@ -276,13 +276,15 @@ class ParameterRepository
             ->from(ProductParameterValue::class, 'ppv')
             ->join('ppv.parameter', 'p')
             ->join('p.translations', 'pt')
+            ->leftJoin('p.group', 'pg')
             ->where('ppv.product = :product_id')
             ->andWhere('pt.locale = :locale')
             ->setParameters([
                 'product_id' => $product->getId(),
                 'locale' => $locale,
             ])
-            ->orderBy('p.position', 'ASC')
+            ->orderBy('p.orderingPriority', 'DESC')
+            ->addOrderBy('pg.position', 'ASC')
             ->addOrderBy('pt.name');
     }
 

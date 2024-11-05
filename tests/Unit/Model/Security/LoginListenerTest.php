@@ -9,8 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\Administrator;
 use Shopsys\FrameworkBundle\Model\Security\LoginListener;
-use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
-use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;

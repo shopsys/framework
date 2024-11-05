@@ -6,12 +6,12 @@ namespace Shopsys\FrameworkBundle\Component\Cron;
 
 use DateInterval;
 use DateTimeImmutable;
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Component\Bytes\BytesHelper;
 use Shopsys\FrameworkBundle\Component\Cron\Config\CronConfig;
 use Shopsys\FrameworkBundle\Component\Cron\Config\CronModuleConfig;
 use Shopsys\Plugin\Cron\IteratedCronModuleInterface;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class CronModuleExecutor
 {
@@ -23,7 +23,7 @@ class CronModuleExecutor
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Cron\Config\CronConfig $cronConfig
-     * @param \Symfony\Bridge\Monolog\Logger $logger
+     * @param \Monolog\Logger $logger
      */
     public function __construct(
         protected readonly CronConfig $cronConfig,

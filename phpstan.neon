@@ -23,6 +23,9 @@ parameters:
         -
             message: '#^Unsafe usage of new static\(\).#'
             path: %currentWorkingDirectory%/src/*
+        -
+            message: '#^Service "twig" is private.#'
+            path: %currentWorkingDirectory%/src/Component/FlashMessage/FlashMessageTrait.php
     excludePaths:
         # Exclude "Source" folder dedicated for testing functionality connected to "shopsys:extended-classes:annotations" command
         - %currentWorkingDirectory%/tests/Unit/Component/ClassExtension/Source/*

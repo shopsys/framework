@@ -6,13 +6,13 @@ namespace Shopsys\FrameworkBundle\Model\GoPay;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\GoPay\Exception\GoPayNotConfiguredException;
 use Shopsys\FrameworkBundle\Model\GoPay\Exception\GoPayNotEnabledOnDomainException;
 use Shopsys\FrameworkBundle\Model\GoPay\Exception\GoPayPaymentDownloadException;
 use Shopsys\FrameworkBundle\Model\GoPay\PaymentMethod\GoPayPaymentMethodFacade;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class GoPayAvailablePaymentsCronModule implements SimpleCronModuleInterface
 {
@@ -31,7 +31,7 @@ class GoPayAvailablePaymentsCronModule implements SimpleCronModuleInterface
     }
 
     /**
-     * @param \Symfony\Bridge\Monolog\Logger $logger
+     * @param \Monolog\Logger $logger
      */
     public function setLogger(Logger $logger): void
     {

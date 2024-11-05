@@ -2329,6 +2329,9 @@ msgstr "Přihlašovací jméno <strong>{{ name }}</strong> je již použito"
 msgid "Login time"
 msgstr "Čas přihlášení"
 
+msgid "Luigi's Box rank"
+msgstr "Luigi's Box rank"
+
 msgid "Mail setting - full"
 msgstr "Nastavení e-mailů - vše"
 
@@ -2706,6 +2709,9 @@ msgstr "Notifikační lišta - vše"
 
 msgid "Notification bar - view"
 msgstr "Notifikační lišta - zobrazení"
+
+msgid "Number of delivery days for out of stock products in XML feeds"
+msgstr "Počet dní k doručení neskladových položek pro XML feedy"
 
 msgid "Number of generated promo codes"
 msgstr "Počet generovaných kupónů"
@@ -3867,6 +3873,12 @@ msgstr "Optimální velikost ikony je 46x26 px. Je povolen pouze PNG formát."
 
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr "Produkt již není v katalogu. Toto bylo katalogové číslo v době vytvoření poptávky."
+
+msgid "The value is used for availability_rank setting in Luigi's Box feed. See <a href=\"https://docs.luigisbox.com/indexing/feeds.html\">the docs</a> for more information."
+msgstr "Hodnota se používá pro nastavení hodnoty availability_rank v XML feedu pro Luigi's Box. Pro více informací vizte <a href=\"https://docs.luigisbox.com/indexing/feeds.html\">dokumentaci</a>."
+
+msgid "The value is used for: <ul> <li> <a href=\"https://napoveda.zbozi.cz/en/xml-feed-2/specification/#DELIVERY_DATE\">DELIVERY_DATE</a> setting in Zbozi.cz XML feed </li> <li> <a href=\"https://www.mergado.com/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-10-en.pdf\">DELIVERY_DAYS</a> setting in Mergado XML feed </li> <li> <a href=\"https://sluzby.heureka.cz/napoveda/xml-feed/#DELIVERY_DATE\">DELIVERY_DATE</a> setting in Heureka XML feed </li> </ul>"
+msgstr "Hodnota se používá pro: <ul> <li> nastavení <a href=\"https://napoveda.zbozi.cz/xml-feed/specifikace/#DELIVERY_DATE\">DELIVERY_DATE</a> v XML feedu Zbozi.cz</li> <li> nastavení <a href=\"https://www.mergado.cz/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-4.pdf\">DELIVERY_DAYS</a> v XML feedu Mergado</li> <li> nastavení <a href=\"https://sluzby.heureka.cz/napoveda/xml-feed/#DELIVERY_DATE\">DELIVERY_DATE</a> v XML feedu Heureka </li> </ul>"
 
 msgid "There are no parameter values of type color yet."
 msgstr "Žádná hodnota parametru typu barva zatím nebyla vytvořena."

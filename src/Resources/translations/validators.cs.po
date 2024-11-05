@@ -55,6 +55,9 @@ msgstr "Předmět e-mailu nesmí být delší než {{ limit }} znaků"
 msgid "Email {{ email }} is already registered"
 msgstr "E-mail {{ email }} je již registrován"
 
+msgid "Enter an integer, please"
+msgstr "Zadejte celé číslo, prosím"
+
 msgid "Enter date in DD.MM.YYYY format"
 msgstr "Datum zadávejte ve formátu dd.mm.rrrr"
 
@@ -495,6 +498,9 @@ msgstr "Slevový kupón \"%promoCode%\" není platný pro žádný produkt v ko�
 
 msgid "Promo code \"%promoCode%\" is not yet valid."
 msgstr "Slevový kupón \"%promoCode%\" není ještě možné uplatnit."
+
+msgid "Quantity must be an integer"
+msgstr "Množství musí být celé číslo"
 
 msgid "Quantity must be greater than {{ compared_value }}"
 msgstr "Množství musí být větší než {{ compared_value }}"

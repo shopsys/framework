@@ -55,6 +55,9 @@ msgstr ""
 msgid "Email {{ email }} is already registered"
 msgstr ""
 
+msgid "Enter an integer, please"
+msgstr ""
+
 msgid "Enter date in DD.MM.YYYY format"
 msgstr ""
 
@@ -494,6 +497,9 @@ msgid "Promo code \"%promoCode%\" is not valid for any product in cart."
 msgstr ""
 
 msgid "Promo code \"%promoCode%\" is not yet valid."
+msgstr ""
+
+msgid "Quantity must be an integer"
 msgstr ""
 
 msgid "Quantity must be greater than {{ compared_value }}"

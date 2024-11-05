@@ -13,8 +13,8 @@ use Shopsys\FrameworkBundle\Form\DomainsType;
 use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Form\Locale\LocalizedType;
+use Shopsys\FrameworkBundle\Form\MessageType;
 use Shopsys\FrameworkBundle\Form\PriceAndVatTableByDomainsType;
-use Shopsys\FrameworkBundle\Form\WarningMessageType;
 use Shopsys\FrameworkBundle\Model\GoPay\PaymentMethod\GoPayPaymentMethod;
 use Shopsys\FrameworkBundle\Model\GoPay\PaymentMethod\GoPayPaymentMethodFacade;
 use Shopsys\FrameworkBundle\Model\Payment\Payment;
@@ -294,7 +294,7 @@ class PaymentFormType extends AbstractType
             $domainNames[] = $this->domain->getDomainConfigById($domainId)->getName();
         }
 
-        $builder->add('hiddenByGoPay', WarningMessageType::class, [
+        $builder->add('hiddenByGoPay', MessageType::class, [
             'data' => t('This payment method is hidden by GoPay on domains: %domains%', [
                 '%domains%' => implode(', ', $domainNames),
             ]),

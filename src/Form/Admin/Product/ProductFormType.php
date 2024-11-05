@@ -23,13 +23,13 @@ use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Form\Locale\LocalizedType;
 use Shopsys\FrameworkBundle\Form\LocalizedFullWidthType;
+use Shopsys\FrameworkBundle\Form\MessageType;
 use Shopsys\FrameworkBundle\Form\MultiLocaleFileUploadType;
 use Shopsys\FrameworkBundle\Form\ProductParameterValueType;
 use Shopsys\FrameworkBundle\Form\ProductsType;
 use Shopsys\FrameworkBundle\Form\Transformers\ProductParameterValueToProductParameterValuesLocalizedTransformer;
 use Shopsys\FrameworkBundle\Form\Transformers\RemoveDuplicatesFromArrayTransformer;
 use Shopsys\FrameworkBundle\Form\UrlListType;
-use Shopsys\FrameworkBundle\Form\WarningMessageType;
 use Shopsys\FrameworkBundle\Model\Category\CategoryFacade;
 use Shopsys\FrameworkBundle\Model\Product\Brand\BrandFacade;
 use Shopsys\FrameworkBundle\Model\Product\Flag\FlagFacade;
@@ -434,7 +434,7 @@ class ProductFormType extends AbstractType
             && $product->getCalculatedSellingDenied()
         ) {
             $builderDisplayAvailabilityGroup
-                ->add('productCalculatedSellingDeniedInfo', WarningMessageType::class, [
+                ->add('productCalculatedSellingDeniedInfo', MessageType::class, [
                     'data' => t('Product is excluded from the sale'),
                 ]);
         }

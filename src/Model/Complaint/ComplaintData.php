@@ -22,6 +22,11 @@ class ComplaintData
     public $number;
 
     /**
+     * @var \DateTime|null
+     */
+    public $createdAt;
+
+    /**
      * @var \Shopsys\FrameworkBundle\Model\Order\Order|null
      */
     public $order;

@@ -10,23 +10,25 @@ use Shopsys\FrameworkBundle\Component\Setting\Exception\SettingValueNotFoundExce
 
 class Setting
 {
-    public const PERSONAL_DATA_DISPLAY_SITE_CONTENT = 'personalDataDisplaySiteContent';
-    public const PERSONAL_DATA_EXPORT_SITE_CONTENT = 'personalDataExportSiteContent';
-    public const DEFAULT_PRICING_GROUP = 'defaultPricingGroupId';
-    public const TERMS_AND_CONDITIONS_ARTICLE_ID = 'termsAndConditionsArticleId';
-    public const PRIVACY_POLICY_ARTICLE_ID = 'privacyPolicyArticleId';
-    public const USER_CONSENT_POLICY_ARTICLE_ID = 'userConsentPolicyArticleId';
-    public const DOMAIN_DATA_CREATED = 'domainDataCreated';
-    public const FEED_HASH = 'feedHash';
-    public const DEFAULT_UNIT = 'defaultUnitId';
-    public const BASE_URL = 'baseUrl';
-    public const FEED_NAME_TO_CONTINUE = 'feedNameToContinue';
-    public const FEED_DOMAIN_ID_TO_CONTINUE = 'feedDomainIdToContinue';
-    public const FEED_ITEM_ID_TO_CONTINUE = 'feedItemIdToContinue';
-    public const TRANSFER_DAYS_BETWEEN_STOCKS = 'transferDaysBetweenStocks';
-    public const IMAGE_STRUCTURE_MIGRATED_FOR_PROXY = 'imageStructureMigratedForProxy';
-    public const CUSTOMER_USER_DEFAULT_GROUP_ROLE_ID = 'customerUserDefaultGroupRoleId';
-    public const FILE_STRUCTURE_MIGRATED_FOR_RELATIONS = 'fileStructureMigratedForRelations';
+    public const string PERSONAL_DATA_DISPLAY_SITE_CONTENT = 'personalDataDisplaySiteContent';
+    public const string PERSONAL_DATA_EXPORT_SITE_CONTENT = 'personalDataExportSiteContent';
+    public const string DEFAULT_PRICING_GROUP = 'defaultPricingGroupId';
+    public const string TERMS_AND_CONDITIONS_ARTICLE_ID = 'termsAndConditionsArticleId';
+    public const string PRIVACY_POLICY_ARTICLE_ID = 'privacyPolicyArticleId';
+    public const string USER_CONSENT_POLICY_ARTICLE_ID = 'userConsentPolicyArticleId';
+    public const string DOMAIN_DATA_CREATED = 'domainDataCreated';
+    public const string FEED_HASH = 'feedHash';
+    public const string DEFAULT_UNIT = 'defaultUnitId';
+    public const string BASE_URL = 'baseUrl';
+    public const string FEED_NAME_TO_CONTINUE = 'feedNameToContinue';
+    public const string FEED_DOMAIN_ID_TO_CONTINUE = 'feedDomainIdToContinue';
+    public const string FEED_ITEM_ID_TO_CONTINUE = 'feedItemIdToContinue';
+    public const string TRANSFER_DAYS_BETWEEN_STOCKS = 'transferDaysBetweenStocks';
+    public const string LUIGIS_BOX_RANK = 'luigisBoxRank';
+    public const string FEED_DELIVERY_DAYS_FOR_OUT_OF_STOCK_PRODUCTS = 'feedDeliveryDaysForOutOfStockProducts';
+    public const string IMAGE_STRUCTURE_MIGRATED_FOR_PROXY = 'imageStructureMigratedForProxy';
+    public const string CUSTOMER_USER_DEFAULT_GROUP_ROLE_ID = 'customerUserDefaultGroupRoleId';
+    public const string FILE_STRUCTURE_MIGRATED_FOR_RELATIONS = 'fileStructureMigratedForRelations';
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Setting\SettingValue[][]

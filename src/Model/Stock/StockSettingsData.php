@@ -10,4 +10,14 @@ class StockSettingsData
      * @var int|null
      */
     public $transfer;
+
+    /**
+     * @var int|null
+     */
+    public $luigisBoxRank;
+
+    /**
+     * @var int|null
+     */
+    public $feedDeliveryDaysForOutOfStockProducts;
 }

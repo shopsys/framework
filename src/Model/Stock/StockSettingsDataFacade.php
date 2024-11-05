@@ -27,10 +27,24 @@ class StockSettingsDataFacade
      */
     public function edit(StockSettingsData $stockSettingsData, DomainConfig $domainConfig): void
     {
+        $domainId = $domainConfig->getId();
+
         $this->setting->setForDomain(
             Setting::TRANSFER_DAYS_BETWEEN_STOCKS,
             (int)$stockSettingsData->transfer,
-            $domainConfig->getId(),
+            $domainId,
+        );
+
+        $this->setting->setForDomain(
+            Setting::LUIGIS_BOX_RANK,
+            $stockSettingsData->luigisBoxRank,
+            $domainId,
+        );
+
+        $this->setting->setForDomain(
+            Setting::FEED_DELIVERY_DAYS_FOR_OUT_OF_STOCK_PRODUCTS,
+            $stockSettingsData->feedDeliveryDaysForOutOfStockProducts,
+            $domainId,
         );
 
         $this->productRecalculationDispatcher->dispatchAllProducts([ProductExportScopeConfig::SCOPE_STOCKS]);

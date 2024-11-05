@@ -24,6 +24,8 @@ class StockSettingsDataFactory
     {
         $settings = new StockSettingsData();
         $settings->transfer = $this->setting->getForDomain(Setting::TRANSFER_DAYS_BETWEEN_STOCKS, $domainId);
+        $settings->luigisBoxRank = $this->setting->getForDomain(Setting::LUIGIS_BOX_RANK, $domainId);
+        $settings->feedDeliveryDaysForOutOfStockProducts = $this->setting->getForDomain(Setting::FEED_DELIVERY_DAYS_FOR_OUT_OF_STOCK_PRODUCTS, $domainId);
 
         return $settings;
     }

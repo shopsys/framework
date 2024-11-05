@@ -1006,6 +1006,11 @@ services:
     Symfony\Component\Config\Loader\LoaderInterface:
         alias: routing.loader
 
+    Symfony\Component\HttpFoundation\Session\Flash\FlashBag: ~
+
+    Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface:
+        class: Symfony\Component\HttpFoundation\Session\Flash\FlashBag
+
     Symfony\Component\Translation\IdentityTranslator: ~
 
     Symfony\Component\Validator\Constraints\FileValidator:

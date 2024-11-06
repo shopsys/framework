@@ -41,7 +41,7 @@ class SelectAdminDomainsController extends AdminBaseController
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    #[Route('/admin/domains/filter', name: 'admin_domains_filter', methods: ['POST'])]
+    #[Route('/domains/filter', name: 'admin_domains_filter', methods: ['POST'])]
     public function filterDomainsAction(Request $request): Response
     {
         $form = $this->createForm(AdminDomainsFormType::class);

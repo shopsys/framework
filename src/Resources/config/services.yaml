@@ -1091,9 +1091,10 @@ services:
         alias: Shopsys\FrameworkBundle\Component\HttpKernel\Profiler\FileProfilerStorage
 
     routing.loader.annotation:
-        arguments:
-            - '@annotation_reader'
-        class: Shopsys\FrameworkBundle\Component\AnnotatedRouteControllerLoader
+        class: Shopsys\FrameworkBundle\Component\AttributeRouteControllerLoader
+
+    routing.loader.attribute:
+        class: Shopsys\FrameworkBundle\Component\AttributeRouteControllerLoader
 
     shopsys.component.elasticsearch.tracer:
         class: Psr\Log\NullLogger

@@ -20,6 +20,7 @@ use Shopsys\FrameworkBundle\Model\GoPay\PaymentMethod\GoPayPaymentMethodFacade;
 use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentData;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentFacade;
+use Shopsys\FrameworkBundle\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Model\Transport\TransportFacade;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -68,10 +69,9 @@ class PaymentFormType extends AbstractType
 
         $builderBasicInformationGroup
             ->add('name', LocalizedType::class, [
-                'main_constraints' => [
-                    new Constraints\NotBlank(['message' => 'Please enter name']),
-                ],
+                'required' => false,
                 'entry_options' => [
+                    'required' => false,
                     'constraints' => [
                         new Constraints\Length(
                             ['max' => 255, 'maxMessage' => 'Name cannot be longer than {{ limit }} characters'],
@@ -90,7 +90,9 @@ class PaymentFormType extends AbstractType
             ->add('transports', ChoiceType::class, [
                 'required' => false,
                 'choices' => $this->transportFacade->getAll(),
-                'choice_label' => 'name',
+                'choice_label' => function (Transport $transport) {
+                    return $transport->getName() ?? t('Name in default language is not entered') . ' (ID: ' . $transport->getId() . ')';
+                },
                 'choice_value' => 'id',
                 'multiple' => true,
                 'expanded' => true,
@@ -213,11 +215,21 @@ class PaymentFormType extends AbstractType
         $allGoPayPaymentMethods = $this->goPayPaymentMethodFacade->getAll();
         $optionsByDomainId = [];
 
+        $adminEnabledDomainIds = $this->domain->getAdminEnabledDomainIds();
+
         foreach ($allGoPayPaymentMethods as $goPayPaymentMethod) {
+            if (!in_array($goPayPaymentMethod->getDomainId(), $adminEnabledDomainIds, true)) {
+                continue;
+            }
+
             $optionsByDomainId[$goPayPaymentMethod->getDomainId()]['choices'][] = $goPayPaymentMethod;
         }
 
         foreach ($optionsByDomainId as $domainId => $options) {
+            if (!in_array($domainId, $adminEnabledDomainIds, true)) {
+                continue;
+            }
+
             $optionsByDomainId[$domainId]['group_by'] = function (GoPayPaymentMethod $goPayPaymentMethod): string {
                 return $goPayPaymentMethod->isAvailable() ? t('Available') : t('Hidden in GoPay');
             };
@@ -253,6 +265,10 @@ class PaymentFormType extends AbstractType
         }
 
         foreach ($paymentData->enabled as $domainId => $enabled) {
+            if (!in_array($domainId, $this->domain->getAdminEnabledDomainIds(), true)) {
+                continue;
+            }
+
             if ($enabled && $paymentData->goPayPaymentMethodByDomainId[$domainId] === null) {
                 $context->buildViolation('Please select GoPay payment method for enabled domain ' . $this->domain->getDomainConfigById($domainId)->getName())
                     ->atPath('goPayPaymentMethodByDomainId[1]')

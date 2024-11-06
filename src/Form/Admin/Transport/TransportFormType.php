@@ -18,6 +18,7 @@ use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Form\Locale\LocalizedType;
 use Shopsys\FrameworkBundle\Form\TransportInputPricesType;
 use Shopsys\FrameworkBundle\Model\Order\Mail\OrderMail;
+use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentFacade;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Model\Transport\TransportData;
@@ -71,9 +72,7 @@ class TransportFormType extends AbstractType
         }
         $builderBasicInformationGroup
             ->add('name', LocalizedType::class, [
-                'main_constraints' => [
-                    new Constraints\NotBlank(['message' => 'Please enter name']),
-                ],
+                'required' => false,
                 'entry_options' => [
                     'required' => false,
                     'constraints' => [
@@ -95,7 +94,9 @@ class TransportFormType extends AbstractType
             ->add('payments', ChoiceType::class, [
                 'required' => false,
                 'choices' => $this->paymentFacade->getAll(),
-                'choice_label' => 'name',
+                'choice_label' => function (Payment $payment) {
+                    return $payment->getName() ?? t('Name in default language is not entered') . ' (ID: ' . $payment->getId() . ')';
+                },
                 'choice_value' => 'id',
                 'multiple' => true,
                 'expanded' => true,

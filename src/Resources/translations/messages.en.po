@@ -172,6 +172,9 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
+msgid "Admin inquiry detail URL"
+msgstr ""
+
 msgid "Administration"
 msgstr ""
 
@@ -689,6 +692,12 @@ msgid "Communication with customer"
 msgstr ""
 
 msgid "Company"
+msgstr ""
+
+msgid "Company (Company number)"
+msgstr ""
+
+msgid "Company Tax number"
 msgstr ""
 
 msgid "Company data"
@@ -1978,6 +1987,9 @@ msgstr ""
 msgid "Go to Frontend"
 msgstr ""
 
+msgid "Go to associated customer user"
+msgstr ""
+
 msgid "Go to page:"
 msgstr ""
 
@@ -2126,6 +2138,30 @@ msgid "Input price with VAT"
 msgstr ""
 
 msgid "Input price without VAT"
+msgstr ""
+
+msgid "Inquired product"
+msgstr ""
+
+msgid "Inquiries"
+msgstr ""
+
+msgid "Inquiries - view"
+msgstr ""
+
+msgid "Inquiries overview"
+msgstr ""
+
+msgid "Inquiry by"
+msgstr ""
+
+msgid "Inquiry detail"
+msgstr ""
+
+msgid "Inquiry info sent to administrator"
+msgstr ""
+
+msgid "Inquiry info sent to customer"
 msgstr ""
 
 msgid "Instagram URL"
@@ -2567,6 +2603,9 @@ msgid "No files found."
 msgstr ""
 
 msgid "No flags found. You have to create some first."
+msgstr ""
+
+msgid "No inquiries found."
 msgstr ""
 
 msgid "No logs created so far."
@@ -3100,7 +3139,19 @@ msgstr ""
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr ""
 
+msgid "Product associated with this inquiry is no longer available in the catalog."
+msgstr ""
+
+msgid "Product catnum"
+msgstr ""
+
+msgid "Product detail URL"
+msgstr ""
+
 msgid "Product excluded from sale"
+msgstr ""
+
+msgid "Product image URL"
 msgstr ""
 
 msgid "Product in order"
@@ -3128,6 +3179,9 @@ msgid "Product saved in order"
 msgstr ""
 
 msgid "Product settings on the main page successfully changed"
+msgstr ""
+
+msgid "Product type"
 msgstr ""
 
 msgid "Products"
@@ -3418,6 +3472,9 @@ msgstr ""
 msgid "Searching searches in order number, registered customer email, customer's email in order, customer's last name and company name. It is possible to use wildcards * and ?."
 msgstr ""
 
+msgid "Searching searches in product name, product catalog number, company number, company name, customer last name, and customer email. It is possible to use wildcards * and ?."
+msgstr ""
+
 msgid "Searching searches in slugs. It is possible to use wildcards * and ?."
 msgstr ""
 
@@ -3613,6 +3670,9 @@ msgstr ""
 msgid "Show combinations"
 msgstr ""
 
+msgid "Show detail"
+msgstr ""
+
 msgid "Show in the category"
 msgstr ""
 
@@ -3767,6 +3827,9 @@ msgid "The higher the priority, the higher the country will be shown in the list
 msgstr ""
 
 msgid "The optimal size of the icon is 46x26 px. Only PNG format is allowed."
+msgstr ""
+
+msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr ""
 
 msgid "There are no parameter values of type color yet."
@@ -4040,6 +4103,9 @@ msgid "Uploaded file <strong><a href=\"{{ url }}\">{{ name }}</a></strong> modif
 msgstr ""
 
 msgid "Uploading..."
+msgstr ""
+
+msgid "Upon inquiry"
 msgstr ""
 
 msgid "Url address"
@@ -4340,6 +4406,9 @@ msgid "in category (between first and second row of products)"
 msgstr ""
 
 msgid "include"
+msgstr ""
+
+msgid "inquiries"
 msgstr ""
 
 msgid "is"

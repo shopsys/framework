@@ -23,6 +23,7 @@ use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPrice;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductFacade;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
+use Shopsys\FrameworkBundle\Model\Product\ProductTypeEnum;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibility;
 use Shopsys\FrameworkBundle\Model\Product\ProductVisibilityFacade;
 use Shopsys\FrameworkBundle\Model\Seo\HreflangLinksFacade;
@@ -185,6 +186,9 @@ class ProductExportRepository
             ProductExportFieldProvider::SEO_META_DESCRIPTION => $product->getSeoMetaDescription($domainId),
             ProductExportFieldProvider::ACCESSORIES => $this->extractAccessoriesIds($product),
             ProductExportFieldProvider::HREFLANG_LINKS => $this->hreflangLinksFacade->getForProduct($product, $domainId),
+            ProductExportFieldProvider::PRODUCT_TYPE => $this->extractProductType($product, $domainId),
+            ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE => $this->extractPriorityByProductType($product, $domainId),
+
             default => throw new InvalidArgumentException(sprintf('There is no definition for exporting "%s" field to Elasticsearch', $field)),
         };
     }
@@ -307,6 +311,42 @@ class ProductExportRepository
         }
 
         return $parameters;
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return string
+     */
+    protected function extractProductType(Product $product, int $domainId): string
+    {
+        if ($product->isMainVariant()) {
+            foreach ($this->getVariantsForDefaultPricingGroup($product, $domainId) as $variant) {
+                if ($variant->getProductType() === ProductTypeEnum::TYPE_BASIC) {
+                    return ProductTypeEnum::TYPE_BASIC;
+                }
+            }
+
+            return ProductTypeEnum::TYPE_INQUIRY;
+        }
+
+        return $product->getProductType();
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return int
+     */
+    protected function extractPriorityByProductType(Product $product, int $domainId): int
+    {
+        $productType = $this->extractProductType($product, $domainId);
+
+        return match ($productType) {
+            ProductTypeEnum::TYPE_BASIC => 20,
+            ProductTypeEnum::TYPE_INQUIRY => 10,
+            default => -100,
+        };
     }
 
     /**

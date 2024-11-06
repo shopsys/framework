@@ -30,6 +30,7 @@ class LocalizationExtension extends AbstractExtension
     {
         return [
             new TwigFunction('localeFlag', $this->getLocaleFlagHtml(...), ['is_safe' => ['html']]),
+            new TwigFunction('languageName', $this->getTitle(...), ['is_safe' => ['html']]),
         ];
     }
 
@@ -78,7 +79,7 @@ class LocalizationExtension extends AbstractExtension
      * @param string $locale
      * @return string
      */
-    protected function getTitle($locale)
+    public function getTitle($locale)
     {
         return $this->localization->getLanguageName($locale);
     }

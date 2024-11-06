@@ -49,6 +49,11 @@ class AdministratorData
      */
     public $displayOnlyDomainIds;
 
+    /**
+     * @var string|null
+     */
+    public $selectedLocale;
+
     public function __construct()
     {
         $this->roles[] = Roles::ROLE_ADMIN;

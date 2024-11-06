@@ -575,6 +575,10 @@ services:
     Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFactory
 
+    Shopsys\FrameworkBundle\Model\Administrator\AdministratorDataFactory:
+        arguments:
+            - '%shopsys.admin_default_locale%'
+
     Shopsys\FrameworkBundle\Model\Administrator\AdministratorDataFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Administrator\AdministratorDataFactory
 
@@ -762,7 +766,7 @@ services:
 
     Shopsys\FrameworkBundle\Model\Localization\Localization:
         arguments:
-            $adminLocale: '%shopsys.admin_locale%'
+            $adminDefaultLocale: '%shopsys.admin_default_locale%'
 
     Shopsys\FrameworkBundle\Model\Mail\MailTemplateConfiguration: ~
 

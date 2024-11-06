@@ -169,6 +169,12 @@ class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLog
     protected $displayOnlyDomainIds;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=10)
+     */
+    protected $selectedLocale;
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Administrator\AdministratorData $administratorData
      */
     public function __construct(AdministratorData $administratorData)
@@ -182,6 +188,7 @@ class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLog
         $this->transferIssuesLastSeenDateTime = $administratorData->transferIssuesLastSeenDateTime;
         $this->uuid = Uuid::uuid4()->toString();
         $this->displayOnlyDomainIds = [];
+        $this->selectedLocale = $administratorData->selectedLocale;
         $this->setData($administratorData);
     }
 
@@ -641,5 +648,21 @@ class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLog
     public function getDisplayOnlyDomainIds()
     {
         return array_map('intval', $this->displayOnlyDomainIds);
+    }
+
+    /**
+     * @param string $selectedLocale
+     */
+    public function setSelectedLocale($selectedLocale)
+    {
+        $this->selectedLocale = $selectedLocale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectedLocale()
+    {
+        return $this->selectedLocale;
     }
 }

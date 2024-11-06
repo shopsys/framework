@@ -10,11 +10,11 @@ parameters:
     # Seed for demo data generation
     faker.seed: 1234
 
+    # Administration locale used for newly created administrators. Must be registered in domains.yaml
+    shopsys.admin_default_locale: en
+
     # Time zone that the admin use for entering and viewing dates and times in the datetime pickers
     shopsys.admin_display_timezone: ~
-
-    # Administration locale. Must be registered in domains.yaml
-    shopsys.admin_locale: en
 
     # Hours defined in cron.yaml correspond to this timezone (default is PHP timezone)
     shopsys.cron_timezone: ~

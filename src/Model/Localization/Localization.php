@@ -6,6 +6,8 @@ namespace Shopsys\FrameworkBundle\Model\Localization;
 
 use Locale;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorFrontSecurityFacade;
+use Shopsys\FrameworkBundle\Model\Administrator\Security\Exception\AdministratorIsNotLoggedException;
 use Shopsys\FrameworkBundle\Model\Localization\Exception\AdminLocaleNotFoundException;
 
 class Localization
@@ -17,11 +19,13 @@ class Localization
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
-     * @param string $adminLocale
+     * @param string $adminDefaultLocale
+     * @param \Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorFrontSecurityFacade $administratorFrontSecurityFacade
      */
     public function __construct(
         protected readonly Domain $domain,
-        protected readonly string $adminLocale,
+        protected readonly string $adminDefaultLocale,
+        protected readonly AdministratorFrontSecurityFacade $administratorFrontSecurityFacade,
     ) {
     }
 
@@ -38,13 +42,15 @@ class Localization
      */
     public function getAdminLocale(): string
     {
-        $allLocales = $this->getLocalesOfAllDomains();
-
-        if (!in_array($this->adminLocale, $allLocales, true)) {
-            throw new AdminLocaleNotFoundException($this->adminLocale, $allLocales);
+        try {
+            $adminLocale = $this->administratorFrontSecurityFacade->getCurrentAdministrator()->getSelectedLocale();
+        } catch (AdministratorIsNotLoggedException) {
+            $adminLocale = $this->adminDefaultLocale;
         }
 
-        return $this->adminLocale;
+        $this->checkLocaleIsSupported($adminLocale);
+
+        return $adminLocale;
     }
 
     /**
@@ -61,11 +67,12 @@ class Localization
 
     /**
      * @param string $locale
+     * @param string|null $displayLocale
      * @return string
      */
-    public function getLanguageName(string $locale): string
+    public function getLanguageName(string $locale, string $displayLocale = null): string
     {
-        return Locale::getDisplayLanguage($locale);
+        return Locale::getDisplayLanguage($locale, $displayLocale);
     }
 
     /**
@@ -89,5 +96,17 @@ class Localization
         }
 
         return $enabledLocales;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function checkLocaleIsSupported(string $locale): void
+    {
+        $allLocales = $this->getLocalesOfAllDomains();
+
+        if (!in_array($locale, $allLocales, true)) {
+            throw new AdminLocaleNotFoundException($locale, $allLocales);
+        }
     }
 }

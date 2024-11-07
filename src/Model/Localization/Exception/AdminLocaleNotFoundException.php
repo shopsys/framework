@@ -10,21 +10,25 @@ use RuntimeException;
 class AdminLocaleNotFoundException extends RuntimeException implements LocalizationException
 {
     /**
-     * @param string $adminLocale
+     * @param string|null $adminLocale
      * @param string[] $possibleLocales
      * @param \Exception|null $previous
      */
     public function __construct(
-        string $adminLocale,
-        protected readonly array $possibleLocales,
+        ?string $adminLocale = null,
+        protected readonly array $possibleLocales = [],
         ?Exception $previous = null,
     ) {
-        $message = sprintf(
-            'You tried to use administration in "%1$s" locale, but you have registered only ["%2$s"].'
-            . ' Either register "%1$s" as a locale with some domain or use one of ["%2$s"] as administration locale.',
-            $adminLocale,
-            implode('","', $possibleLocales),
-        );
+        if ($adminLocale === null) {
+            $message = 'There is no locale registered for the administration. Check your "shopsys.allowed_admin_locales" parameter configuration.';
+        } else {
+            $message = sprintf(
+                'You tried to set "%1$s" locale for the administration, but you have registered only ["%2$s"].'
+                . ' Either register "%1$s" as a locale with some domain, set "%1$s" as allowed admin locale, or use one of ["%2$s"] as administration locale.',
+                $adminLocale,
+                implode('","', $possibleLocales),
+            );
+        }
 
         parent::__construct($message, 0, $previous);
     }

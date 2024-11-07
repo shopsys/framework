@@ -5,22 +5,32 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Shopsys\FrameworkBundle\Model\Localization\Exception\AdminLocaleNotFoundException;
 use Shopsys\MigrationBundle\Component\Doctrine\Migrations\AbstractMigration;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20241106123834 extends AbstractMigration implements ContainerAwareInterface
 {
-    protected ContainerInterface $container;
+    use MultidomainMigrationTrait;
 
     /**
      * @param \Doctrine\DBAL\Schema\Schema $schema
      */
     public function up(Schema $schema): void
     {
-        $adminDefaultLocale = $this->container->getParameter('shopsys.admin_default_locale');
+        $allowedAdminLocales = $this->container->getParameter('shopsys.allowed_admin_locales');
+        $defaultLocale = reset($allowedAdminLocales);
 
-        $this->sql(sprintf('ALTER TABLE administrators ADD selected_locale VARCHAR(10) NOT NULL DEFAULT \'%s\'', $adminDefaultLocale));
+        if ($defaultLocale === false) {
+            throw new AdminLocaleNotFoundException();
+        }
+
+        if (!in_array($defaultLocale, $this->getAllLocales(), true)) {
+            throw new AdminLocaleNotFoundException($defaultLocale, $this->getAllLocales());
+        }
+
+        $this->sql(sprintf('ALTER TABLE administrators ADD selected_locale VARCHAR(10) NOT NULL DEFAULT \'%s\'', $defaultLocale));
         $this->sql('ALTER TABLE administrators ALTER selected_locale DROP DEFAULT');
     }
 

@@ -25,7 +25,7 @@ class AdministratorLocalizationFacade
      */
     public function setSelectedLocale(Administrator $administrator, string $locale): void
     {
-        $this->localization->checkLocaleIsSupported($locale);
+        $this->localization->checkAdminLocaleIsSupported($locale);
         $administrator->setSelectedLocale($locale);
 
         $this->em->flush();

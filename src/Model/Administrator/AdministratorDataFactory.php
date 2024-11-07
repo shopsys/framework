@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Administrator;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Model\Localization\Localization;
 
 class AdministratorDataFactory implements AdministratorDataFactoryInterface
 {
     /**
+     * @param \Shopsys\FrameworkBundle\Model\Localization\Localization $localization
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
-     * @param string $adminDefaultLocale
      */
     public function __construct(
-        protected readonly string $adminDefaultLocale,
+        protected readonly Localization $localization,
         protected readonly Domain $domain,
     ) {
     }
@@ -34,7 +35,7 @@ class AdministratorDataFactory implements AdministratorDataFactoryInterface
         $administratorData = $this->createInstance();
 
         $administratorData->displayOnlyDomainIds = $this->domain->getAllIds();
-        $administratorData->selectedLocale = $this->adminDefaultLocale;
+        $administratorData->selectedLocale = $this->localization->getDefaultAdminLocale();
 
         return $administratorData;
     }

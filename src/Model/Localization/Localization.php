@@ -19,12 +19,12 @@ class Localization
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
-     * @param string $adminDefaultLocale
+     * @param string[] $allowedAdminLocales
      * @param \Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorFrontSecurityFacade $administratorFrontSecurityFacade
      */
     public function __construct(
         protected readonly Domain $domain,
-        protected readonly string $adminDefaultLocale,
+        protected readonly array $allowedAdminLocales,
         protected readonly AdministratorFrontSecurityFacade $administratorFrontSecurityFacade,
     ) {
     }
@@ -44,11 +44,10 @@ class Localization
     {
         try {
             $adminLocale = $this->administratorFrontSecurityFacade->getCurrentAdministrator()->getSelectedLocale();
+            $this->checkAdminLocaleIsSupported($adminLocale);
         } catch (AdministratorIsNotLoggedException) {
-            $adminLocale = $this->adminDefaultLocale;
+            $adminLocale = $this->getDefaultAdminLocale();
         }
-
-        $this->checkLocaleIsSupported($adminLocale);
 
         return $adminLocale;
     }
@@ -101,12 +100,41 @@ class Localization
     /**
      * @param string $locale
      */
-    public function checkLocaleIsSupported(string $locale): void
+    public function checkAdminLocaleIsSupported(string $locale): void
     {
         $allLocales = $this->getLocalesOfAllDomains();
 
         if (!in_array($locale, $allLocales, true)) {
             throw new AdminLocaleNotFoundException($locale, $allLocales);
         }
+
+        if (!in_array($locale, $this->allowedAdminLocales, true)) {
+            throw new AdminLocaleNotFoundException($locale, $this->allowedAdminLocales);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultAdminLocale(): string
+    {
+        $allowedAdminLocales = $this->allowedAdminLocales;
+        $defaultAdminLocale = reset($allowedAdminLocales);
+
+        if ($defaultAdminLocale === false) {
+            throw new AdminLocaleNotFoundException();
+        }
+
+        $this->checkAdminLocaleIsSupported($defaultAdminLocale);
+
+        return $defaultAdminLocale;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedAdminLocales(): array
+    {
+        return $this->allowedAdminLocales;
     }
 }

@@ -13,8 +13,8 @@ parameters:
     # Time zone that the admin use for entering and viewing dates and times in the datetime pickers
     shopsys.admin_display_timezone: ~
 
-    # Administration locale. Must be registered in domains.yaml
-    shopsys.admin_locale: en
+    # Locales to select from in the administration. The first locale is the default one. All locales must be registered in domains.yaml
+    shopsys.allowed_admin_locales: ['en', 'cs']
 
     # Hours defined in cron.yaml correspond to this timezone (default is PHP timezone)
     shopsys.cron_timezone: ~

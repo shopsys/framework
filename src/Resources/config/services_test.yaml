@@ -24,9 +24,6 @@ services:
     prezent_doctrine_translatable.listener:
         arguments:
             $factory: '@prezent_doctrine_translatable.metadata_factory'
-            $domain: '@Shopsys\FrameworkBundle\Component\Domain\Domain'
-            $administrationFacade: '@Shopsys\FrameworkBundle\Model\Administration\AdministrationFacade'
-            $adminLocale: '%shopsys.admin_locale%'
         class: Tests\FrameworkBundle\Test\TestTranslatableListener
         tags:
             - 'doctrine.event_subscriber'

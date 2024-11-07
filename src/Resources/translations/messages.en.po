@@ -178,6 +178,9 @@ msgstr ""
 msgid "Administration"
 msgstr ""
 
+msgid "Administration localization was changed to \"%locale%\""
+msgstr ""
+
 msgid "Administrator"
 msgstr ""
 
@@ -2287,6 +2290,9 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+msgid "Locale \"%locale%\" is not supported. You can choose only from the following locales: \"%supportedLocales%\"."
+msgstr ""
+
 msgid "Location"
 msgstr ""
 
@@ -3827,6 +3833,9 @@ msgid "Superadmin - Sale including/excluding VAT settings"
 msgstr ""
 
 msgid "Superadmin - URL addresses"
+msgstr ""
+
+msgid "Switch locale"
 msgstr ""
 
 msgid "System data"

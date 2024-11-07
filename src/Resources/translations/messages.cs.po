@@ -178,6 +178,9 @@ msgstr "URL detailu poptávky v administraci"
 msgid "Administration"
 msgstr "Administrace"
 
+msgid "Administration localization was changed to \"%locale%\""
+msgstr "Administrace byla přepnuta do jazyka \"%locale%\""
+
 msgid "Administrator"
 msgstr "Administrátor"
 
@@ -2287,6 +2290,9 @@ msgstr "Seznamy a číselníky"
 msgid "Loading"
 msgstr "Načítám"
 
+msgid "Locale \"%locale%\" is not supported. You can choose only from the following locales: \"%supportedLocales%\"."
+msgstr "Lokalizace \"%locale%\" není podporovaná. Můžete si vybrat pouze z následujících lokalizací: \"%supportedLocales%\"."
+
 msgid "Location"
 msgstr "Umístění"
 
@@ -3828,6 +3834,9 @@ msgstr "Superadmin - Nastavení prodeje s/bez DPH"
 
 msgid "Superadmin - URL addresses"
 msgstr "Superadmin - URL adresy"
+
+msgid "Switch locale"
+msgstr "Přepnout jazyk"
 
 msgid "System data"
 msgstr "Systémové údaje"

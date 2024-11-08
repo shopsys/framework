@@ -28,7 +28,6 @@ class ProductExportFieldProvider
     public const string CALCULATED_SELLING_DENIED = 'calculated_selling_denied';
     public const string SELLING_DENIED = 'selling_denied';
     public const string AVAILABILITY = 'availability';
-    public const string AVAILABILITY_DISPATCH_TIME = 'availability_dispatch_time';
     public const string IS_MAIN_VARIANT = 'is_main_variant';
     public const string IS_VARIANT = 'is_variant';
     public const string DETAIL_URL = 'detail_url';

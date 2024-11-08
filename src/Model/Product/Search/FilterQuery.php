@@ -69,11 +69,6 @@ class FilterQuery
             return $clone;
         }
 
-        $clone->sorting['availability_dispatch_time'] = [
-            'order' => 'asc',
-            'missing' => '_last',
-        ];
-
         if ($orderingModeId === ProductListOrderingConfig::ORDER_BY_PRIORITY) {
             $clone->sorting['priority_by_product_type'] = 'desc';
             $clone->sorting['ordering_priority'] = 'desc';
@@ -154,13 +149,12 @@ class FilterQuery
     /**
      * @return \Shopsys\FrameworkBundle\Model\Product\Search\FilterQuery
      */
-    public function applyDefaultOrdering(): self
+    public function applyOrderingByIdAscending(): self
     {
         $clone = clone $this;
 
         $clone->sorting = [
-            'ordering_priority' => 'desc',
-            'name.keyword' => 'asc',
+            'id' => 'asc',
         ];
 
         return $clone;

@@ -64,9 +64,6 @@ class CartFacade
         Cart $cart,
         bool $isAbsoluteQuantity = false,
     ): AddProductResult {
-        $maximumOrderQuantity = $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($product, $this->domain->getId());
-        $notOnStockQuantity = 0;
-
         if (!is_int($quantity) || $quantity <= 0) {
             throw new InvalidQuantityException($quantity);
         }
@@ -81,11 +78,7 @@ class CartFacade
 
                 $addedQuantity = $quantity;
 
-                if ($newQuantity > $maximumOrderQuantity) {
-                    $notOnStockQuantity = $newQuantity - $maximumOrderQuantity;
-                    $newQuantity = $maximumOrderQuantity;
-                    $addedQuantity = $quantity - $notOnStockQuantity;
-                }
+                $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $newQuantity);
                 $item->changeQuantity($newQuantity);
                 $item->changeAddedAt(new DateTime());
                 $result = new AddProductResult($item, false, $addedQuantity, $notOnStockQuantity);
@@ -96,12 +89,8 @@ class CartFacade
             }
         }
 
-        if ($quantity > $maximumOrderQuantity) {
-            $notOnStockQuantity = $quantity - $maximumOrderQuantity;
-            $quantity = $maximumOrderQuantity;
-        }
-
         $productPrice = $this->productPriceCalculation->calculatePriceForCurrentUser($product);
+        $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $quantity);
         $newCartItem = $this->cartItemFactory->create($cart, $product, $quantity, $productPrice->getPriceWithVat());
         $cart->addItem($newCartItem);
         $cart->setModifiedNow();

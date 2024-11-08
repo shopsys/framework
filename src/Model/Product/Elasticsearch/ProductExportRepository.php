@@ -171,7 +171,6 @@ class ProductExportRepository
             ProductExportFieldProvider::CALCULATED_SELLING_DENIED => $product->getCalculatedSellingDenied(),
             ProductExportFieldProvider::SELLING_DENIED => $product->isSellingDenied(),
             ProductExportFieldProvider::AVAILABILITY => $this->productAvailabilityFacade->getProductAvailabilityInformationByDomainId($product, $domainId),
-            ProductExportFieldProvider::AVAILABILITY_DISPATCH_TIME => $this->productAvailabilityFacade->getProductAvailabilityDaysByDomainId($product, $domainId),
             ProductExportFieldProvider::IS_MAIN_VARIANT => $product->isMainVariant(),
             ProductExportFieldProvider::IS_VARIANT => $product->isVariant(),
             ProductExportFieldProvider::DETAIL_URL => $this->extractDetailUrl($domainId, $product),
@@ -342,10 +341,12 @@ class ProductExportRepository
     {
         $productType = $this->extractProductType($product, $domainId);
 
+        $isProductAvailable = $this->productAvailabilityFacade->isProductAvailableOnDomainCached($product, $domainId);
+
         return match ($productType) {
-            ProductTypeEnum::TYPE_BASIC => 20,
-            ProductTypeEnum::TYPE_INQUIRY => 10,
-            default => -100,
+            ProductTypeEnum::TYPE_BASIC => $isProductAvailable ? 20 : 5,
+            ProductTypeEnum::TYPE_INQUIRY => $isProductAvailable ? 10 : 0,
+            default => $isProductAvailable ? -100 : -200,
         };
     }
 

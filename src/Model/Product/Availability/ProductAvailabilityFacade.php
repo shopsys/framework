@@ -270,4 +270,22 @@ class ProductAvailabilityFacade
     {
         return t('Out of stock', [], Translator::DEFAULT_TRANSLATION_DOMAIN, $domainLocale);
     }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @param int $quantityToAdd
+     * @return int
+     */
+    public function getNotOnStockQuantity(Product $product, int $domainId, int $quantityToAdd): int
+    {
+        $notOnStockQuantity = 0;
+        $productTotalQuantity = $this->getGroupedStockQuantityByProductAndDomainId($product, $domainId);
+
+        if ($quantityToAdd > $productTotalQuantity) {
+            $notOnStockQuantity = $quantityToAdd - $productTotalQuantity;
+        }
+
+        return $notOnStockQuantity;
+    }
 }

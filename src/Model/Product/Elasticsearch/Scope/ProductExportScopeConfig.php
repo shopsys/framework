@@ -75,7 +75,7 @@ class ProductExportScopeConfig
         ]);
         $this->addNewExportScopeRule(self::SCOPE_STOCKS, [
             ProductExportFieldProvider::AVAILABILITY,
-            ProductExportFieldProvider::AVAILABILITY_DISPATCH_TIME,
+            ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE,
             ProductExportFieldProvider::IN_STOCK,
             ProductExportFieldProvider::STOCK_QUANTITY,
         ]);

@@ -23,7 +23,7 @@ class LoginListenerTest extends TestCase
             ->getMock();
         $emMock->expects($this->once())->method('flush');
 
-        $userMock = $this->createMock(UniqueLoginInterface::class);
+        $userMock = $this->createMock(Administrator::class);
         $userMock->expects($this->once())->method('setLoginToken');
 
         $tokenMock = $this->createMock(TokenInterface::class);
@@ -43,7 +43,7 @@ class LoginListenerTest extends TestCase
             ->getMock();
         $emMock->expects($this->atLeastOnce())->method('flush');
 
-        $userMock = $this->createMock(TimelimitLoginInterface::class);
+        $userMock = $this->createMock(Administrator::class);
         $userMock->expects($this->once())->method('setLastActivity');
 
         $tokenMock = $this->createMock(TokenInterface::class);

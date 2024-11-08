@@ -2867,7 +2867,7 @@ msgid "Origin"
 msgstr "Původ"
 
 msgid "Out of stock"
-msgstr "Vyprodáno"
+msgstr "Aktuálně nedostupné"
 
 msgid "Package tracking"
 msgstr "Sledování zásilky"

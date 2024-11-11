@@ -17,8 +17,6 @@ use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
 use Shopsys\FrameworkBundle\Model\Product\Flag\FlagRepository;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
-use Shopsys\FrameworkBundle\Model\Stock\ProductStock;
-use Shopsys\FrameworkBundle\Model\Stock\StockDomain;
 
 class SitemapRepository
 {
@@ -57,6 +55,7 @@ class SitemapRepository
                 AND fu.domainId = :domainId
                 AND fu.main = TRUE',
             )
+            ->andWhere('p.calculatedSellingDenied = FALSE')
             ->setParameter('productDetailRouteName', 'front_product_detail')
             ->setParameter('domainId', $domainConfig->getId());
 
@@ -177,19 +176,10 @@ class SitemapRepository
                 AND fu.main = TRUE',
             )
             ->andWhere('p.variantType != :variantTypeMain')
+            ->andWhere('p.calculatedSellingDenied = TRUE')
             ->setParameter('variantTypeMain', Product::VARIANT_TYPE_MAIN)
             ->setParameter('productDetailRouteName', 'front_product_detail')
             ->setParameter('domainId', $domainConfig->getId());
-
-        $subquery = $queryBuilder->getEntityManager()->createQueryBuilder()
-            ->select('1')
-            ->from(ProductStock::class, 'ps')
-            ->join(StockDomain::class, 'sd', Join::WITH, 'ps.stock = sd.stock AND sd.domainId = :domainId')
-            ->where('ps.product = p')
-            ->having('SUM(ps.productQuantity) = 0');
-
-        $this->productRepository->addDomain($queryBuilder, $domainConfig->getId());
-        $queryBuilder->andWhere('EXISTS(' . $subquery->getDQL() . ') AND (pd.saleExclusion = true)');
 
         return $this->getSitemapItemsFromQueryBuilderWithSlugField($queryBuilder);
     }

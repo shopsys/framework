@@ -78,6 +78,20 @@ class ProductRepository
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup
      * @return \Doctrine\ORM\QueryBuilder
      */
+    public function getAllSellableWithoutInquiriesQueryBuilder(int $domainId, PricingGroup $pricingGroup): QueryBuilder
+    {
+        $queryBuilder = $this->getAllSellableQueryBuilder($domainId, $pricingGroup);
+        $queryBuilder->andWhere('p.productType != :inquiryProductType')
+            ->setParameter('inquiryProductType', ProductTypeEnum::TYPE_INQUIRY);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @param int $domainId
+     * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getAllOfferedQueryBuilder($domainId, PricingGroup $pricingGroup)
     {
         $queryBuilder = $this->getAllVisibleQueryBuilder($domainId, $pricingGroup);

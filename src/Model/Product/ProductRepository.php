@@ -87,7 +87,6 @@ class ProductRepository
             ->setParameter('domainId', $domainId);
 
         $queryBuilder
-            ->andWhere('pd.saleExclusion = FALSE')
             ->andWhere('p.calculatedSellingDenied = FALSE');
 
         return $queryBuilder;

@@ -141,7 +141,12 @@ class Complaint
      */
     public function __construct(ComplaintData $complaintData, array $complaintItems)
     {
-        $this->createdAt = new DateTime();
+        if ($complaintData->createdAt === null) {
+            $this->createdAt = new DateTime();
+        } else {
+            $this->createdAt = $complaintData->createdAt;
+        }
+
         $this->uuid = $complaintData->uuid ?? Uuid::uuid4()->toString();
         $this->number = $complaintData->number;
         $this->domainId = $complaintData->domainId;

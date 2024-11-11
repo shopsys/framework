@@ -1011,6 +1011,12 @@ services:
     Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface:
         class: Symfony\Component\HttpFoundation\Session\Flash\FlashBag
 
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+            - { 'prefix': '%env(REDIS_PREFIX)%session:', ttl: 604800 }
+        lazy: true
+
     Symfony\Component\Translation\IdentityTranslator: ~
 
     Symfony\Component\Validator\Constraints\FileValidator:

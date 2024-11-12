@@ -53,15 +53,15 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return int|null
+     * @return int
      */
-    public function getProductAvailabilityDaysByDomainId(Product $product, int $domainId): ?int
+    public function getProductAvailabilityDaysForFeedsByDomainId(Product $product, int $domainId): int
     {
         if ($this->isProductAvailableOnDomainCached($product, $domainId)) {
             return 0;
         }
 
-        return null;
+        return $this->setting->getForDomain(Setting::FEED_DELIVERY_DAYS_FOR_OUT_OF_STOCK_PRODUCTS, $domainId);
     }
 
     /**

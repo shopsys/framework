@@ -28,8 +28,8 @@ use Symfony\Component\Validator\Constraints;
 
 class AdministratorFormType extends AbstractType
 {
-    public const SCENARIO_CREATE = 'create';
-    public const SCENARIO_EDIT = 'edit';
+    public const string SCENARIO_CREATE = 'create';
+    public const string SCENARIO_EDIT = 'edit';
 
     /**
      * @param \Symfony\Component\Security\Core\Security $security
@@ -47,7 +47,7 @@ class AdministratorFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builderSettingsGroup = $builder->create('settings', GroupType::class, [
             'label' => t('Settings'),
@@ -172,7 +172,7 @@ class AdministratorFormType extends AbstractType
      * @param string $scenario
      * @return \Symfony\Component\Validator\Constraint[]
      */
-    private function getFirstPasswordConstraints($scenario)
+    private function getFirstPasswordConstraints(string $scenario): array
     {
         $constraints = [
             new Constraints\Length(
@@ -192,7 +192,7 @@ class AdministratorFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['administrator', 'scenario'])

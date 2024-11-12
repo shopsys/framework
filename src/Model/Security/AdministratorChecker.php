@@ -24,7 +24,7 @@ class AdministratorChecker extends InMemoryUserChecker
     /**
      * @param \Shopsys\FrameworkBundle\Model\Administrator\Administrator $user
      */
-    public function checkPostAuth(UserInterface $user)
+    public function checkPostAuth(UserInterface $user): void
     {
         if ($this->environment === EnvironmentType::PRODUCTION
             && !$this->ignoreDefaultAdminPasswordCheck

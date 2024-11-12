@@ -15,7 +15,7 @@ class RegisterPluginCrudExtensionsCompilerPass implements CompilerPassInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $pluginCrudExtensionRegistryDefinition = $container->findDefinition(
             PluginCrudExtensionRegistry::class,
@@ -35,8 +35,11 @@ class RegisterPluginCrudExtensionsCompilerPass implements CompilerPassInterface
      * @param string $serviceId
      * @param string $type
      */
-    private function registerPluginCrudExtension(Definition $pluginCrudExtensionRegistryDefinition, $serviceId, $type)
-    {
+    private function registerPluginCrudExtension(
+        Definition $pluginCrudExtensionRegistryDefinition,
+        string $serviceId,
+        string $type,
+    ): void {
         PluginCrudExtensionRegistry::assertTypeIsKnown($type);
 
         $pluginCrudExtensionRegistryDefinition->addMethodCall(

@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints;
 
 class OrderItemFormType extends AbstractType
 {
-    public const VALIDATION_GROUP_NOT_USING_PRICE_CALCULATION = 'notUsingPriceCalculation';
+    public const string VALIDATION_GROUP_NOT_USING_PRICE_CALCULATION = 'notUsingPriceCalculation';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Order\Item\OrderItemDataFactory $orderItemDataFactory
@@ -36,7 +36,7 @@ class OrderItemFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
@@ -120,7 +120,7 @@ class OrderItemFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => OrderItemData::class,

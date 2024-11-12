@@ -15,7 +15,7 @@ class FieldsAreNotIdenticalValidator extends ConstraintValidator
      * @param array $values
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($values, Constraint $constraint)
+    public function validate(mixed $values, Constraint $constraint): void
     {
         if (!$constraint instanceof FieldsAreNotIdentical) {
             throw new UnexpectedTypeException($constraint, FieldsAreNotIdentical::class);
@@ -29,8 +29,6 @@ class FieldsAreNotIdenticalValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)
                 ->atPath($constraint->errorPath)
                 ->addViolation();
-
-            return;
         }
     }
 }

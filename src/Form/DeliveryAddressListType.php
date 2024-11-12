@@ -8,7 +8,6 @@ use Shopsys\FrameworkBundle\Form\Exception\InvalidOptionException;
 use Shopsys\FrameworkBundle\Model\Customer\Customer;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +17,7 @@ class DeliveryAddressListType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefined(['customer', 'customerUser', 'allowDelete', 'deleteConfirmMessage', 'allowEdit', 'allowAdd'])
             ->setAllowedTypes('customer', [Customer::class, 'null'])
@@ -43,7 +42,7 @@ class DeliveryAddressListType extends AbstractType
      * @param \Symfony\Component\Form\FormInterface $form
      * @param array $options
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
 
@@ -69,13 +68,5 @@ class DeliveryAddressListType extends AbstractType
         $view->vars['allowAdd'] = $options['allowAdd'];
         $view->vars['customer'] = $options['customer'];
         $view->vars['showActionColumn'] = $options['allowEdit'] || $options['allowDelete'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): ?string
-    {
-        return FormType::class;
     }
 }

@@ -48,7 +48,10 @@ class MultiLocaleFileUploadType extends AbstractType
             ->add($builder->create('relationsNames', CollectionType::class, $namesOptions));
     }
 
-    public function getParent()
+    /**
+     * @return string
+     */
+    public function getParent(): string
     {
         return FileUploadType::class;
     }

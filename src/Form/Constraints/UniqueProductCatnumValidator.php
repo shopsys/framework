@@ -23,7 +23,7 @@ class UniqueProductCatnumValidator extends ConstraintValidator
      * @param mixed $value
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueProductCatnum) {
             throw new UnexpectedTypeException($constraint, UniqueProductCatnum::class);

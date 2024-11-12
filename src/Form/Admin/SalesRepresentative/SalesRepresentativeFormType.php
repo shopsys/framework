@@ -21,24 +21,22 @@ use Symfony\Component\Validator\Constraints;
 
 class SalesRepresentativeFormType extends AbstractType
 {
-    private ?SalesRepresentative $salesRepresentative = null;
-
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $this->salesRepresentative = $options['salesRepresentative'];
+        $salesRepresentative = $options['salesRepresentative'];
 
-        if ($this->salesRepresentative instanceof SalesRepresentative) {
+        if ($salesRepresentative instanceof SalesRepresentative) {
             $builderSystemDataGroup = $builder->create('systemData', GroupType::class, [
                 'label' => t('System data'),
             ]);
 
             $builderSystemDataGroup->add('formId', DisplayOnlyType::class, [
                 'label' => t('ID'),
-                'data' => $this->salesRepresentative->getId(),
+                'data' => $salesRepresentative->getId(),
             ]);
 
             $builder
@@ -124,7 +122,7 @@ class SalesRepresentativeFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['salesRepresentative'])

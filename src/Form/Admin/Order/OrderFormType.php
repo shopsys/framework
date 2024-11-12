@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class OrderFormType extends AbstractType
 {
-    public const VALIDATION_GROUP_DELIVERY_ADDRESS_SAME_AS_BILLING_ADDRESS = 'deliveryAddressSameAsBillingAddress';
+    public const string VALIDATION_GROUP_DELIVERY_ADDRESS_SAME_AS_BILLING_ADDRESS = 'deliveryAddressSameAsBillingAddress';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Country\CountryFacade $countryFacade
@@ -58,7 +58,7 @@ class OrderFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var \Shopsys\FrameworkBundle\Model\Order\Order $order */
         $order = $options['order'];
@@ -82,7 +82,7 @@ class OrderFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('order')

@@ -16,7 +16,7 @@ class MoneyRangeValidator extends ConstraintValidator
      * @param \Shopsys\FrameworkBundle\Component\Money\Money|null $value
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof MoneyRange) {
             throw new UnexpectedTypeException($constraint, MoneyRange::class);

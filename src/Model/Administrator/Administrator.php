@@ -420,7 +420,7 @@ class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLog
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 

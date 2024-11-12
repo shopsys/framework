@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Constraints;
 
 class FreeTransportAndPaymentPriceLimitsFormType extends AbstractType
 {
-    public const DOMAINS_SUBFORM_NAME = 'priceLimits';
-    public const FIELD_ENABLED = 'enabled';
-    public const FIELD_PRICE_LIMIT = 'priceLimit';
-    public const VALIDATION_GROUP_PRICE_LIMIT_ENABLED = 'priceLimitEnabled';
+    public const string DOMAINS_SUBFORM_NAME = 'priceLimits';
+    public const string FIELD_ENABLED = 'enabled';
+    public const string FIELD_PRICE_LIMIT = 'priceLimit';
+    public const string VALIDATION_GROUP_PRICE_LIMIT_ENABLED = 'priceLimitEnabled';
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
@@ -34,7 +34,7 @@ class FreeTransportAndPaymentPriceLimitsFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add($this->getPriceLimitsBuilder($builder))
@@ -45,7 +45,7 @@ class FreeTransportAndPaymentPriceLimitsFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @return \Symfony\Component\Form\FormBuilderInterface
      */
-    private function getPriceLimitsBuilder(FormBuilderInterface $builder)
+    private function getPriceLimitsBuilder(FormBuilderInterface $builder): FormBuilderInterface
     {
         $formBuilderForDomains = $builder->create(self::DOMAINS_SUBFORM_NAME, null, ['compound' => true]);
 
@@ -89,7 +89,7 @@ class FreeTransportAndPaymentPriceLimitsFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'attr' => ['novalidate' => 'novalidate'],

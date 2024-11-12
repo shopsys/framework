@@ -34,8 +34,8 @@ use Symfony\Component\Validator\Constraints;
 
 class CategoryFormType extends AbstractType
 {
-    public const SCENARIO_CREATE = 'create';
-    public const SCENARIO_EDIT = 'edit';
+    public const string SCENARIO_CREATE = 'create';
+    public const string SCENARIO_EDIT = 'edit';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Category\CategoryFacade $categoryFacade
@@ -59,7 +59,7 @@ class CategoryFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $seoTitlesOptionsByDomainId = [];
         $seoMetaDescriptionsOptionsByDomainId = [];
@@ -240,7 +240,7 @@ class CategoryFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['scenario', 'category'])
@@ -257,7 +257,7 @@ class CategoryFormType extends AbstractType
      * @param \Shopsys\FrameworkBundle\Model\Category\Category|null $category
      * @return string
      */
-    private function getCategoryNameForPlaceholder(DomainConfig $domainConfig, ?Category $category = null)
+    private function getCategoryNameForPlaceholder(DomainConfig $domainConfig, ?Category $category = null): string
     {
         $domainLocale = $domainConfig->getLocale();
 

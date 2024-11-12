@@ -8,7 +8,6 @@ use Override;
 use Shopsys\FrameworkBundle\Model\Transport\PriceWithLimitData;
 use Shopsys\FrameworkBundle\Twig\InputPriceLabelExtension;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -51,7 +50,7 @@ class PriceWithLimitType extends AbstractType
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
     #[Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -61,15 +60,6 @@ class PriceWithLimitType extends AbstractType
             ->setRequired(['domain_id', 'current_transport_prices_indexed_by_id'])
             ->setAllowedTypes('domain_id', 'int')
             ->setAllowedTypes('current_transport_prices_indexed_by_id', 'array');
-    }
-
-    /**
-     * @return string
-     */
-    #[Override]
-    public function getParent(): string
-    {
-        return FormType::class;
     }
 
     /**

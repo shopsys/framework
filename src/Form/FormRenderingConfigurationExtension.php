@@ -12,14 +12,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FormRenderingConfigurationExtension extends AbstractTypeExtension
 {
-    public const DISPLAY_FORMAT_MULTIDOMAIN_ROWS_NO_PADDING = 'multidomain_form_rows_no_padding';
+    public const string DISPLAY_FORMAT_MULTIDOMAIN_ROWS_NO_PADDING = 'multidomain_form_rows_no_padding';
 
     /**
      * @param \Symfony\Component\Form\FormView $view
      * @param \Symfony\Component\Form\FormInterface $form
      * @param array $options
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
 
@@ -33,7 +33,7 @@ class FormRenderingConfigurationExtension extends AbstractTypeExtension
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([

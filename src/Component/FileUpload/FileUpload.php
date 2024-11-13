@@ -273,7 +273,7 @@ class FileUpload
         }
 
         $position = match ($uploadEntityType) {
-            'image' => $this->imageRepository->getImagesCountByEntityIndexedById(
+            'image' => $this->imageRepository->getNewImagePosition(
                 $entityName,
                 $entityId,
                 $type,

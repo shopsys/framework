@@ -130,7 +130,7 @@ class ProductFormType extends AbstractType
                 'label' => t('Name'),
                 'render_form_row' => false,
             ])
-            ->add('nameSufix', LocalizedFullWidthType::class, [
+            ->add('nameSuffix', LocalizedFullWidthType::class, [
                 'required' => false,
                 'entry_options' => [
                     'constraints' => [

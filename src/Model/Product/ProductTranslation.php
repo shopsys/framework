@@ -44,7 +44,7 @@ class ProductTranslation extends AbstractTranslation
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $nameSufix;
+    protected $nameSuffix;
 
     /**
      * @return string|null
@@ -97,16 +97,16 @@ class ProductTranslation extends AbstractTranslation
     /**
      * @return string|null
      */
-    public function getNameSufix()
+    public function getNameSuffix()
     {
-        return $this->nameSufix;
+        return $this->nameSuffix;
     }
 
     /**
-     * @param string|null $nameSufix
+     * @param string|null $nameSuffix
      */
-    public function setNameSufix($nameSufix)
+    public function setNameSuffix($nameSuffix)
     {
-        $this->nameSufix = $nameSufix;
+        $this->nameSuffix = $nameSuffix;
     }
 }

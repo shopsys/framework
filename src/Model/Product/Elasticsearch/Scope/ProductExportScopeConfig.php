@@ -94,7 +94,7 @@ class ProductExportScopeConfig
             ProductExportFieldProvider::DETAIL_URL,
             ProductExportFieldProvider::HREFLANG_LINKS,
             ProductExportFieldProvider::NAME_PREFIX,
-            ProductExportFieldProvider::NAME_SUFIX,
+            ProductExportFieldProvider::NAME_SUFFIX,
         ], [
             self::PRECONDITION_VISIBILITY_RECALCULATION,
         ]);

@@ -58,7 +58,7 @@ class ProductElasticsearchConverter
         $result['priority_by_product_type'] = $product['priority_by_product_type'] ?? 0;
 
         $result['name_prefix'] = $product['name_prefix'] ?? null;
-        $result['name_sufix'] = $product['name_sufix'] ?? null;
+        $result['name_suffix'] = $product['name_suffix'] ?? $product['name_sufix'] ?? null;
 
         return $result;
     }

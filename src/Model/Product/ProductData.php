@@ -21,7 +21,7 @@ class ProductData
     /**
      * @var string[]|null[]
      */
-    public $nameSufix;
+    public $nameSuffix;
 
     /**
      * @var string|null
@@ -217,7 +217,7 @@ class ProductData
     {
         $this->name = [];
         $this->namePrefix = [];
-        $this->nameSufix = [];
+        $this->nameSuffix = [];
         $this->sellingDenied = false;
         $this->hidden = false;
         $this->flagsByDomainId = [];

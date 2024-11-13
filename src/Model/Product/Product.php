@@ -315,7 +315,7 @@ class Product extends AbstractTranslatableEntity
             . ' '
             . $this->getName($locale)
             . ' '
-            . $this->getNameSufix($locale),
+            . $this->getNameSuffix($locale),
         );
     }
 
@@ -671,8 +671,8 @@ class Product extends AbstractTranslatableEntity
             $this->translation($locale)->setNamePrefix($namePrefix);
         }
 
-        foreach ($productData->nameSufix as $locale => $nameSufix) {
-            $this->translation($locale)->setNameSufix($nameSufix);
+        foreach ($productData->nameSuffix as $locale => $nameSuffix) {
+            $this->translation($locale)->setNameSuffix($nameSuffix);
         }
     }
 
@@ -985,8 +985,8 @@ class Product extends AbstractTranslatableEntity
      * @param string|null $locale
      * @return string|null
      */
-    public function getNameSufix($locale = null)
+    public function getNameSuffix($locale = null)
     {
-        return $this->translation($locale)->getNameSufix();
+        return $this->translation($locale)->getNameSuffix();
     }
 }

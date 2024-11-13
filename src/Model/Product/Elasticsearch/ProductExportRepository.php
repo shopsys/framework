@@ -154,7 +154,7 @@ class ProductExportRepository
             ProductExportFieldProvider::EAN => $product->getEan(),
             ProductExportFieldProvider::NAME => $product->getName($locale),
             ProductExportFieldProvider::NAME_PREFIX => $product->getNamePrefix($locale),
-            ProductExportFieldProvider::NAME_SUFIX => $product->getNameSufix($locale),
+            ProductExportFieldProvider::NAME_SUFFIX => $product->getNameSuffix($locale),
             ProductExportFieldProvider::DESCRIPTION => $product->getDescription($domainId),
             ProductExportFieldProvider::SHORT_DESCRIPTION => $product->getShortDescription($domainId),
             ProductExportFieldProvider::BRAND => $product->getBrand() ? $product->getBrand()->getId() : '',

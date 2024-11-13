@@ -57,6 +57,9 @@ class ProductElasticsearchConverter
         $result['product_type'] = $product['product_type'] ?? ProductTypeEnum::TYPE_BASIC;
         $result['priority_by_product_type'] = $product['priority_by_product_type'] ?? 0;
 
+        $result['name_prefix'] = $product['name_prefix'] ?? null;
+        $result['name_sufix'] = $product['name_sufix'] ?? null;
+
         return $result;
     }
 

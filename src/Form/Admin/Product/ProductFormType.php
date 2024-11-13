@@ -107,18 +107,39 @@ class ProductFormType extends AbstractType
             ];
         }
 
-        $builder->add('name', LocalizedFullWidthType::class, [
-            'required' => false,
-            'entry_options' => [
-                'constraints' => [
-                    new Constraints\Length(
-                        ['max' => 255, 'maxMessage' => 'Product name cannot be longer than {{ limit }} characters'],
-                    ),
+        $builder
+            ->add('namePrefix', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(['max' => 255, 'maxMessage' => 'Product prefix name cannot be longer than {{ limit }} characters']),
+                    ],
                 ],
-            ],
-            'label' => t('Name'),
-            'render_form_row' => false,
-        ]);
+                'label' => t('Name prefix'),
+                'render_form_row' => false,
+            ])
+            ->add('name', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(
+                            ['max' => 255, 'maxMessage' => 'Product name cannot be longer than {{ limit }} characters'],
+                        ),
+                    ],
+                ],
+                'label' => t('Name'),
+                'render_form_row' => false,
+            ])
+            ->add('nameSufix', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(['max' => 255, 'maxMessage' => 'Product suffix name cannot be longer than {{ limit }} characters']),
+                    ],
+                ],
+                'label' => t('Name suffix'),
+                'render_form_row' => false,
+            ]);
 
         if ($this->isProductVariant($product) || $this->isProductMainVariant($product)) {
             $builder->add($this->createVariantGroup($builder, $product));

@@ -108,6 +108,8 @@ class ProductDataFactory
         foreach ($this->domain->getAllLocales() as $locale) {
             $productData->name[$locale] = null;
             $productData->variantAlias[$locale] = null;
+            $productData->namePrefix[$locale] = null;
+            $productData->nameSufix[$locale] = null;
         }
 
         $this->fillProductStockByStocks($productData);
@@ -139,6 +141,8 @@ class ProductDataFactory
 
             $productData->name[$locale] = $translation->getName();
             $productData->variantAlias[$locale] = $translation->getVariantAlias();
+            $productData->namePrefix[$locale] = $translation->getNamePrefix();
+            $productData->nameSufix[$locale] = $translation->getNameSufix();
         }
 
         foreach ($this->domain->getAllIds() as $domainId) {

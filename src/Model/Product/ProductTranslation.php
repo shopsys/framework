@@ -35,6 +35,18 @@ class ProductTranslation extends AbstractTranslation
     protected $variantAlias;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $namePrefix;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $nameSufix;
+
+    /**
      * @return string|null
      */
     public function getName()
@@ -64,5 +76,37 @@ class ProductTranslation extends AbstractTranslation
     public function setVariantAlias($variantAlias)
     {
         $this->variantAlias = TransformString::getTrimmedStringOrNullOnEmpty($variantAlias);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNamePrefix()
+    {
+        return $this->namePrefix;
+    }
+
+    /**
+     * @param string|null $namePrefix
+     */
+    public function setNamePrefix($namePrefix)
+    {
+        $this->namePrefix = $namePrefix;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNameSufix()
+    {
+        return $this->nameSufix;
+    }
+
+    /**
+     * @param string|null $nameSufix
+     */
+    public function setNameSufix($nameSufix)
+    {
+        $this->nameSufix = $nameSufix;
     }
 }

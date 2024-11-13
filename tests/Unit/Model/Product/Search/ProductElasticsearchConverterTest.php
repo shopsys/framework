@@ -55,6 +55,8 @@ class ProductElasticsearchConverterTest extends TestCase
             'hreflang_links' => [],
             'product_type' => 'basic',
             'priority_by_product_type' => 0,
+            'name_prefix' => null,
+            'name_sufix' => null,
         ];
 
         $converter = new ProductElasticsearchConverter();
@@ -122,6 +124,8 @@ class ProductElasticsearchConverterTest extends TestCase
             'hreflang_links' => [],
             'product_type' => 'basic',
             'priority_by_product_type' => 0,
+            'name_prefix' => null,
+            'name_sufix' => null,
         ];
 
         $converter = new ProductElasticsearchConverter();

@@ -132,7 +132,7 @@ class ProductFacade
         $this->uploadedFileFacade->manageFiles($product, $productData->files);
 
         $this->friendlyUrlFacade->saveUrlListFormData('front_product_detail', $product->getId(), $productData->urls);
-        $this->friendlyUrlFacade->createFriendlyUrls('front_product_detail', $product->getId(), $product->getFullnames());
+        $this->friendlyUrlFacade->createFriendlyUrls('front_product_detail', $product->getId(), $product->getFullNames());
     }
 
     /**
@@ -147,7 +147,7 @@ class ProductFacade
         string $priority = ProductRecalculationPriorityEnum::REGULAR,
     ): Product {
         $product = $this->productRepository->getById($productId);
-        $originalNames = $product->getFullnames();
+        $originalNames = $product->getFullNames();
 
         $productCategoryDomains = $this->productCategoryDomainFactory->createMultiple(
             $product,
@@ -419,7 +419,7 @@ class ProductFacade
     {
         $changedProductNames = [];
 
-        foreach ($product->getFullnames() as $locale => $name) {
+        foreach ($product->getFullNames() as $locale => $name) {
             if ($name !== null && $name !== $originalNames[$locale]) {
                 $changedProductNames[$locale] = $name;
             }

@@ -14,6 +14,16 @@ class ProductData
     public $name;
 
     /**
+     * @var string[]|null[]
+     */
+    public $namePrefix;
+
+    /**
+     * @var string[]|null[]
+     */
+    public $nameSufix;
+
+    /**
      * @var string|null
      */
     public $catnum;
@@ -206,6 +216,8 @@ class ProductData
     public function __construct()
     {
         $this->name = [];
+        $this->namePrefix = [];
+        $this->nameSufix = [];
         $this->sellingDenied = false;
         $this->hidden = false;
         $this->flagsByDomainId = [];

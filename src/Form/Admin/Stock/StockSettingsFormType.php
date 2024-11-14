@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Form\Admin\Stock;
 
+use Shopsys\FrameworkBundle\Component\Plugin\PluginCrudExtensionFacade;
+use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\MessageType;
 use Shopsys\FrameworkBundle\Model\Stock\StockSettingsData;
 use Symfony\Component\Form\AbstractType;
@@ -19,9 +21,11 @@ class StockSettingsFormType extends AbstractType
 {
     /**
      * @param \Twig\Environment $environment
+     * @param \Shopsys\FrameworkBundle\Component\Plugin\PluginCrudExtensionFacade $pluginCrudExtensionFacade
      */
     public function __construct(
         protected readonly Environment $environment,
+        protected readonly PluginCrudExtensionFacade $pluginCrudExtensionFacade,
     ) {
     }
 
@@ -30,7 +34,11 @@ class StockSettingsFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $builderStockSettingGroup = $builder->create('stockSettings', GroupType::class, [
+            'label' => t('Warehouse settings'),
+        ]);
+
+        $builderStockSettingGroup
             ->add('transfer', TextType::class, [
                 'label' => t('Days for transfer between warehouses'),
                 'constraints' => [
@@ -38,22 +46,13 @@ class StockSettingsFormType extends AbstractType
                     new Constraints\Regex(['pattern' => '/^\d+$/']),
                     new Constraints\GreaterThanOrEqual(['value' => 0]),
                 ],
-            ])
-            ->add('luigisBoxRank', TextType::class, [
-                'label' => t('Luigi\'s Box rank'),
-                'required' => false,
-                'constraints' => [
-                    new Constraints\Regex([
-                        'pattern' => '/^\d+$/',
-                        'message' => 'Enter an integer, please',
-                    ]),
-                    new Constraints\Range(['min' => 1, 'max' => 15]),
-                ],
-            ])
-            ->add('luigisBoxRankInfo', MessageType::class, [
-                'message_level' => MessageType::MESSAGE_LEVEL_INFO,
-                'data' => t('The value is used for availability_rank setting in Luigi\'s Box feed. See <a href="https://docs.luigisbox.com/indexing/feeds.html">the docs</a> for more information.'),
-            ])
+            ]);
+
+        $builderFeedSettingGroup = $builder->create('feedSettings', GroupType::class, [
+            'label' => t('XML feeds settings'),
+        ]);
+
+        $builderFeedSettingGroup
             ->add('feedDeliveryDaysForOutOfStockProducts', IntegerType::class, [
                 'label' => t('Number of delivery days for out of stock products in XML feeds'),
                 'required' => true,
@@ -66,8 +65,14 @@ class StockSettingsFormType extends AbstractType
             ->add('feedDeliveryDaysForOutOfStockProductsInfo', MessageType::class, [
                 'message_level' => MessageType::MESSAGE_LEVEL_INFO,
                 'data' => $this->environment->render('@ShopsysFramework/Admin/Content/Feed/feedDeliveryDaysForOutOfStockProductsInfo.html.twig'),
-            ])
+            ]);
+
+        $builder
+            ->add($builderStockSettingGroup)
+            ->add($builderFeedSettingGroup)
             ->add('save', SubmitType::class);
+
+        $this->pluginCrudExtensionFacade->extendForm($builder, 'stockSettings', 'pluginData');
     }
 
     /**

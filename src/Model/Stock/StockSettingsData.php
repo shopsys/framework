@@ -12,9 +12,9 @@ class StockSettingsData
     public $transfer;
 
     /**
-     * @var int|null
+     * @var array<string, mixed>
      */
-    public $luigisBoxRank;
+    public $pluginData = [];
 
     /**
      * @var int|null

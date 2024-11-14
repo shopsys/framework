@@ -18,12 +18,10 @@ class Version20241105132620 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         foreach ($this->getAllDomainIds() as $domainId) {
-            $this->sql('INSERT INTO setting_values (name, domain_id, value, type) VALUES (:name, :domainId, :value, :type), (:name2, :domainId, :value2, :type)', [
+            $this->sql('INSERT INTO setting_values (name, domain_id, value, type) VALUES (:name, :domainId, :value, :type)', [
                 'domainId' => $domainId,
-                'name' => 'luigisBoxRank',
-                'name2' => 'feedDeliveryDaysForOutOfStockProducts',
-                'value' => 7,
-                'value2' => -1,
+                'name' => 'feedDeliveryDaysForOutOfStockProducts',
+                'value' => -1,
                 'type' => 'integer',
             ]);
         }

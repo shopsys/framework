@@ -14,6 +14,7 @@ class PluginCrudExtensionRegistry
     protected const KNOWN_TYPES = [
         'product',
         'category',
+        'stockSettings',
     ];
 
     /**

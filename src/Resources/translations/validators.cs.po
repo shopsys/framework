@@ -475,6 +475,12 @@ msgstr "Název produktu nesmí být delší než {{ limit }} znaků"
 msgid "Product parameters are duplicate."
 msgstr "Parametry produktů jsou duplicitní."
 
+msgid "Product prefix name cannot be longer than {{ limit }} characters"
+msgstr "Prefix produktu nesmí být delší než {{ limit }} znaků"
+
+msgid "Product suffix name cannot be longer than {{ limit }} characters"
+msgstr "Suffix produktu nesmí být delší než {{ limit }} znaků"
+
 msgid "Product with entered catalog number already exists"
 msgstr "Produkt s tímto katalogovým číslem již existuje"
 

@@ -106,7 +106,7 @@ class StockController extends AdminBaseController
             $this
                 ->addSuccessFlashTwig(
                     t(
-                        'Warehouse setting %domainName% saved.',
+                        'Setting for domain "%domainName%" was saved.',
                         [
                             '%domainName%' => $this->adminDomainTabsFacade->getSelectedDomainConfig()->getName(),
                         ],

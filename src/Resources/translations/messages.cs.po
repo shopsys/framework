@@ -3664,6 +3664,9 @@ msgstr "Nastavit jako výchozí"
 msgid "Set prices manually"
 msgstr "Manuálně nastavené ceny"
 
+msgid "Setting for domain \"%domainName%\" was saved."
+msgstr ""
+
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -4275,9 +4278,6 @@ msgstr "Sklad <strong>{{ name }}</strong> byl nastaven jako výchozí."
 
 msgid "Warehouse overview"
 msgstr "Přehled skladů"
-
-msgid "Warehouse setting %domainName% saved."
-msgstr "Nastavení %domainName% skladů uloženo."
 
 msgid "Warehouse settings"
 msgstr "Nastavení skladů"

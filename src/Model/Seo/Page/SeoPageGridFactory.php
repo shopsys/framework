@@ -6,21 +6,17 @@ namespace Shopsys\FrameworkBundle\Model\Seo\Page;
 
 use Shopsys\FrameworkBundle\Component\Grid\Grid;
 use Shopsys\FrameworkBundle\Component\Grid\GridFactory;
-use Shopsys\FrameworkBundle\Component\Grid\QueryBuilderWithRowManipulatorDataSource;
-use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Shopsys\FrameworkBundle\Component\Grid\QueryBuilderDataSource;
 
 class SeoPageGridFactory
 {
     /**
      * @param \Shopsys\FrameworkBundle\Component\Grid\GridFactory $gridFactory
      * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageRepository $seoPageRepository
-     * @param \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory
      */
     public function __construct(
         protected readonly GridFactory $gridFactory,
         protected readonly SeoPageRepository $seoPageRepository,
-        protected readonly DomainRouterFactory $domainRouterFactory,
     ) {
     }
 
@@ -30,39 +26,20 @@ class SeoPageGridFactory
      */
     public function create(int $domainId): Grid
     {
-        $queryBuilder = $this->seoPageRepository->getAllQueryBuilder();
-        $seoPageDomainRouter = $this->domainRouterFactory->getRouter($domainId);
+        $queryBuilder = $this->seoPageRepository->getAllQueryBuilder()
+            ->andWhere('spd.domainId = :domainId')
+            ->setParameter('domainId', $domainId);
 
-        $dataSource = new QueryBuilderWithRowManipulatorDataSource(
+        $dataSource = new QueryBuilderDataSource(
             $queryBuilder,
             'sp.id',
-            function ($row) use ($seoPageDomainRouter) {
-                $seoPageId = $row['sp']['id'];
-                $seoPageFriendlyUrl = $seoPageDomainRouter->generate('front_page_seo', [
-                    'id' => $seoPageId,
-                ]);
-                $seoPageSlug = SeoPageSlugTransformer::transformFriendlyUrlToSeoPageSlug($seoPageFriendlyUrl);
-
-                if ($seoPageSlug === SeoPage::SEO_PAGE_HOMEPAGE_SLUG) {
-                    $targetPageUrl = $seoPageDomainRouter->generate('front_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL);
-                } else {
-                    $targetPageUrl = $seoPageDomainRouter->generate('front_page_seo', [
-                        'id' => $seoPageId,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                }
-
-                $row['seoPageTargetUrl'] = $targetPageUrl;
-                $row['seoPageSlug'] = $seoPageSlug;
-
-                return $row;
-            },
         );
 
         $grid = $this->gridFactory->create('seo_page', $dataSource);
         $grid->enablePaging();
 
         $grid->addColumn('pageName', 'sp.pageName', t('Page name'), true);
-        $grid->addColumn('seoPageTargetUrl', 'seoPageTargetUrl', t('Page URL'), true);
+        $grid->addColumn('pageSlug', 'spd.pageSlug', t('Page slug'), true);
 
         $grid->setActionColumnClassAttribute('table-col table-col-10');
         $grid->addEditActionColumn('admin_seopage_edit', ['id' => 'sp.id']);

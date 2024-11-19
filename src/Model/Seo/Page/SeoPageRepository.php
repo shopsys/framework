@@ -50,7 +50,9 @@ class SeoPageRepository
      */
     public function getAllQueryBuilder(): QueryBuilder
     {
-        return $this->getSeoPageRepository()->createQueryBuilder('sp');
+        return $this->getSeoPageRepository()->createQueryBuilder('sp')
+            ->select('sp, spd')
+            ->join('sp.domains', 'spd');
     }
 
     /**
@@ -59,5 +61,43 @@ class SeoPageRepository
     protected function getSeoPageRepository(): EntityRepository
     {
         return $this->em->getRepository(SeoPage::class);
+    }
+
+    /**
+     * @param int $domainId
+     * @param string $pageSlug
+     * @return \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage
+     */
+    public function getByDomainIdAndPageSlug(int $domainId, string $pageSlug): SeoPage
+    {
+        $seoPage = $this->findByDomainIdAndPageSlug($domainId, $pageSlug);
+
+        if ($seoPage === null) {
+            $message = sprintf('SeoPage with slug \'%s\' not found.', $pageSlug);
+
+            throw new SeoPageNotFoundException($message);
+        }
+
+        return $seoPage;
+    }
+
+    /**
+     * @param int $domainId
+     * @param string $pageSlug
+     * @return \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage|null
+     */
+    public function findByDomainIdAndPageSlug(int $domainId, string $pageSlug): ?SeoPage
+    {
+        $seoPage = $this->getSeoPageRepository()
+            ->createQueryBuilder('sp')
+            ->join('sp.domains', 'spd')
+            ->where('spd.domainId = :domainId')
+            ->andWhere('spd.pageSlug = :pageSlug')
+            ->setParameter('domainId', $domainId)
+            ->setParameter('pageSlug', $pageSlug)
+            ->getQuery()
+            ->getResult();
+
+        return count($seoPage) === 0 ? null : reset($seoPage);
     }
 }

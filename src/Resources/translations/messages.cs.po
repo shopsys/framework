@@ -2872,11 +2872,11 @@ msgstr "Zásilkovna"
 msgid "Page <strong>{{ name }}</strong> deleted"
 msgstr "Stránka <strong>{{ name }}</strong> byla smazána"
 
-msgid "Page URL"
-msgstr "URL stránky"
-
 msgid "Page name"
 msgstr "Název stránky"
+
+msgid "Page slug"
+msgstr "Slug stránky"
 
 msgid "Page title"
 msgstr "Titulek stránky"

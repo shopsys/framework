@@ -2872,10 +2872,10 @@ msgstr ""
 msgid "Page <strong>{{ name }}</strong> deleted"
 msgstr ""
 
-msgid "Page URL"
+msgid "Page name"
 msgstr ""
 
-msgid "Page name"
+msgid "Page slug"
 msgstr ""
 
 msgid "Page title"

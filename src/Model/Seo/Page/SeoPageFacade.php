@@ -9,11 +9,10 @@ use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Image\ImageFacade;
 use Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade;
 use Shopsys\FrameworkBundle\Model\Seo\Page\Exception\DefaultSeoPageCannotBeDeletedException;
-use Shopsys\FrameworkBundle\Model\Seo\Page\Exception\SeoPageNotFoundException;
 
 class SeoPageFacade
 {
-    public const IMAGE_TYPE_OG = 'og';
+    public const string IMAGE_TYPE_OG = 'og';
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
@@ -43,15 +42,6 @@ class SeoPageFacade
 
         $this->em->persist($seoPage);
         $this->em->flush();
-
-        foreach ($this->domain->getAll() as $domain) {
-            $this->friendlyUrlFacade->createFriendlyUrlForDomain(
-                'front_page_seo',
-                $seoPage->getId(),
-                $seoPageData->pageSlugsIndexedByDomainId[$domain->getId()],
-                $domain->getId(),
-            );
-        }
 
         $this->imageFacade->manageImages($seoPage, $seoPageData->seoOgImage, self::IMAGE_TYPE_OG);
 
@@ -107,14 +97,16 @@ class SeoPageFacade
      */
     public function getByDomainIdAndPageSlug(int $domainId, string $pageSlug): SeoPage
     {
-        $friendlyUrl = $this->friendlyUrlFacade->findByDomainIdAndSlug($domainId, $pageSlug);
+        return $this->seoPageRepository->getByDomainIdAndPageSlug($domainId, $pageSlug);
+    }
 
-        if ($friendlyUrl === null || $friendlyUrl->getRouteName() !== 'front_page_seo') {
-            $message = sprintf('SeoPage with slug \'%s\' not found.', $pageSlug);
-
-            throw new SeoPageNotFoundException($message);
-        }
-
-        return $this->getById($friendlyUrl->getEntityId());
+    /**
+     * @param int $domainId
+     * @param string $pageSlug
+     * @return \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage|null
+     */
+    public function findByDomainIdAndPageSlug(int $domainId, string $pageSlug): ?SeoPage
+    {
+        return $this->seoPageRepository->findByDomainIdAndPageSlug($domainId, $pageSlug);
     }
 }

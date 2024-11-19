@@ -75,7 +75,6 @@ class FriendlyUrlGridFactory implements GridFactoryInterface
             'front_product_detail' => t('Product'),
             'front_product_list' => t('Category'),
             'front_stores_detail' => t('Store'),
-            'front_page_seo' => t('SEO page'),
         ];
 
         if (array_key_exists($routeName, $readableNamesByRouteName)) {

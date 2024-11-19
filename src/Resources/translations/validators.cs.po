@@ -377,7 +377,7 @@ msgid "Please enter password"
 msgstr "Vyplňte prosím heslo"
 
 msgid "Please enter postcode"
-msgstr ""
+msgstr "Vyplňte prosím PSČ"
 
 msgid "Please enter price"
 msgstr "Prosím vyplňte cenu"
@@ -513,6 +513,12 @@ msgstr "Stejný doplněk titulku už je používán na jiné doméně"
 
 msgid "Same title is used on another domain"
 msgstr "Stejný titulek už je používán na jiné doméně"
+
+msgid "Seo page with slug {{ pageSlug }} already exists"
+msgstr "Seo stránka se slugem {{ pageSlug }} již existuje"
+
+msgid "Slug can contain only letters, numbers, hyphens, underscores and slashes"
+msgstr "Slug může obsahovat pouze písmena, čísla, pomlčky, podtržítka a lomítka"
 
 msgid "Status name cannot be longer than {{ limit }} characters"
 msgstr "Název stavu nesmí být delší než {{ limit }} znaků"

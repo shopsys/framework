@@ -126,6 +126,15 @@ class SeoPage
 
     /**
      * @param int $domainId
+     * @return string
+     */
+    public function getPageSlug(int $domainId)
+    {
+        return $this->getSeoPageDomain($domainId)->getPageSlug();
+    }
+
+    /**
+     * @param int $domainId
      * @return \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageDomain
      */
     protected function getSeoPageDomain(int $domainId): SeoPageDomain
@@ -157,6 +166,7 @@ class SeoPage
 
         foreach ($domainIds as $domainId) {
             $seoPageDomain = new SeoPageDomain($domainId, $this);
+            $seoPageDomain->setPageSlug($seoPageData->pageSlugsIndexedByDomainId[$domainId]);
             $this->domains->add($seoPageDomain);
         }
 

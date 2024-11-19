@@ -62,6 +62,12 @@ class SeoPageDomain
     protected $seoOgDescription;
 
     /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    protected $pageSlug;
+
+    /**
      * @var \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage
      * @ORM\ManyToOne(targetEntity="Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage", inversedBy="domains")
      * @ORM\JoinColumn(name="seo_page_id", nullable=false, referencedColumnName="id", onDelete="CASCADE")
@@ -182,5 +188,21 @@ class SeoPageDomain
     public function setSeoOgDescription($seoOgDescription): void
     {
         $this->seoOgDescription = $seoOgDescription;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageSlug()
+    {
+        return $this->pageSlug;
+    }
+
+    /**
+     * @param string $pageSlug
+     */
+    public function setPageSlug($pageSlug): void
+    {
+        $this->pageSlug = $pageSlug;
     }
 }

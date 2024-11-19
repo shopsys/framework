@@ -75,4 +75,17 @@ class SettingValueRepository
             ],
         );
     }
+
+    /**
+     * @param string $name
+     */
+    public function deleteByName(string $name): void
+    {
+        $this->getSettingValueRepository()->createQueryBuilder('sv')
+            ->delete(SettingValue::class, 'sv')
+            ->where('sv.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->execute();
+    }
 }

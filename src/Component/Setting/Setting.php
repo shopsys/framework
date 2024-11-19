@@ -167,6 +167,14 @@ class Setting
         }
     }
 
+    /**
+     * @param string $name
+     */
+    public function deleteByName(string $name): void
+    {
+        $this->settingValueRepository->deleteByName($name);
+    }
+
     public function clearCache()
     {
         $this->allValuesLoaded = false;

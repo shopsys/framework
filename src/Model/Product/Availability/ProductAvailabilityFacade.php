@@ -83,21 +83,6 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return string
-     */
-    public function getProductAvailableStoresCountInformationByDomainId(Product $product, int $domainId): string
-    {
-        $count = $this->getAvailableStoresCount($product, $domainId);
-
-        return t(
-            '{0}|{1}Available in <span class="box-detail__avail__text__strong">%count%</span> store|[2,Inf]Available in <span class="box-detail__avail__text__strong">%count%</span> stores',
-            ['%count%' => $count],
-        );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @param int $domainId
      * @return int
      */
     public function getAvailableStoresCount(Product $product, int $domainId): int

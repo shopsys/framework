@@ -57,6 +57,24 @@ class SliderItem implements OrderableEntityInterface
     protected $hidden;
 
     /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=7)
+     */
+    protected $rgbBackgroundColor;
+
+    /**
+     * @var float
+     * @ORM\Column(type="decimal", precision=3, scale=2)
+     */
+    protected $opacity;
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Slider\SliderItemData $sliderItemData
      */
     public function __construct(SliderItemData $sliderItemData)
@@ -81,6 +99,9 @@ class SliderItem implements OrderableEntityInterface
         $this->name = $sliderItemData->name;
         $this->link = $sliderItemData->link;
         $this->hidden = $sliderItemData->hidden;
+        $this->description = $sliderItemData->description;
+        $this->rgbBackgroundColor = $sliderItemData->rgbBackgroundColor;
+        $this->opacity = $sliderItemData->opacity;
     }
 
     /**
@@ -137,5 +158,29 @@ class SliderItem implements OrderableEntityInterface
     public function isHidden()
     {
         return $this->hidden;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRgbBackgroundColor()
+    {
+        return $this->rgbBackgroundColor;
+    }
+
+    /**
+     * @return float
+     */
+    public function getOpacity()
+    {
+        return $this->opacity;
     }
 }

@@ -31,8 +31,25 @@ class SliderItemData
      */
     public $domainId;
 
+    /**
+     * @var string|null
+     */
+    public $description;
+
+    /**
+     * @var string
+     */
+    public $rgbBackgroundColor;
+
+    /**
+     * @var float
+     */
+    public $opacity;
+
     public function __construct()
     {
         $this->hidden = false;
+        $this->rgbBackgroundColor = '#808080';
+        $this->opacity = 0.8;
     }
 }

@@ -1201,7 +1201,13 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
+msgid "Description background color"
+msgstr ""
+
 msgid "Description can be set on product detail of the main product."
+msgstr ""
+
+msgid "Description opacity"
 msgstr ""
 
 msgid "Disable"

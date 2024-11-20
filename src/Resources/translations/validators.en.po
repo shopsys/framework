@@ -40,6 +40,9 @@ msgstr ""
 msgid "Country with code {{ country_code }} does not exists. Available country codes are {{ available_country_codes }}."
 msgstr ""
 
+msgid "Description background color must be a valid hexadecimal color code e.g. #fff or #ffffff"
+msgstr ""
+
 msgid "EAN cannot be longer than {{ limit }} characters"
 msgstr ""
 
@@ -128,6 +131,12 @@ msgid "Link must be valid URL address"
 msgstr ""
 
 msgid "Name cannot be longer than {{ limit }} characters"
+msgstr ""
+
+msgid "Opacity must be a number with up to two decimal places"
+msgstr ""
+
+msgid "Opacity must be between {{ min }} and {{ max }}"
 msgstr ""
 
 msgid "Opening hours setting is not valid"
@@ -281,6 +290,12 @@ msgid "Please enter default pricing group"
 msgstr ""
 
 msgid "Please enter description"
+msgstr ""
+
+msgid "Please enter description box background color"
+msgstr ""
+
+msgid "Please enter description box opacity"
 msgstr ""
 
 msgid "Please enter discount percentage"

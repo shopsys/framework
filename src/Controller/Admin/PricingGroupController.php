@@ -50,7 +50,7 @@ class PricingGroupController extends AdminBaseController
      * @param int $id
      */
     #[Route(path: '/pricing/group/delete/{id}', requirements: ['id' => '\d+'])]
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, int $id)
     {
         $newId = $request->get('newId');
         $newId = $newId !== null ? (int)$newId : null;

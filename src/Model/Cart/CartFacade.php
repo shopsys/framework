@@ -78,7 +78,7 @@ class CartFacade
 
                 $addedQuantity = $quantity;
 
-                $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $newQuantity);
+                $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $newQuantity) ?? 0;
                 $item->changeQuantity($newQuantity);
                 $item->changeAddedAt(new DateTime());
                 $result = new AddProductResult($item, false, $addedQuantity, $notOnStockQuantity);
@@ -90,7 +90,7 @@ class CartFacade
         }
 
         $productPrice = $this->productPriceCalculation->calculatePriceForCurrentUser($product);
-        $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $quantity);
+        $notOnStockQuantity = $this->productAvailabilityFacade->getNotOnStockQuantity($product, $this->domain->getId(), $quantity) ?? 0;
         $newCartItem = $this->cartItemFactory->create($cart, $product, $quantity, $productPrice->getPriceWithVat());
         $cart->addItem($newCartItem);
         $cart->setModifiedNow();

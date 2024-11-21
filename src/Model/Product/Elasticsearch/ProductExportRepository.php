@@ -189,6 +189,9 @@ class ProductExportRepository
             ProductExportFieldProvider::HREFLANG_LINKS => $this->hreflangLinksFacade->getForProduct($product, $domainId),
             ProductExportFieldProvider::PRODUCT_TYPE => $this->extractProductType($product, $domainId),
             ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE => $this->extractPriorityByProductType($product, $domainId),
+            ProductExportFieldProvider::AVAILABLE_STORES_COUNT => $this->productAvailabilityFacade->getAvailableStoresCount($product, $domainId),
+            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION => $this->extractStoreAvailabilitiesInformation($product, $domainId),
+            ProductExportFieldProvider::AVAILABILITY_STATUS => $this->productAvailabilityFacade->getProductAvailabilityStatusByDomainId($product, $domainId),
 
             default => throw new InvalidArgumentException(sprintf('There is no definition for exporting "%s" field to Elasticsearch', $field)),
         };
@@ -486,5 +489,28 @@ class ProductExportRepository
     protected function reset(): void
     {
         $this->inMemoryCache->deleteAllItemsInNamespace(static::VARIANTS_CACHE_NAMESPACE);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return array
+     */
+    protected function extractStoreAvailabilitiesInformation(Product $product, int $domainId): array
+    {
+        $storeAvailabilitiesInformation = $this->productAvailabilityFacade->getProductStoresAvailabilitiesInformationByDomainIdIndexedByStoreId($product, $domainId);
+
+        $result = [];
+
+        foreach ($storeAvailabilitiesInformation as $item) {
+            $result[] = [
+                'store_name' => $item->getStoreName(),
+                'store_id' => $item->getStoreId(),
+                'availability_information' => $item->getAvailabilityInformation(),
+                'availability_status' => $item->getAvailabilityStatus(),
+            ];
+        }
+
+        return $result;
     }
 }

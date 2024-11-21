@@ -57,6 +57,10 @@ class ProductElasticsearchConverterTest extends TestCase
             'priority_by_product_type' => 0,
             'name_prefix' => null,
             'name_suffix' => null,
+            'availability_status' => '',
+            'store_availabilities_information' => [],
+            'available_stores_count' => null,
+            'stock_quantity' => null,
         ];
 
         $converter = new ProductElasticsearchConverter();
@@ -126,6 +130,10 @@ class ProductElasticsearchConverterTest extends TestCase
             'priority_by_product_type' => 0,
             'name_prefix' => null,
             'name_suffix' => null,
+            'availability_status' => '',
+            'store_availabilities_information' => [],
+            'available_stores_count' => null,
+            'stock_quantity' => null,
         ];
 
         $converter = new ProductElasticsearchConverter();

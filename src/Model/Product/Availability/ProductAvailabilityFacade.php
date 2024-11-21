@@ -83,10 +83,14 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return int
+     * @return int|null
      */
-    public function getAvailableStoresCount(Product $product, int $domainId): int
+    public function getAvailableStoresCount(Product $product, int $domainId): ?int
     {
+        if ($product->isMainVariant()) {
+            return null;
+        }
+
         $productStocks = $this->productStockFacade->getProductStocksByProduct($product);
 
         $count = 0;
@@ -124,6 +128,10 @@ class ProductAvailabilityFacade
         Product $product,
         int $domainId,
     ): array {
+        if ($product->isMainVariant()) {
+            return [];
+        }
+
         $stores = $this->storeFacade->getStoresByDomainId($domainId);
 
         $isAvailable = $this->isProductAvailableOnDomainCached($product, $domainId);
@@ -214,10 +222,14 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return int
+     * @return int|null
      */
-    public function getGroupedStockQuantityByProductAndDomainId(Product $product, int $domainId): int
+    public function getGroupedStockQuantityByProductAndDomainId(Product $product, int $domainId): ?int
     {
+        if ($product->isMainVariant()) {
+            return null;
+        }
+
         $productStocksByDomainIdIndexedByStockId = $this->productStockFacade->getProductStocksByProductAndDomainIdIndexedByStockId($product, $domainId);
 
         return $this->sumProductStockQuantities($productStocksByDomainIdIndexedByStockId);
@@ -260,10 +272,14 @@ class ProductAvailabilityFacade
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
      * @param int $quantityToAdd
-     * @return int
+     * @return int|null
      */
-    public function getNotOnStockQuantity(Product $product, int $domainId, int $quantityToAdd): int
+    public function getNotOnStockQuantity(Product $product, int $domainId, int $quantityToAdd): ?int
     {
+        if ($product->isMainVariant()) {
+            return null;
+        }
+
         $notOnStockQuantity = 0;
         $productTotalQuantity = $this->getGroupedStockQuantityByProductAndDomainId($product, $domainId);
 

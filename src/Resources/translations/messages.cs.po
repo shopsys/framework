@@ -3880,6 +3880,9 @@ msgstr "Optimální velikost ikony je 46x26 px. Je povolen pouze PNG formát."
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr "Produkt již není v katalogu. Toto bylo katalogové číslo v době vytvoření poptávky."
 
+msgid "The stock quantities are set for the product variants separately."
+msgstr "Skladové zásoby se nastavují zvlášť pro jednotlivé varianty."
+
 msgid "The value is used for: <ul> <li> <a href=\"https://napoveda.zbozi.cz/en/xml-feed-2/specification/#DELIVERY_DATE\">DELIVERY_DATE</a> setting in Zbozi.cz XML feed </li> <li> <a href=\"https://www.mergado.com/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-10-en.pdf\">DELIVERY_DAYS</a> setting in Mergado XML feed </li> </ul>"
 msgstr "Hodnota se používá pro: <ul> <li> nastavení <a href=\"https://napoveda.zbozi.cz/xml-feed/specifikace/#DELIVERY_DATE\">DELIVERY_DATE</a> v XML feedu Zbozi.cz</li> <li> nastavení <a href=\"https://www.mergado.cz/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-4.pdf\">DELIVERY_DAYS</a> v XML feedu Mergado</li> </ul>"
 
@@ -4542,9 +4545,6 @@ msgstr "bez umístění"
 
 msgid "{0,1} Available in one week|[2,Inf] Available in %count% weeks"
 msgstr "{0,1} K dispozici za týden|[2,4] K dispozici za %count% týdny|[5,Inf] K dispozici za %count% týdnů"
-
-msgid "{0}|{1}Available in <span class=\"box-detail__avail__text__strong\">%count%</span> store|[2,Inf]Available in <span class=\"box-detail__avail__text__strong\">%count%</span> stores"
-msgstr "{0}|{1}Můžete mít ihned na <span class=\"box-detail__avail__text__strong\">%count%</span> prodejně|[2,Inf]Můžete mít ihned na <span class=\"box-detail__avail__text__strong\">%count%</span> prodejnách"
 
 msgid "{1} There is one parameter slider that does not have its numeric values filled in.|[2,Inf] There are %count% parameter sliders that does not have its numeric values filled in."
 msgstr "{1} Existuje jeden parametr typu slider, který nemá vyplněné své číselné hodnoty.|[2,4] Existuje %count% parametrů typu slider, které nemají vyplněné své číselné hodnoty.|[5,Inf] Existuje %count% parametrů typu slider, které nemají vyplněné své číselné hodnoty."

@@ -148,7 +148,7 @@ class ProductFormType extends AbstractType
         $builder->add($this->createBasicInformationGroup($builder, $product, $disabledItemInMainVariantAttr));
         $builder->add($this->createDisplayAvailabilityGroup($builder, $product));
         $builder->add($this->createPricesGroup($builder, $product));
-        $builder->add($this->createStocksGroup($builder));
+        $builder->add($this->createStocksGroup($builder, $product));
         $builder->add($this->createDescriptionsGroup($builder, $product));
         $builder->add($this->createShortDescriptionsGroup($builder, $product));
         $builder->add($this->createShortDescriptionsUspGroup($builder));
@@ -526,19 +526,27 @@ class ProductFormType extends AbstractType
 
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product|null $product
      * @return \Symfony\Component\Form\FormBuilderInterface
      */
-    private function createStocksGroup(FormBuilderInterface $builder)
+    private function createStocksGroup(FormBuilderInterface $builder, ?Product $product): FormBuilderInterface
     {
         $stockGroupBuilder = $builder->create('stocksGroup', GroupType::class, [
             'label' => t('Warehouses'),
         ]);
 
-        $stockGroupBuilder->add('productStockData', CollectionType::class, [
-            'required' => false,
-            'entry_type' => ProductStockFormType::class,
-            'render_form_row' => false,
-        ]);
+        if ($this->isProductMainVariant($product)) {
+            $stockGroupBuilder
+                ->add('productStockData', DisplayOnlyType::class, [
+                    'data' => t('The stock quantities are set for the product variants separately.'),
+                ]);
+        } else {
+            $stockGroupBuilder->add('productStockData', CollectionType::class, [
+                'required' => false,
+                'entry_type' => ProductStockFormType::class,
+                'render_form_row' => false,
+            ]);
+        }
 
         return $stockGroupBuilder;
     }

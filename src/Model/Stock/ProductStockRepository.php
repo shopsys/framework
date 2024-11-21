@@ -110,7 +110,7 @@ class ProductStockRepository
             ->select('CASE WHEN SUM(ps.productQuantity) > 0 THEN TRUE ELSE FALSE END');
 
         if ($product->isMainVariant()) {
-            $queryBuilder->join(Product::class, 'p', Join::WITH, 'ps.product = p AND p.mainVariant = :product');
+            $queryBuilder->join(Product::class, 'p', Join::WITH, 'ps.product = p AND p.mainVariant = :product AND p.calculatedSellingDenied = FALSE');
         } else {
             $queryBuilder->where('ps.product = :product');
         }

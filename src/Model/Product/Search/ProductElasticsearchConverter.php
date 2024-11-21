@@ -60,6 +60,11 @@ class ProductElasticsearchConverter
         $result['name_prefix'] = $product['name_prefix'] ?? null;
         $result['name_suffix'] = $product['name_suffix'] ?? $product['name_sufix'] ?? null;
 
+        $result['availability_status'] = $product['availability_status'] ?? '';
+        $result['store_availabilities_information'] = $product['store_availabilities_information'] ?? [];
+        $result['available_stores_count'] = $product['available_stores_count'] ?? null;
+        $result['stock_quantity'] = $product['stock_quantity'] ?? null;
+
         return $result;
     }
 

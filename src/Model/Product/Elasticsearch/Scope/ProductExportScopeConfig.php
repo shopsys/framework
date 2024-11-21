@@ -78,6 +78,9 @@ class ProductExportScopeConfig
             ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE,
             ProductExportFieldProvider::IN_STOCK,
             ProductExportFieldProvider::STOCK_QUANTITY,
+            ProductExportFieldProvider::AVAILABLE_STORES_COUNT,
+            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION,
+            ProductExportFieldProvider::AVAILABILITY_STATUS,
         ]);
         $this->addNewExportScopeRule(self::SCOPE_URL, [
             ProductExportFieldProvider::DETAIL_URL,

@@ -46,6 +46,9 @@ class ProductExportFieldProvider
     public const string PRIORITY_BY_PRODUCT_TYPE = 'priority_by_product_type';
     public const string NAME_PREFIX = 'name_prefix';
     public const string NAME_SUFFIX = 'name_suffix';
+    public const string AVAILABLE_STORES_COUNT = 'available_stores_count';
+    public const string STORE_AVAILABILITIES_INFORMATION = 'store_availabilities_information';
+    public const string AVAILABILITY_STATUS = 'availability_status';
 
     /**
      * @return string[]

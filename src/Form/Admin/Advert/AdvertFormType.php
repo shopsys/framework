@@ -28,10 +28,10 @@ use Symfony\Component\Validator\Constraints;
 
 class AdvertFormType extends AbstractType
 {
-    public const VALIDATION_GROUP_TYPE_IMAGE = 'typeImage';
-    public const VALIDATION_GROUP_TYPE_CODE = 'typeCode';
-    public const SCENARIO_CREATE = 'create';
-    public const SCENARIO_EDIT = 'edit';
+    public const string VALIDATION_GROUP_TYPE_IMAGE = 'typeImage';
+    public const string VALIDATION_GROUP_TYPE_CODE = 'typeCode';
+    public const string SCENARIO_CREATE = 'create';
+    public const string SCENARIO_EDIT = 'edit';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Advert\AdvertPositionRegistry $advertPositionRegistry
@@ -47,15 +47,8 @@ class AdvertFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $imageConstraints = [
-            new Constraints\NotBlank([
-                'message' => 'Choose image',
-                'groups' => [static::VALIDATION_GROUP_TYPE_IMAGE],
-            ]),
-        ];
-
         $builderSettingsGroup = $builder->create('settings', GroupType::class, [
             'label' => t('Settings'),
         ]);
@@ -214,7 +207,7 @@ class AdvertFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['scenario', 'advert', 'web_image_exists', 'mobile_image_exists'])

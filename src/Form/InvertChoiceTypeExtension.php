@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InvertChoiceTypeExtension extends AbstractTypeExtension
 {
-    protected const INVERT_OPTION = 'invert';
+    protected const string INVERT_OPTION = 'invert';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class InvertChoiceTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
 
@@ -44,7 +44,7 @@ class InvertChoiceTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

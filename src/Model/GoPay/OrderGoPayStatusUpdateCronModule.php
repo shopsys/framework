@@ -7,11 +7,11 @@ namespace Shopsys\FrameworkBundle\Model\GoPay;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Model\GoPay\Exception\GoPayPaymentDownloadException;
 use Shopsys\FrameworkBundle\Model\Order\Mail\OrderMailFacade;
 use Shopsys\FrameworkBundle\Model\Payment\Service\PaymentServiceFacade;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class OrderGoPayStatusUpdateCronModule implements SimpleCronModuleInterface
 {
@@ -95,7 +95,7 @@ class OrderGoPayStatusUpdateCronModule implements SimpleCronModuleInterface
     }
 
     /**
-     * @param \Symfony\Bridge\Monolog\Logger $logger
+     * @param \Monolog\Logger $logger
      */
     public function setLogger(Logger $logger): void
     {

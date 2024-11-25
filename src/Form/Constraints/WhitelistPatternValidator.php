@@ -13,7 +13,7 @@ class WhitelistPatternValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof WhitelistPattern) {
             throw new UnexpectedTypeException($constraint, WhitelistPattern::class);

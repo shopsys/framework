@@ -953,7 +953,7 @@ services:
 
     Shopsys\FrameworkBundle\Model\Security\LoginListener:
         tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onSecurityInteractiveLogin }
 
     Shopsys\FrameworkBundle\Model\Security\MenuItemsGrantedRolesSetting: ~
 
@@ -1005,6 +1005,17 @@ services:
 
     Symfony\Component\Config\Loader\LoaderInterface:
         alias: routing.loader
+
+    Symfony\Component\HttpFoundation\Session\Flash\FlashBag: ~
+
+    Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface:
+        class: Symfony\Component\HttpFoundation\Session\Flash\FlashBag
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+            - { 'prefix': '%env(REDIS_PREFIX)%session:', ttl: 604800 }
+        lazy: true
 
     Symfony\Component\Translation\IdentityTranslator: ~
 
@@ -1086,9 +1097,10 @@ services:
         alias: Shopsys\FrameworkBundle\Component\HttpKernel\Profiler\FileProfilerStorage
 
     routing.loader.annotation:
-        arguments:
-            - '@annotation_reader'
-        class: Shopsys\FrameworkBundle\Component\AnnotatedRouteControllerLoader
+        class: Shopsys\FrameworkBundle\Component\AttributeRouteControllerLoader
+
+    routing.loader.attribute:
+        class: Shopsys\FrameworkBundle\Component\AttributeRouteControllerLoader
 
     shopsys.component.elasticsearch.tracer:
         class: Psr\Log\NullLogger

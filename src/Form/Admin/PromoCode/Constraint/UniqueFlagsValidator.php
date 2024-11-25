@@ -14,7 +14,7 @@ class UniqueFlagsValidator extends ConstraintValidator
      * @param \Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFlag\PromoCodeFlag[] $values
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($values, Constraint $constraint): void
+    public function validate(mixed $values, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueFlags) {
             throw new UnexpectedTypeException($constraint, UniqueFlags::class);

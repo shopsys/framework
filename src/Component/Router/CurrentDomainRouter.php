@@ -90,7 +90,10 @@ class CurrentDomainRouter implements ChainRouterInterface
      */
     public function all(): array
     {
-        return $this->getDomainRouter()->all();
+        /** @var \Symfony\Component\Routing\RouterInterface[] $allRouters */
+        $allRouters = $this->getDomainRouter()->all();
+
+        return $allRouters;
     }
 
     /**

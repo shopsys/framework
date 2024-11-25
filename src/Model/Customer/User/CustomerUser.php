@@ -384,7 +384,7 @@ class CustomerUser implements UserInterface, TimelimitLoginInterface, PasswordAu
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 

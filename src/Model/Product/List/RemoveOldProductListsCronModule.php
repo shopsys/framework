@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Product\List;
 
 use DateTimeImmutable;
+use Monolog\Logger;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class RemoveOldProductListsCronModule implements SimpleCronModuleInterface
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Pricing\Vat;
 
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductInputPriceFacade;
 use Shopsys\Plugin\Cron\IteratedCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class VatDeletionCronModule implements IteratedCronModuleInterface
 {

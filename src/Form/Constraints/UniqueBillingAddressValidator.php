@@ -32,7 +32,7 @@ class UniqueBillingAddressValidator extends ConstraintValidator
      * @param mixed $value
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueBillingAddress) {
             throw new UnexpectedTypeException($constraint, UniqueBillingAddress::class);
@@ -73,7 +73,6 @@ class UniqueBillingAddressValidator extends ConstraintValidator
     /**
      * @param \Shopsys\FrameworkBundle\Model\Customer\BillingAddressData $billingAddressData
      * @param int $domainId
-     * @throws \Shopsys\FrameworkBundle\Model\Customer\Exception\BillingAddressCompanyNumberIsNotUniqueException
      */
     protected function checkUniqueBillingAddress(
         BillingAddressData $billingAddressData,

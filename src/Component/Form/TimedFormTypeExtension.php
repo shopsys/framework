@@ -13,9 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimedFormTypeExtension extends AbstractTypeExtension
 {
-    public const MINIMUM_FORM_FILLING_SECONDS = 5;
-    public const OPTION_ENABLED = 'timed_spam_enabled';
-    public const OPTION_MINIMUM_SECONDS = 'timed_spam_minimum_seconds';
+    public const int MINIMUM_FORM_FILLING_SECONDS = 5;
+    public const string OPTION_ENABLED = 'timed_spam_enabled';
+    public const string OPTION_MINIMUM_SECONDS = 'timed_spam_minimum_seconds';
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Form\FormTimeProvider $formTimeProvider
@@ -27,7 +27,7 @@ class TimedFormTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!$options[self::OPTION_ENABLED]) {
             return;
@@ -44,7 +44,7 @@ class TimedFormTypeExtension extends AbstractTypeExtension
      * @param \Symfony\Component\Form\FormInterface $form
      * @param array $options
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         if ($options[self::OPTION_ENABLED] && !$view->parent && $options['compound']) {
             $this->formTimeProvider->generateFormTime($form->getName());
@@ -54,7 +54,7 @@ class TimedFormTypeExtension extends AbstractTypeExtension
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             self::OPTION_ENABLED => false,

@@ -30,8 +30,8 @@ use Symfony\Component\Validator\Constraints;
 
 class ArticleFormType extends AbstractType
 {
-    private const VALIDATION_GROUP_TYPE_SITE = 'typeSite';
-    private const VALIDATION_GROUP_TYPE_LINK = 'typeLink';
+    private const string VALIDATION_GROUP_TYPE_SITE = 'typeSite';
+    private const string VALIDATION_GROUP_TYPE_LINK = 'typeLink';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Seo\SeoSettingFacade $seoSettingFacade
@@ -49,7 +49,7 @@ class ArticleFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $seoMetaDescriptionAttributes = $this->getSeoMetaDescriptionAttributes($options);
 
@@ -193,7 +193,7 @@ class ArticleFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['article', 'domain_id'])
@@ -223,7 +223,7 @@ class ArticleFormType extends AbstractType
      * @param array $options
      * @return string[]
      */
-    private function getSeoMetaDescriptionAttributes(array $options)
+    private function getSeoMetaDescriptionAttributes(array $options): array
     {
         $seoMetaDescriptionAttributes = [];
 

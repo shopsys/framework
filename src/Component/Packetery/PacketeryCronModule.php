@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Component\Packetery;
 
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Model\Order\OrderFacade;
 use Shopsys\FrameworkBundle\Model\Transport\TransportTypeEnum;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class PacketeryCronModule implements SimpleCronModuleInterface
 {

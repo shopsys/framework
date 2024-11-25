@@ -11,8 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DatePickerType extends AbstractType
 {
-    protected const FORMAT_PHP = 'dd.MM.yyyy';
-    public const FORMAT_JS = 'dd.mm.yy';
+    protected const string FORMAT_PHP = 'dd.MM.yyyy';
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Localization\DisplayTimeZoneProviderInterface $displayTimeZoneProvider
@@ -24,7 +23,7 @@ class DatePickerType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $defaults = [
             'widget' => 'single_text',

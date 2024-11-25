@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Transfer;
 
+use Monolog\Logger;
 use Shopsys\FrameworkBundle\Model\Transfer\Exception\UnknownServiceTransferException;
 use Shopsys\FrameworkBundle\Model\Transfer\Issue\TransferIssueDataFactory;
 use Shopsys\FrameworkBundle\Model\Transfer\Issue\TransferIssueFacade;
-use Symfony\Bridge\Monolog\Logger;
 
 class TransferLoggerFactory
 {
@@ -17,7 +17,7 @@ class TransferLoggerFactory
     protected array $transferLoggers = [];
 
     /**
-     * @param \Symfony\Bridge\Monolog\Logger $defaultLogger
+     * @param \Monolog\Logger $defaultLogger
      * @param \Shopsys\FrameworkBundle\Model\Transfer\TransferFacade $transferFacade
      * @param \Shopsys\FrameworkBundle\Model\Transfer\Issue\TransferIssueFacade $transferIssueFacade
      * @param \Shopsys\FrameworkBundle\Model\Transfer\Issue\TransferIssueDataFactory $transferIssueDataFactory

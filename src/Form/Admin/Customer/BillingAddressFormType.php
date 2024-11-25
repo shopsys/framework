@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints;
 
 class BillingAddressFormType extends AbstractType
 {
-    public const VALIDATION_GROUP_COMPANY_CUSTOMER = 'companyCustomer';
+    public const string VALIDATION_GROUP_COMPANY_CUSTOMER = 'companyCustomer';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Country\CountryFacade $countryFacade
@@ -33,7 +33,7 @@ class BillingAddressFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $countries = $this->countryFacade->getAllEnabledOnDomain($options['domain_id']);
 
@@ -168,7 +168,7 @@ class BillingAddressFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('domain_id')

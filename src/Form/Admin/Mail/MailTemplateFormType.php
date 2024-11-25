@@ -24,13 +24,13 @@ use Symfony\Component\Validator\Constraints;
 
 class MailTemplateFormType extends AbstractType
 {
-    public const VALIDATION_GROUP_SEND_MAIL = 'sendMail';
+    public const string VALIDATION_GROUP_SEND_MAIL = 'sendMail';
 
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('subject', TextType::class, [
@@ -87,7 +87,7 @@ class MailTemplateFormType extends AbstractType
      * @param array $options
      * @return \Symfony\Component\Validator\Constraint[]
      */
-    private function getSubjectConstraints(array $options)
+    private function getSubjectConstraints(array $options): array
     {
         $subjectConstraints = [];
 
@@ -115,7 +115,7 @@ class MailTemplateFormType extends AbstractType
      * @param array $options
      * @return \Symfony\Component\Validator\Constraint[]
      */
-    private function getBodyConstraints(array $options)
+    private function getBodyConstraints(array $options): array
     {
         $bodyConstraints = [];
 
@@ -138,7 +138,7 @@ class MailTemplateFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['required_subject_variables', 'required_body_variables', 'entity', 'allow_disable_sending'])

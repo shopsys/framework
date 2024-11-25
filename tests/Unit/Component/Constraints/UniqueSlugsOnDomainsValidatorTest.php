@@ -38,6 +38,8 @@ class UniqueSlugsOnDomainsValidatorTest extends ConstraintValidatorTestCase
             if ($path !== '/existing-url/') {
                 throw new ResourceNotFoundException();
             }
+
+            return [];
         });
 
         $domainRouterFactoryMock = $this->getMockBuilder(DomainRouterFactory::class)

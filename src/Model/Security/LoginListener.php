@@ -8,7 +8,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\Administrator;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class LoginListener
 {
@@ -23,11 +23,11 @@ class LoginListener
     }
 
     /**
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
+     * @param \Symfony\Component\Security\Http\Event\LoginSuccessEvent $event
      */
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(LoginSuccessEvent $event)
     {
-        $token = $event->getAuthenticationToken();
+        $token = $event->getAuthenticatedToken();
         $user = $token->getUser();
 
         if ($user instanceof TimelimitLoginInterface) {

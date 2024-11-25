@@ -30,7 +30,7 @@ class CategoriesType extends AbstractType
      * @param \Symfony\Component\Form\FormInterface $form
      * @param array $options
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['domain_id'] = $options['domain_id'];
         $view->vars['display_as_row'] = $options['display_as_row'];
@@ -40,7 +40,7 @@ class CategoriesType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addViewTransformer($this->categoriesTypeTransformer);
     }
@@ -48,7 +48,7 @@ class CategoriesType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $entryOptionsNormalizer = function (Options $options, $value) {
             $value['domain_id'] = $value['domain_id'] ?? $options['domain_id'];

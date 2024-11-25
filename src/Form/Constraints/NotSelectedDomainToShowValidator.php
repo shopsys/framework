@@ -22,7 +22,7 @@ class NotSelectedDomainToShowValidator extends ConstraintValidator
      * @param array $values
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($values, Constraint $constraint)
+    public function validate(mixed $values, Constraint $constraint): void
     {
         if (!$constraint instanceof NotSelectedDomainToShow) {
             throw new UnexpectedTypeException($constraint, NotSelectedDomainToShow::class);
@@ -32,8 +32,6 @@ class NotSelectedDomainToShowValidator extends ConstraintValidator
 
         if (count($allDomains) === count($values)) {
             $this->context->addViolation($constraint->message);
-
-            return;
         }
     }
 }

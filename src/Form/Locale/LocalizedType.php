@@ -24,7 +24,7 @@ class LocalizedType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         Utils::setArrayDefaultValue($options['entry_options'], 'required', $options['required']);
         Utils::setArrayDefaultValue($options['entry_options'], 'constraints', []);
@@ -60,7 +60,7 @@ class LocalizedType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'compound' => true,

@@ -28,7 +28,7 @@ class UniqueSlugsOnDomainsValidator extends ConstraintValidator
      * @param array $values
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($values, Constraint $constraint)
+    public function validate(mixed $values, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueSlugsOnDomains) {
             throw new UnexpectedTypeException($constraint, UniqueSlugsOnDomains::class);
@@ -42,7 +42,7 @@ class UniqueSlugsOnDomainsValidator extends ConstraintValidator
      * @param array $values
      * @param \Shopsys\FrameworkBundle\Form\Constraints\UniqueSlugsOnDomains $constraint
      */
-    protected function validateDuplication(array $values, UniqueSlugsOnDomains $constraint)
+    protected function validateDuplication(array $values, UniqueSlugsOnDomains $constraint): void
     {
         $slugsCountByDomainId = $this->getSlugsCountIndexedByDomainId($values);
 

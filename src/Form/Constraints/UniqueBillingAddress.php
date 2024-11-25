@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueBillingAddress extends Constraint
 {
-    public const DUPLICATE_BILLING_ADDRESS = 'dc6b5879-cb7a-423b-bd97-d9c667d96fd5';
+    public const string DUPLICATE_BILLING_ADDRESS = 'dc6b5879-cb7a-423b-bd97-d9c667d96fd5';
 
     public string $message = 'Billing address company number {{ company_number }} already exists for domain {{ domain_id }}.';
 
@@ -19,9 +19,8 @@ class UniqueBillingAddress extends Constraint
 
     /**
      * @var array<string, string>
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
-    protected static $errorNames = [
+    protected const array ERROR_NAMES = [
         self::DUPLICATE_BILLING_ADDRESS => 'DUPLICATE_BILLING_ADDRESS',
     ];
 }

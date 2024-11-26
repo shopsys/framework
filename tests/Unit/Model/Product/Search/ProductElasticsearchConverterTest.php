@@ -61,6 +61,8 @@ class ProductElasticsearchConverterTest extends TestCase
             'store_availabilities_information' => [],
             'available_stores_count' => null,
             'stock_quantity' => null,
+            'uuid' => '00000000-0000-0000-0000-000000000000',
+            'unit' => '',
         ];
 
         $converter = new ProductElasticsearchConverter();
@@ -134,6 +136,8 @@ class ProductElasticsearchConverterTest extends TestCase
             'store_availabilities_information' => [],
             'available_stores_count' => null,
             'stock_quantity' => null,
+            'uuid' => '00000000-0000-0000-0000-000000000000',
+            'unit' => '',
         ];
 
         $converter = new ProductElasticsearchConverter();

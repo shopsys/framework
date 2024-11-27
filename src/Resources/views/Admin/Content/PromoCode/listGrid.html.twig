@@ -4,18 +4,13 @@
     {{ 'No promo codes found. You have to create some first.'|trans }}
 {% endblock %}
 
-{% block grid_value_cell_edit_id_percent %}
-    <span class="form-edit-block form-edit-block--size-0">
-        {{ form_widget(form.percent) }}
-        <span class="form-edit-block__info">%</span>
-    </span>
-{% endblock %}
-
 {% block grid_value_cell_id_percent %}
     {% if value|length > 1 %}
         {{ 'Scaled promo code'|trans }}
     {% else %}
-        {% if row['pc']['discountType'] == constant('\\Shopsys\\FrameworkBundle\\Model\\Order\\PromoCode\\PromoCodeTypeEnum::DISCOUNT_TYPE_PERCENT') %}
+        {% if row['pc']['discountType'] == constant('\\Shopsys\\FrameworkBundle\\Model\\Order\\PromoCode\\PromoCodeTypeEnum::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT') %}
+            {{ 'Free transport and payment'|trans }}
+        {% elseif row['pc']['discountType'] == constant('\\Shopsys\\FrameworkBundle\\Model\\Order\\PromoCode\\PromoCodeTypeEnum::DISCOUNT_TYPE_PERCENT') %}
             {{ value[0]|formatPercent }}
         {% else %}
             {{ value[0]|priceFromDecimalStringWithCurrencyAdmin }}
@@ -25,11 +20,6 @@
 
 {% block grid_pager_totalcount %}
     {% set entityName = 'promo codes'|trans %}
-    {{ parent() }}
-{% endblock %}
-
-{% block grid_inline_edit_add_button %}
-    {% set addEntity = 'Create promo code'|trans %}
     {{ parent() }}
 {% endblock %}
 

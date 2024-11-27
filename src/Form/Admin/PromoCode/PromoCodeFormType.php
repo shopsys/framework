@@ -114,6 +114,9 @@ class PromoCodeFormType extends AbstractType
                 'multiple' => false,
                 'choices' => $this->promoCodeTypeEnum->getAllIndexedByTranslations(),
                 'label' => t('Discount type'),
+                'attr' => [
+                    'class' => 'js-promo-code-discount-type',
+                ],
             ])
             ->add('remainingUses', IntegerType::class, [
                 'label' => t('Remaining number of uses'),
@@ -151,6 +154,10 @@ class PromoCodeFormType extends AbstractType
 
         $limitsGroup = $builder->create('limitsGroup', GroupType::class, [
             'label' => t('Apply according to the total price of the order'),
+            'js_container' => [
+                'container_class' => 'js-promo-code-limits-group',
+                'data_type' => null,
+            ],
         ]);
 
         $limitsGroup->add(
@@ -166,6 +173,7 @@ class PromoCodeFormType extends AbstractType
                     new Constraints\Count([
                         'min' => 1,
                         'minMessage' => 'Please enter at least one discount limit',
+                        'groups' => [self::VALIDATION_GROUP_TYPE_PERCENT, self::VALIDATION_GROUP_TYPE_NOMINAL],
                     ]),
                 ],
             ]),
@@ -354,7 +362,7 @@ class PromoCodeFormType extends AbstractType
 
                     if ($promoCodeData->discountType === PromoCodeTypeEnum::DISCOUNT_TYPE_NOMINAL) {
                         $validationGroups[] = self::VALIDATION_GROUP_TYPE_NOMINAL;
-                    } else {
+                    } elseif ($promoCodeData->discountType === PromoCodeTypeEnum::DISCOUNT_TYPE_PERCENT) {
                         $validationGroups[] = self::VALIDATION_GROUP_TYPE_PERCENT;
                     }
 

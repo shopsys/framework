@@ -10,6 +10,7 @@ class PromoCodeTypeEnum extends AbstractEnum
 {
     public const string DISCOUNT_TYPE_PERCENT = 'percent';
     public const string DISCOUNT_TYPE_NOMINAL = 'nominal';
+    public const string DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT = 'free_transport_payment';
 
     /**
      * @return array<string, string>
@@ -19,6 +20,7 @@ class PromoCodeTypeEnum extends AbstractEnum
         return [
             t('Percents') => static::DISCOUNT_TYPE_PERCENT,
             t('Nominal') => static::DISCOUNT_TYPE_NOMINAL,
+            t('Free transport and payment') => static::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT,
         ];
     }
 }

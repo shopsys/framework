@@ -55,9 +55,6 @@ msgstr "Předmět e-mailu nesmí být delší než {{ limit }} znaků"
 msgid "Email {{ email }} is already registered"
 msgstr "E-mail {{ email }} je již registrován"
 
-msgid "Enter an integer, please"
-msgstr "Zadejte celé číslo, prosím"
-
 msgid "Enter date in DD.MM.YYYY format"
 msgstr "Datum zadávejte ve formátu dd.mm.rrrr"
 
@@ -411,6 +408,9 @@ msgstr "Vyplňte prosím telefon"
 
 msgid "Please enter the filename"
 msgstr "Prosím vyplňte název souboru"
+
+msgid "Please enter the number of delivery days."
+msgstr "Zadejte prosím počet dní k doručení"
 
 msgid "Please enter the positive value."
 msgstr "Vyplňte prosím kladnou hodnotu."

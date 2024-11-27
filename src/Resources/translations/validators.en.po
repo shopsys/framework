@@ -55,9 +55,6 @@ msgstr ""
 msgid "Email {{ email }} is already registered"
 msgstr ""
 
-msgid "Enter an integer, please"
-msgstr ""
-
 msgid "Enter date in DD.MM.YYYY format"
 msgstr ""
 
@@ -410,6 +407,9 @@ msgid "Please enter telephone number"
 msgstr ""
 
 msgid "Please enter the filename"
+msgstr ""
+
+msgid "Please enter the number of delivery days."
 msgstr ""
 
 msgid "Please enter the positive value."

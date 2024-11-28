@@ -111,6 +111,8 @@ class ApplyNominalPromoCodeMiddlewareTest extends MiddlewareTestCase
     {
         yield [PromoCodeTypeEnum::DISCOUNT_TYPE_PERCENT];
 
+        yield [PromoCodeTypeEnum::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT];
+
         yield [null];
     }
 

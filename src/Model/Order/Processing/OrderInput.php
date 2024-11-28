@@ -157,4 +157,18 @@ class OrderInput
     {
         return $this->domainConfig;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFreeTransportAndPaymentPromoCodeApplied(): bool
+    {
+        foreach ($this->getPromoCodes() as $appliedPromoCode) {
+            if ($appliedPromoCode->isFreeTransportAndPaymentType()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

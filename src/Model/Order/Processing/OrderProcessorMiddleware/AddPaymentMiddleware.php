@@ -54,6 +54,7 @@ class AddPaymentMiddleware implements OrderProcessorMiddlewareInterface
             $currency,
             $orderProcessingData->orderData->getProductsTotalPriceAfterAppliedDiscounts(),
             $domainId,
+            $orderProcessingData->orderData->freeTransportAndPaymentApplied,
         );
 
         $orderItemData = $this->createPaymentItemData($paymentPrice, $payment, $orderProcessingData->getDomainConfig());

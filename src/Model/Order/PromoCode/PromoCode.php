@@ -205,4 +205,12 @@ class PromoCode
     {
         return $this->prefix;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFreeTransportAndPaymentType(): bool
+    {
+        return $this->discountType === PromoCodeTypeEnum::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT;
+    }
 }

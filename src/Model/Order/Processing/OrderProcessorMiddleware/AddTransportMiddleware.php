@@ -58,6 +58,7 @@ class AddTransportMiddleware implements OrderProcessorMiddlewareInterface
                 $orderProcessingData->orderData->getProductsTotalPriceAfterAppliedDiscounts(),
                 $domainId,
                 $cartTotalWeight,
+                $orderProcessingData->orderData->freeTransportAndPaymentApplied,
             );
         } catch (TransportPriceNotFoundException) {
             return $orderProcessingStack->processNext($orderProcessingData);

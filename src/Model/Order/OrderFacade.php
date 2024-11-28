@@ -362,6 +362,7 @@ class OrderFacade
             $order->getCurrency(),
             $order->getTotalProductsPrice(),
             $order->getDomainId(),
+            $order->isFreeTransportAndPaymentApplied(),
         );
 
         $orderPaymentData = $this->orderItemDataFactory->create(OrderItemTypeEnum::TYPE_PAYMENT);

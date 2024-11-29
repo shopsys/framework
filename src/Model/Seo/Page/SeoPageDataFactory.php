@@ -56,8 +56,7 @@ class SeoPageDataFactory
         foreach ($this->domain->getAll() as $domain) {
             $domainId = $domain->getId();
 
-            $seoPageData->pageSlugsIndexedByDomainId[$domainId] = $this->generatePageSlug($domainId, $seoPage);
-
+            $seoPageData->pageSlugsIndexedByDomainId[$domainId] = $seoPage->getPageSlug($domainId);
             $seoPageData->seoMetaDescriptionsIndexedByDomainId[$domainId] = $seoPage->getSeoMetaDescription($domainId);
             $seoPageData->seoTitlesIndexedByDomainId[$domainId] = $seoPage->getSeoTitle($domainId);
             $seoPageData->canonicalUrlsIndexedByDomainId[$domainId] = $seoPage->getCanonicalUrl($domainId);
@@ -67,20 +66,5 @@ class SeoPageDataFactory
         }
 
         $seoPageData->defaultPage = $seoPage->isDefaultPage();
-    }
-
-    /**
-     * @param int $domainId
-     * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage $seoPage
-     * @return string
-     */
-    protected function generatePageSlug(int $domainId, SeoPage $seoPage): string
-    {
-        $seoPageDomainRouter = $this->domainRouterFactory->getRouter($domainId);
-        $friendlyUrl = $seoPageDomainRouter->generate('front_page_seo', [
-            'id' => $seoPage->getId(),
-        ]);
-
-        return SeoPageSlugTransformer::transformFriendlyUrlToSeoPageSlug($friendlyUrl);
     }
 }

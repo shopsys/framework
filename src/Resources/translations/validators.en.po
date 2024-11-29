@@ -514,6 +514,12 @@ msgstr ""
 msgid "Same title is used on another domain"
 msgstr ""
 
+msgid "Seo page with slug {{ pageSlug }} already exists"
+msgstr ""
+
+msgid "Slug can contain only letters, numbers, hyphens, underscores and slashes"
+msgstr ""
+
 msgid "Status name cannot be longer than {{ limit }} characters"
 msgstr ""
 

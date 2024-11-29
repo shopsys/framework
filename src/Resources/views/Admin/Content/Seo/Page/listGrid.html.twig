@@ -9,10 +9,6 @@
     {{ parent() }}
 {% endblock %}
 
-{% block grid_value_cell_id_pageName %}
-    <a href="{{ url('admin_seopage_edit', { id: row.sp.id }) }}">{{ row.sp.pageName }}</a>
-{% endblock %}
-
 {% block grid_value_cell_id_seoPageTargetUrl %}
     <a href="{{ row.seoPageTargetUrl }}">{{ row.seoPageSlug }}</a>
 {% endblock %}

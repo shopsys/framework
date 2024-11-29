@@ -18,13 +18,12 @@ use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage;
 
 class HreflangLinksFacade
 {
-    protected const ROUTE_PRODUCT_DETAIL = 'front_product_detail';
-    protected const ROUTE_PRODUCT_LIST = 'front_product_list';
-    protected const ROUTE_BRAND_DETAIL = 'front_brand_detail';
-    protected const ROUTE_FLAG_DETAIL = 'front_flag_detail';
-    protected const ROUTE_BLOG_ARTICLE_DETAIL = 'front_blogarticle_detail';
-    protected const ROUTE_BLOG_CATEGORY_DETAIL = 'front_blogcategory_detail';
-    protected const ROUTE_PAGE_SEO = 'front_page_seo';
+    protected const string ROUTE_PRODUCT_DETAIL = 'front_product_detail';
+    protected const string ROUTE_PRODUCT_LIST = 'front_product_list';
+    protected const string ROUTE_BRAND_DETAIL = 'front_brand_detail';
+    protected const string ROUTE_FLAG_DETAIL = 'front_flag_detail';
+    protected const string ROUTE_BLOG_ARTICLE_DETAIL = 'front_blogarticle_detail';
+    protected const string ROUTE_BLOG_CATEGORY_DETAIL = 'front_blogcategory_detail';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Seo\SeoSettingFacade $seoSettingFacade
@@ -169,7 +168,7 @@ class HreflangLinksFacade
      */
     public function getForSeoPage(SeoPage $seoPage, int $currentDomainId): array
     {
-        return $this->doGetHrefLinks($seoPage, $currentDomainId, static::ROUTE_PAGE_SEO);
+        return $this->doGetHrefLinks($seoPage, $currentDomainId, '');
     }
 
     /**
@@ -194,7 +193,11 @@ class HreflangLinksFacade
                 continue;
             }
 
-            $result[] = $this->createHreflangLink($domainId, $routeName, $entity->getId());
+            if ($entity instanceof SeoPage) {
+                $result[] = $this->createHreflangLinkForSeoPage($domainId, $entity);
+            } else {
+                $result[] = $this->createHreflangLink($domainId, $routeName, $entity->getId());
+            }
         }
 
         return $result;
@@ -209,5 +212,18 @@ class HreflangLinksFacade
         $alternativeDomainIds = $this->seoSettingFacade->getAlternativeDomainsForDomain($currentDomainId);
 
         return [$currentDomainId, ...$alternativeDomainIds];
+    }
+
+    /**
+     * @param int $domainId
+     * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage $seoPage
+     * @return \Shopsys\FrameworkBundle\Model\Seo\HreflangLink
+     */
+    protected function createHreflangLinkForSeoPage(int $domainId, SeoPage $seoPage): HreflangLink
+    {
+        return new HreflangLink(
+            $this->domain->getDomainConfigById($domainId)->getLocale(),
+            $this->domain->getUrl() . '/' . $seoPage->getPageSlug($domainId),
+        );
     }
 }

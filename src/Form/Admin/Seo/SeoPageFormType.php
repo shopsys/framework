@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Form\Admin\Seo;
 
 use Shopsys\FormTypesBundle\MultidomainType;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Form\Constraints\UniqueSeoPageSlug;
 use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage;
@@ -21,6 +23,14 @@ use Symfony\Component\Validator\Constraints;
 
 class SeoPageFormType extends AbstractType
 {
+    /**
+     * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
+     */
+    public function __construct(
+        protected readonly Domain $domain,
+    ) {
+    }
+
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
@@ -67,6 +77,19 @@ class SeoPageFormType extends AbstractType
             'label' => t('Basic information'),
         ]);
 
+        $optionsByDomainId = [];
+
+        foreach ($this->domain->getAll() as $domain) {
+            $optionsByDomainId[$domain->getId()] = [
+                'constraints' => [
+                    new UniqueSeoPageSlug([
+                        'ignoredSeoPage' => $seoPage,
+                        'domainId' => $domain->getId(),
+                    ]),
+                ],
+            ];
+        }
+
         $group
             ->add('pageName', TextType::class, [
                 'label' => t('Page name'),
@@ -80,10 +103,15 @@ class SeoPageFormType extends AbstractType
                 'entry_type' => TextType::class,
                 'disabled' => $seoPage !== null,
                 'required' => true,
-                'label' => t('Page URL'),
+                'label' => t('Page slug'),
+                'options_by_domain_id' => $optionsByDomainId,
                 'entry_options' => [
                     'constraints' => [
                         new Constraints\NotBlank(['message' => 'Please enter page URL']),
+                        new Constraints\Regex([
+                            'pattern' => '/^[\w_\-\/]+$/',
+                            'message' => 'Slug can contain only letters, numbers, hyphens, underscores and slashes',
+                        ]),
                     ],
                 ],
             ]);

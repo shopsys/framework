@@ -79,6 +79,10 @@ class MailController extends AdminBaseController
                 'entity' => $mailTemplate,
                 'required_subject_variables' => $mailTemplateVariables->getRequiredSubjectVariables(),
                 'required_body_variables' => $mailTemplateVariables->getRequiredBodyVariables(),
+                'body_variables' => $this->transformBodyVariables(
+                    $mailTemplateVariables->getLabeledVariables(),
+                    $mailTemplateVariables->getRequiredBodyVariables(),
+                ),
             ],
         );
         $form->handleRequest($request);
@@ -115,6 +119,26 @@ class MailController extends AdminBaseController
             'labeledVariables' => $mailTemplateVariables->getLabeledVariables(),
             'entity' => $mailTemplate,
         ]);
+    }
+
+    /**
+     * @param string[] $variables
+     * @param string[] $requiredVariables
+     * @return array<int, array<string, bool|int|string>>
+     */
+    protected function transformBodyVariables(array $variables, array $requiredVariables): array
+    {
+        $transformedVariables = [];
+
+        foreach ($variables as $placeholder => $label) {
+            $transformedVariables[] = [
+                'label' => $label,
+                'placeholder' => $placeholder,
+                'isRequired' => in_array($placeholder, $requiredVariables, true),
+            ];
+        }
+
+        return $transformedVariables;
     }
 
     /**

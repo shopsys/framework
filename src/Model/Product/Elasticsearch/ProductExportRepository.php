@@ -153,6 +153,8 @@ class ProductExportRepository
             ProductExportFieldProvider::PARTNO => $product->getPartno(),
             ProductExportFieldProvider::EAN => $product->getEan(),
             ProductExportFieldProvider::NAME => $product->getName($locale),
+            ProductExportFieldProvider::NAME_PREFIX => $product->getNamePrefix($locale),
+            ProductExportFieldProvider::NAME_SUFFIX => $product->getNameSuffix($locale),
             ProductExportFieldProvider::DESCRIPTION => $product->getDescription($domainId),
             ProductExportFieldProvider::SHORT_DESCRIPTION => $product->getShortDescription($domainId),
             ProductExportFieldProvider::BRAND => $product->getBrand() ? $product->getBrand()->getId() : '',
@@ -171,7 +173,6 @@ class ProductExportRepository
             ProductExportFieldProvider::CALCULATED_SELLING_DENIED => $product->getCalculatedSellingDenied(),
             ProductExportFieldProvider::SELLING_DENIED => $product->isSellingDenied(),
             ProductExportFieldProvider::AVAILABILITY => $this->productAvailabilityFacade->getProductAvailabilityInformationByDomainId($product, $domainId),
-            ProductExportFieldProvider::AVAILABILITY_DISPATCH_TIME => $this->productAvailabilityFacade->getProductAvailabilityDaysByDomainId($product, $domainId),
             ProductExportFieldProvider::IS_MAIN_VARIANT => $product->isMainVariant(),
             ProductExportFieldProvider::IS_VARIANT => $product->isVariant(),
             ProductExportFieldProvider::DETAIL_URL => $this->extractDetailUrl($domainId, $product),
@@ -188,6 +189,9 @@ class ProductExportRepository
             ProductExportFieldProvider::HREFLANG_LINKS => $this->hreflangLinksFacade->getForProduct($product, $domainId),
             ProductExportFieldProvider::PRODUCT_TYPE => $this->extractProductType($product, $domainId),
             ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE => $this->extractPriorityByProductType($product, $domainId),
+            ProductExportFieldProvider::AVAILABLE_STORES_COUNT => $this->productAvailabilityFacade->getAvailableStoresCount($product, $domainId),
+            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION => $this->extractStoreAvailabilitiesInformation($product, $domainId),
+            ProductExportFieldProvider::AVAILABILITY_STATUS => $this->productAvailabilityFacade->getProductAvailabilityStatusByDomainId($product, $domainId),
 
             default => throw new InvalidArgumentException(sprintf('There is no definition for exporting "%s" field to Elasticsearch', $field)),
         };
@@ -342,10 +346,12 @@ class ProductExportRepository
     {
         $productType = $this->extractProductType($product, $domainId);
 
+        $isProductAvailable = $this->productAvailabilityFacade->isProductAvailableOnDomainCached($product, $domainId);
+
         return match ($productType) {
-            ProductTypeEnum::TYPE_BASIC => 20,
-            ProductTypeEnum::TYPE_INQUIRY => 10,
-            default => -100,
+            ProductTypeEnum::TYPE_BASIC => $isProductAvailable ? 20 : 5,
+            ProductTypeEnum::TYPE_INQUIRY => $isProductAvailable ? 10 : 0,
+            default => $isProductAvailable ? -100 : -200,
         };
     }
 
@@ -483,5 +489,28 @@ class ProductExportRepository
     protected function reset(): void
     {
         $this->inMemoryCache->deleteAllItemsInNamespace(static::VARIANTS_CACHE_NAMESPACE);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return array
+     */
+    protected function extractStoreAvailabilitiesInformation(Product $product, int $domainId): array
+    {
+        $storeAvailabilitiesInformation = $this->productAvailabilityFacade->getProductStoresAvailabilitiesInformationByDomainIdIndexedByStoreId($product, $domainId);
+
+        $result = [];
+
+        foreach ($storeAvailabilitiesInformation as $item) {
+            $result[] = [
+                'store_name' => $item->getStoreName(),
+                'store_id' => $item->getStoreId(),
+                'availability_information' => $item->getAvailabilityInformation(),
+                'availability_status' => $item->getAvailabilityStatus(),
+            ];
+        }
+
+        return $result;
     }
 }

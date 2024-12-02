@@ -2440,10 +2440,16 @@ msgstr ""
 msgid "Name in the corresponding locale must be filled-in in order to display the file on the storefront"
 msgstr ""
 
+msgid "Name prefix"
+msgstr ""
+
 msgid "Name serves only for internal use within the administration"
 msgstr ""
 
 msgid "Name serves only for internal use within the administration."
+msgstr ""
+
+msgid "Name suffix"
 msgstr ""
 
 msgid "Names"
@@ -2705,6 +2711,9 @@ msgid "Notification bar - full"
 msgstr ""
 
 msgid "Notification bar - view"
+msgstr ""
+
+msgid "Number of delivery days for out of stock products in XML feeds"
 msgstr ""
 
 msgid "Number of generated promo codes"
@@ -3655,6 +3664,9 @@ msgstr ""
 msgid "Set prices manually"
 msgstr ""
 
+msgid "Setting for domain \"%domainName%\" was saved."
+msgstr "Nastavení pro doménu \"%domainName%\" bylo uloženo."
+
 msgid "Settings"
 msgstr ""
 
@@ -3866,6 +3878,12 @@ msgid "The optimal size of the icon is 46x26 px. Only PNG format is allowed."
 msgstr ""
 
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
+msgstr ""
+
+msgid "The stock quantities are set for the product variants separately."
+msgstr ""
+
+msgid "The value is used for: <ul> <li> <a href=\"https://napoveda.zbozi.cz/en/xml-feed-2/specification/#DELIVERY_DATE\">DELIVERY_DATE</a> setting in Zbozi.cz XML feed </li> <li> <a href=\"https://www.mergado.com/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-10-en.pdf\">DELIVERY_DAYS</a> setting in Mergado XML feed </li> </ul>"
 msgstr ""
 
 msgid "There are no parameter values of type color yet."
@@ -4264,9 +4282,6 @@ msgstr ""
 msgid "Warehouse overview"
 msgstr ""
 
-msgid "Warehouse setting %domainName% saved."
-msgstr ""
-
 msgid "Warehouse settings"
 msgstr ""
 
@@ -4301,6 +4316,9 @@ msgid "XML Feeds"
 msgstr ""
 
 msgid "XML availability feeds"
+msgstr ""
+
+msgid "XML feeds settings"
 msgstr ""
 
 msgid "Yes"
@@ -4526,9 +4544,6 @@ msgid "without positioning"
 msgstr ""
 
 msgid "{0,1} Available in one week|[2,Inf] Available in %count% weeks"
-msgstr ""
-
-msgid "{0}|{1}Available in <span class=\"box-detail__avail__text__strong\">%count%</span> store|[2,Inf]Available in <span class=\"box-detail__avail__text__strong\">%count%</span> stores"
 msgstr ""
 
 msgid "{1} There is one parameter slider that does not have its numeric values filled in.|[2,Inf] There are %count% parameter sliders that does not have its numeric values filled in."

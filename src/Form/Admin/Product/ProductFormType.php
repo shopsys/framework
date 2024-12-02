@@ -23,13 +23,13 @@ use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Form\Locale\LocalizedType;
 use Shopsys\FrameworkBundle\Form\LocalizedFullWidthType;
+use Shopsys\FrameworkBundle\Form\MessageType;
 use Shopsys\FrameworkBundle\Form\MultiLocaleFileUploadType;
 use Shopsys\FrameworkBundle\Form\ProductParameterValueType;
 use Shopsys\FrameworkBundle\Form\ProductsType;
 use Shopsys\FrameworkBundle\Form\Transformers\ProductParameterValueToProductParameterValuesLocalizedTransformer;
 use Shopsys\FrameworkBundle\Form\Transformers\RemoveDuplicatesFromArrayTransformer;
 use Shopsys\FrameworkBundle\Form\UrlListType;
-use Shopsys\FrameworkBundle\Form\WarningMessageType;
 use Shopsys\FrameworkBundle\Model\Category\CategoryFacade;
 use Shopsys\FrameworkBundle\Model\Product\Brand\BrandFacade;
 use Shopsys\FrameworkBundle\Model\Product\Flag\FlagFacade;
@@ -107,18 +107,39 @@ class ProductFormType extends AbstractType
             ];
         }
 
-        $builder->add('name', LocalizedFullWidthType::class, [
-            'required' => false,
-            'entry_options' => [
-                'constraints' => [
-                    new Constraints\Length(
-                        ['max' => 255, 'maxMessage' => 'Product name cannot be longer than {{ limit }} characters'],
-                    ),
+        $builder
+            ->add('namePrefix', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(['max' => 255, 'maxMessage' => 'Product prefix name cannot be longer than {{ limit }} characters']),
+                    ],
                 ],
-            ],
-            'label' => t('Name'),
-            'render_form_row' => false,
-        ]);
+                'label' => t('Name prefix'),
+                'render_form_row' => false,
+            ])
+            ->add('name', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(
+                            ['max' => 255, 'maxMessage' => 'Product name cannot be longer than {{ limit }} characters'],
+                        ),
+                    ],
+                ],
+                'label' => t('Name'),
+                'render_form_row' => false,
+            ])
+            ->add('nameSuffix', LocalizedFullWidthType::class, [
+                'required' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new Constraints\Length(['max' => 255, 'maxMessage' => 'Product suffix name cannot be longer than {{ limit }} characters']),
+                    ],
+                ],
+                'label' => t('Name suffix'),
+                'render_form_row' => false,
+            ]);
 
         if ($this->isProductVariant($product) || $this->isProductMainVariant($product)) {
             $builder->add($this->createVariantGroup($builder, $product));
@@ -127,7 +148,7 @@ class ProductFormType extends AbstractType
         $builder->add($this->createBasicInformationGroup($builder, $product, $disabledItemInMainVariantAttr));
         $builder->add($this->createDisplayAvailabilityGroup($builder, $product));
         $builder->add($this->createPricesGroup($builder, $product));
-        $builder->add($this->createStocksGroup($builder));
+        $builder->add($this->createStocksGroup($builder, $product));
         $builder->add($this->createDescriptionsGroup($builder, $product));
         $builder->add($this->createShortDescriptionsGroup($builder, $product));
         $builder->add($this->createShortDescriptionsUspGroup($builder));
@@ -434,7 +455,7 @@ class ProductFormType extends AbstractType
             && $product->getCalculatedSellingDenied()
         ) {
             $builderDisplayAvailabilityGroup
-                ->add('productCalculatedSellingDeniedInfo', WarningMessageType::class, [
+                ->add('productCalculatedSellingDeniedInfo', MessageType::class, [
                     'data' => t('Product is excluded from the sale'),
                 ]);
         }
@@ -505,19 +526,27 @@ class ProductFormType extends AbstractType
 
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product|null $product
      * @return \Symfony\Component\Form\FormBuilderInterface
      */
-    private function createStocksGroup(FormBuilderInterface $builder)
+    private function createStocksGroup(FormBuilderInterface $builder, ?Product $product): FormBuilderInterface
     {
         $stockGroupBuilder = $builder->create('stocksGroup', GroupType::class, [
             'label' => t('Warehouses'),
         ]);
 
-        $stockGroupBuilder->add('productStockData', CollectionType::class, [
-            'required' => false,
-            'entry_type' => ProductStockFormType::class,
-            'render_form_row' => false,
-        ]);
+        if ($this->isProductMainVariant($product)) {
+            $stockGroupBuilder
+                ->add('productStockData', DisplayOnlyType::class, [
+                    'data' => t('The stock quantities are set for the product variants separately.'),
+                ]);
+        } else {
+            $stockGroupBuilder->add('productStockData', CollectionType::class, [
+                'required' => false,
+                'entry_type' => ProductStockFormType::class,
+                'render_form_row' => false,
+            ]);
+        }
 
         return $stockGroupBuilder;
     }

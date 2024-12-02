@@ -53,15 +53,15 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return int|null
+     * @return int
      */
-    public function getProductAvailabilityDaysByDomainId(Product $product, int $domainId): ?int
+    public function getProductAvailabilityDaysForFeedsByDomainId(Product $product, int $domainId): int
     {
         if ($this->isProductAvailableOnDomainCached($product, $domainId)) {
             return 0;
         }
 
-        return null;
+        return $this->setting->getForDomain(Setting::FEED_DELIVERY_DAYS_FOR_OUT_OF_STOCK_PRODUCTS, $domainId);
     }
 
     /**
@@ -83,25 +83,14 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return string
+     * @return int|null
      */
-    public function getProductAvailableStoresCountInformationByDomainId(Product $product, int $domainId): string
+    public function getAvailableStoresCount(Product $product, int $domainId): ?int
     {
-        $count = $this->getAvailableStoresCount($product, $domainId);
+        if ($product->isMainVariant()) {
+            return null;
+        }
 
-        return t(
-            '{0}|{1}Available in <span class="box-detail__avail__text__strong">%count%</span> store|[2,Inf]Available in <span class="box-detail__avail__text__strong">%count%</span> stores',
-            ['%count%' => $count],
-        );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @param int $domainId
-     * @return int
-     */
-    public function getAvailableStoresCount(Product $product, int $domainId): int
-    {
         $productStocks = $this->productStockFacade->getProductStocksByProduct($product);
 
         $count = 0;
@@ -139,6 +128,10 @@ class ProductAvailabilityFacade
         Product $product,
         int $domainId,
     ): array {
+        if ($product->isMainVariant()) {
+            return [];
+        }
+
         $stores = $this->storeFacade->getStoresByDomainId($domainId);
 
         $isAvailable = $this->isProductAvailableOnDomainCached($product, $domainId);
@@ -229,10 +222,14 @@ class ProductAvailabilityFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param int $domainId
-     * @return int
+     * @return int|null
      */
-    public function getGroupedStockQuantityByProductAndDomainId(Product $product, int $domainId): int
+    public function getGroupedStockQuantityByProductAndDomainId(Product $product, int $domainId): ?int
     {
+        if ($product->isMainVariant()) {
+            return null;
+        }
+
         $productStocksByDomainIdIndexedByStockId = $this->productStockFacade->getProductStocksByProductAndDomainIdIndexedByStockId($product, $domainId);
 
         return $this->sumProductStockQuantities($productStocksByDomainIdIndexedByStockId);
@@ -269,5 +266,27 @@ class ProductAvailabilityFacade
     public function getOutOfStockText(string $domainLocale): string
     {
         return t('Out of stock', [], Translator::DEFAULT_TRANSLATION_DOMAIN, $domainLocale);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @param int $quantityToAdd
+     * @return int|null
+     */
+    public function getNotOnStockQuantity(Product $product, int $domainId, int $quantityToAdd): ?int
+    {
+        if ($product->isMainVariant()) {
+            return null;
+        }
+
+        $notOnStockQuantity = 0;
+        $productTotalQuantity = $this->getGroupedStockQuantityByProductAndDomainId($product, $domainId);
+
+        if ($quantityToAdd > $productTotalQuantity) {
+            $notOnStockQuantity = $quantityToAdd - $productTotalQuantity;
+        }
+
+        return $notOnStockQuantity;
     }
 }

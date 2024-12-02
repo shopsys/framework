@@ -409,6 +409,9 @@ msgstr ""
 msgid "Please enter the filename"
 msgstr ""
 
+msgid "Please enter the number of delivery days."
+msgstr ""
+
 msgid "Please enter the positive value."
 msgstr ""
 
@@ -472,6 +475,12 @@ msgstr ""
 msgid "Product parameters are duplicate."
 msgstr ""
 
+msgid "Product prefix name cannot be longer than {{ limit }} characters"
+msgstr ""
+
+msgid "Product suffix name cannot be longer than {{ limit }} characters"
+msgstr ""
+
 msgid "Product with entered catalog number already exists"
 msgstr ""
 
@@ -494,6 +503,9 @@ msgid "Promo code \"%promoCode%\" is not valid for any product in cart."
 msgstr ""
 
 msgid "Promo code \"%promoCode%\" is not yet valid."
+msgstr ""
+
+msgid "Quantity must be an integer"
 msgstr ""
 
 msgid "Quantity must be greater than {{ compared_value }}"

@@ -293,15 +293,30 @@ class Product extends AbstractTranslatableEntity
     /**
      * @return string[]
      */
-    public function getFullnames()
+    public function getFullNames()
     {
         $fullNamesByLocale = [];
 
         foreach ($this->translations as $translation) {
-            $fullNamesByLocale[$translation->getLocale()] = $this->getName($translation->getLocale());
+            $fullNamesByLocale[$translation->getLocale()] = $this->getFullName($translation->getLocale());
         }
 
         return $fullNamesByLocale;
+    }
+
+    /**
+     * @param string|null $locale
+     * @return string|null
+     */
+    public function getFullName(?string $locale = null): ?string
+    {
+        return trim(
+            $this->getNamePrefix($locale)
+            . ' '
+            . $this->getName($locale)
+            . ' '
+            . $this->getNameSuffix($locale),
+        );
     }
 
     /**
@@ -651,6 +666,14 @@ class Product extends AbstractTranslatableEntity
         foreach ($productData->variantAlias as $locale => $variantAlias) {
             $this->translation($locale)->setVariantAlias($variantAlias);
         }
+
+        foreach ($productData->namePrefix as $locale => $namePrefix) {
+            $this->translation($locale)->setNamePrefix($namePrefix);
+        }
+
+        foreach ($productData->nameSuffix as $locale => $nameSuffix) {
+            $this->translation($locale)->setNameSuffix($nameSuffix);
+        }
     }
 
     /**
@@ -947,5 +970,23 @@ class Product extends AbstractTranslatableEntity
     public function getExcludedTransports()
     {
         return $this->excludedTransports->getValues();
+    }
+
+    /**
+     * @param string|null $locale
+     * @return string|null
+     */
+    public function getNamePrefix($locale = null)
+    {
+        return $this->translation($locale)->getNamePrefix();
+    }
+
+    /**
+     * @param string|null $locale
+     * @return string|null
+     */
+    public function getNameSuffix($locale = null)
+    {
+        return $this->translation($locale)->getNameSuffix();
     }
 }

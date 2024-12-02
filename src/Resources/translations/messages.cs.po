@@ -2440,11 +2440,17 @@ msgstr "Název ve výchozím jazyce není vyplněn"
 msgid "Name in the corresponding locale must be filled-in in order to display the file on the storefront"
 msgstr "Pro zobrazení souboru na doméně musí být vyplněn název v odpovídajícím jazyce"
 
+msgid "Name prefix"
+msgstr "Prefix názvu"
+
 msgid "Name serves only for internal use within the administration"
 msgstr "Název slouží pouze pro interní použití v rámci administrace"
 
 msgid "Name serves only for internal use within the administration."
 msgstr "Název slouží pouze pro interní použití v rámci administrace."
+
+msgid "Name suffix"
+msgstr "Sufix názvu"
 
 msgid "Names"
 msgstr "Názvy (web)"
@@ -2707,6 +2713,9 @@ msgstr "Notifikační lišta - vše"
 msgid "Notification bar - view"
 msgstr "Notifikační lišta - zobrazení"
 
+msgid "Number of delivery days for out of stock products in XML feeds"
+msgstr "Počet dní k doručení neskladových položek pro XML feedy"
+
 msgid "Number of generated promo codes"
 msgstr "Počet generovaných kupónů"
 
@@ -2861,7 +2870,7 @@ msgid "Origin"
 msgstr "Původ"
 
 msgid "Out of stock"
-msgstr "Vyprodáno"
+msgstr "Aktuálně nedostupné"
 
 msgid "Package tracking"
 msgstr "Sledování zásilky"
@@ -3655,6 +3664,9 @@ msgstr "Nastavit jako výchozí"
 msgid "Set prices manually"
 msgstr "Manuálně nastavené ceny"
 
+msgid "Setting for domain \"%domainName%\" was saved."
+msgstr ""
+
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -3867,6 +3879,12 @@ msgstr "Optimální velikost ikony je 46x26 px. Je povolen pouze PNG formát."
 
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr "Produkt již není v katalogu. Toto bylo katalogové číslo v době vytvoření poptávky."
+
+msgid "The stock quantities are set for the product variants separately."
+msgstr "Skladové zásoby se nastavují zvlášť pro jednotlivé varianty."
+
+msgid "The value is used for: <ul> <li> <a href=\"https://napoveda.zbozi.cz/en/xml-feed-2/specification/#DELIVERY_DATE\">DELIVERY_DATE</a> setting in Zbozi.cz XML feed </li> <li> <a href=\"https://www.mergado.com/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-10-en.pdf\">DELIVERY_DAYS</a> setting in Mergado XML feed </li> </ul>"
+msgstr "Hodnota se používá pro: <ul> <li> nastavení <a href=\"https://napoveda.zbozi.cz/xml-feed/specifikace/#DELIVERY_DATE\">DELIVERY_DATE</a> v XML feedu Zbozi.cz</li> <li> nastavení <a href=\"https://www.mergado.cz/sites/default/files/users/documents/shopsystems/mergado-product-xml-1-4.pdf\">DELIVERY_DAYS</a> v XML feedu Mergado</li> </ul>"
 
 msgid "There are no parameter values of type color yet."
 msgstr "Žádná hodnota parametru typu barva zatím nebyla vytvořena."
@@ -4264,9 +4282,6 @@ msgstr "Sklad <strong>{{ name }}</strong> byl nastaven jako výchozí."
 msgid "Warehouse overview"
 msgstr "Přehled skladů"
 
-msgid "Warehouse setting %domainName% saved."
-msgstr "Nastavení %domainName% skladů uloženo."
-
 msgid "Warehouse settings"
 msgstr "Nastavení skladů"
 
@@ -4302,6 +4317,9 @@ msgstr "XML Feedy"
 
 msgid "XML availability feeds"
 msgstr "XML dostupnostní feedy"
+
+msgid "XML feeds settings"
+msgstr "Nastavení XML feedů"
 
 msgid "Yes"
 msgstr "Ano"
@@ -4527,9 +4545,6 @@ msgstr "bez umístění"
 
 msgid "{0,1} Available in one week|[2,Inf] Available in %count% weeks"
 msgstr "{0,1} K dispozici za týden|[2,4] K dispozici za %count% týdny|[5,Inf] K dispozici za %count% týdnů"
-
-msgid "{0}|{1}Available in <span class=\"box-detail__avail__text__strong\">%count%</span> store|[2,Inf]Available in <span class=\"box-detail__avail__text__strong\">%count%</span> stores"
-msgstr "{0}|{1}Můžete mít ihned na <span class=\"box-detail__avail__text__strong\">%count%</span> prodejně|[2,Inf]Můžete mít ihned na <span class=\"box-detail__avail__text__strong\">%count%</span> prodejnách"
 
 msgid "{1} There is one parameter slider that does not have its numeric values filled in.|[2,Inf] There are %count% parameter sliders that does not have its numeric values filled in."
 msgstr "{1} Existuje jeden parametr typu slider, který nemá vyplněné své číselné hodnoty.|[2,4] Existuje %count% parametrů typu slider, které nemají vyplněné své číselné hodnoty.|[5,Inf] Existuje %count% parametrů typu slider, které nemají vyplněné své číselné hodnoty."

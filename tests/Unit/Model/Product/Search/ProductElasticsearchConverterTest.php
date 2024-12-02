@@ -55,6 +55,14 @@ class ProductElasticsearchConverterTest extends TestCase
             'hreflang_links' => [],
             'product_type' => 'basic',
             'priority_by_product_type' => 0,
+            'name_prefix' => null,
+            'name_suffix' => null,
+            'availability_status' => '',
+            'store_availabilities_information' => [],
+            'available_stores_count' => null,
+            'stock_quantity' => null,
+            'uuid' => '00000000-0000-0000-0000-000000000000',
+            'unit' => '',
         ];
 
         $converter = new ProductElasticsearchConverter();
@@ -122,6 +130,14 @@ class ProductElasticsearchConverterTest extends TestCase
             'hreflang_links' => [],
             'product_type' => 'basic',
             'priority_by_product_type' => 0,
+            'name_prefix' => null,
+            'name_suffix' => null,
+            'availability_status' => '',
+            'store_availabilities_information' => [],
+            'available_stores_count' => null,
+            'stock_quantity' => null,
+            'uuid' => '00000000-0000-0000-0000-000000000000',
+            'unit' => '',
         ];
 
         $converter = new ProductElasticsearchConverter();

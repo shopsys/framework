@@ -28,7 +28,6 @@ class ProductExportFieldProvider
     public const string CALCULATED_SELLING_DENIED = 'calculated_selling_denied';
     public const string SELLING_DENIED = 'selling_denied';
     public const string AVAILABILITY = 'availability';
-    public const string AVAILABILITY_DISPATCH_TIME = 'availability_dispatch_time';
     public const string IS_MAIN_VARIANT = 'is_main_variant';
     public const string IS_VARIANT = 'is_variant';
     public const string DETAIL_URL = 'detail_url';
@@ -45,6 +44,11 @@ class ProductExportFieldProvider
     public const string HREFLANG_LINKS = 'hreflang_links';
     public const string PRODUCT_TYPE = 'product_type';
     public const string PRIORITY_BY_PRODUCT_TYPE = 'priority_by_product_type';
+    public const string NAME_PREFIX = 'name_prefix';
+    public const string NAME_SUFFIX = 'name_suffix';
+    public const string AVAILABLE_STORES_COUNT = 'available_stores_count';
+    public const string STORE_AVAILABILITIES_INFORMATION = 'store_availabilities_information';
+    public const string AVAILABILITY_STATUS = 'availability_status';
 
     /**
      * @return string[]

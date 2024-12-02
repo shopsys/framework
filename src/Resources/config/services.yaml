@@ -641,10 +641,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    Shopsys\FrameworkBundle\Model\Cart\CartMigrationFacade:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
     Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactory
 

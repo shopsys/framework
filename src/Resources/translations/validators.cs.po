@@ -409,6 +409,9 @@ msgstr "Vyplňte prosím telefon"
 msgid "Please enter the filename"
 msgstr "Prosím vyplňte název souboru"
 
+msgid "Please enter the number of delivery days."
+msgstr "Zadejte prosím počet dní k doručení"
+
 msgid "Please enter the positive value."
 msgstr "Vyplňte prosím kladnou hodnotu."
 
@@ -472,6 +475,12 @@ msgstr "Název produktu nesmí být delší než {{ limit }} znaků"
 msgid "Product parameters are duplicate."
 msgstr "Parametry produktů jsou duplicitní."
 
+msgid "Product prefix name cannot be longer than {{ limit }} characters"
+msgstr "Prefix produktu nesmí být delší než {{ limit }} znaků"
+
+msgid "Product suffix name cannot be longer than {{ limit }} characters"
+msgstr "Suffix produktu nesmí být delší než {{ limit }} znaků"
+
 msgid "Product with entered catalog number already exists"
 msgstr "Produkt s tímto katalogovým číslem již existuje"
 
@@ -495,6 +504,9 @@ msgstr "Slevový kupón \"%promoCode%\" není platný pro žádný produkt v ko�
 
 msgid "Promo code \"%promoCode%\" is not yet valid."
 msgstr "Slevový kupón \"%promoCode%\" není ještě možné uplatnit."
+
+msgid "Quantity must be an integer"
+msgstr "Množství musí být celé číslo"
 
 msgid "Quantity must be greater than {{ compared_value }}"
 msgstr "Množství musí být větší než {{ compared_value }}"

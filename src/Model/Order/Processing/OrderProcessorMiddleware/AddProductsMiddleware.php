@@ -67,7 +67,7 @@ class AddProductsMiddleware implements OrderProcessorMiddlewareInterface
 
         $orderItemData = $this->orderItemDataFactory->create(OrderItemTypeEnum::TYPE_PRODUCT);
 
-        $orderItemData->name = $product->getName($locale);
+        $orderItemData->name = $product->getFullName($locale);
         $orderItemData->setUnitPrice($quantifiedItemPrice->getUnitPrice());
         $orderItemData->setTotalPrice($quantifiedItemPrice->getTotalPrice());
         $orderItemData->vatPercent = $quantifiedItemPrice->getVat()->getPercent();

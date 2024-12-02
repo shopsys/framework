@@ -75,9 +75,12 @@ class ProductExportScopeConfig
         ]);
         $this->addNewExportScopeRule(self::SCOPE_STOCKS, [
             ProductExportFieldProvider::AVAILABILITY,
-            ProductExportFieldProvider::AVAILABILITY_DISPATCH_TIME,
+            ProductExportFieldProvider::PRIORITY_BY_PRODUCT_TYPE,
             ProductExportFieldProvider::IN_STOCK,
             ProductExportFieldProvider::STOCK_QUANTITY,
+            ProductExportFieldProvider::AVAILABLE_STORES_COUNT,
+            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION,
+            ProductExportFieldProvider::AVAILABILITY_STATUS,
         ]);
         $this->addNewExportScopeRule(self::SCOPE_URL, [
             ProductExportFieldProvider::DETAIL_URL,
@@ -93,6 +96,8 @@ class ProductExportScopeConfig
             ProductExportFieldProvider::NAME,
             ProductExportFieldProvider::DETAIL_URL,
             ProductExportFieldProvider::HREFLANG_LINKS,
+            ProductExportFieldProvider::NAME_PREFIX,
+            ProductExportFieldProvider::NAME_SUFFIX,
         ], [
             self::PRECONDITION_VISIBILITY_RECALCULATION,
         ]);

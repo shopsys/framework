@@ -204,4 +204,16 @@ class PaymentTransaction
 
         return $this->payment->isGoPay() && $this->externalPaymentStatus === PaymentStatus::PAID;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPaymentInProcess(): bool
+    {
+        if ($this->payment === null) {
+            return false;
+        }
+
+        return $this->payment->isGoPay() && $this->externalPaymentStatus === PaymentStatus::PAYMENT_METHOD_CHOSEN;
+    }
 }

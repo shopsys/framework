@@ -20,4 +20,9 @@ class WatchdogData
      * @var string|null
      */
     public $email;
+
+    /**
+     * @var \DateTime|null
+     */
+    public $validUntil;
 }

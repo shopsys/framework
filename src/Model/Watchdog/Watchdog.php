@@ -71,13 +71,13 @@ class Watchdog
         $this->domainId = $watchdogData->domainId;
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
-        $this->validUntil = new DateTime(self::VALIDITY_PERIOD);
+        $this->validUntil = $watchdogData->validUntil ?? new DateTime(static::VALIDITY_PERIOD);
     }
 
     public function updateValidity()
     {
         $this->updatedAt = new DateTime();
-        $this->validUntil = new DateTime(self::VALIDITY_PERIOD);
+        $this->validUntil = new DateTime(static::VALIDITY_PERIOD);
     }
 
     /**

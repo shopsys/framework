@@ -5,17 +5,23 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Controller\Admin;
 
 use Shopsys\FrameworkBundle\Component\Domain\AdminDomainTabsFacade;
+use Shopsys\FrameworkBundle\Component\FlashMessage\ErrorExtractor;
 use Shopsys\FrameworkBundle\Form\Admin\Mail\MailSettingFormType;
 use Shopsys\FrameworkBundle\Form\Admin\Mail\MailTemplateFormType;
+use Shopsys\FrameworkBundle\Form\Admin\Mail\MailTemplateSendFormType;
 use Shopsys\FrameworkBundle\Model\AdminNavigation\BreadcrumbOverrider;
 use Shopsys\FrameworkBundle\Model\Mail\Grid\MailTemplateGridFactory;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateConfiguration;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateDataFactory;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
+use Shopsys\FrameworkBundle\Model\Mail\MailTemplateSender\MailTemplateSenderFacade;
 use Shopsys\FrameworkBundle\Model\Mail\Setting\MailSettingFacade;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
 
 class MailController extends AdminBaseController
 {
@@ -27,6 +33,8 @@ class MailController extends AdminBaseController
      * @param \Shopsys\FrameworkBundle\Model\Mail\Grid\MailTemplateGridFactory $mailTemplateGridFactory
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplateConfiguration $mailTemplateConfiguration
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplateDataFactory $mailTemplateDataFactory
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplateSender\MailTemplateSenderFacade $mailTemplateSenderFacade
+     * @param \Shopsys\FrameworkBundle\Component\FlashMessage\ErrorExtractor $errorExtractor
      */
     public function __construct(
         protected readonly AdminDomainTabsFacade $adminDomainTabsFacade,
@@ -36,6 +44,8 @@ class MailController extends AdminBaseController
         protected readonly MailTemplateGridFactory $mailTemplateGridFactory,
         protected readonly MailTemplateConfiguration $mailTemplateConfiguration,
         protected readonly MailTemplateDataFactory $mailTemplateDataFactory,
+        protected readonly MailTemplateSenderFacade $mailTemplateSenderFacade,
+        protected readonly ErrorExtractor $errorExtractor,
     ) {
     }
 
@@ -118,6 +128,7 @@ class MailController extends AdminBaseController
             'requiredSubjectVariables' => $mailTemplateVariables->getRequiredSubjectVariables(),
             'labeledVariables' => $mailTemplateVariables->getLabeledVariables(),
             'entity' => $mailTemplate,
+            'mailSenderExists' => $this->mailTemplateSenderFacade->mailSenderExists($mailTemplate),
         ]);
     }
 
@@ -181,6 +192,58 @@ class MailController extends AdminBaseController
 
         return $this->render('@ShopsysFramework/Admin/Content/Mail/setting.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param int $mailTemplateId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    #[Route(path: '/mail/send/{mailTemplateId}', requirements: ['mailTemplateId' => '\d+'], condition: 'request.isXmlHttpRequest()')]
+    public function sendAction(Request $request, int $mailTemplateId): Response
+    {
+        $mailTemplate = $this->mailTemplateFacade->getById($mailTemplateId);
+        $form = $this->createForm(MailTemplateSendFormType::class, null, [
+            'action' => $this->generateUrl('admin_mail_send', ['mailTemplateId' => $mailTemplateId]),
+            'mailTemplate' => $mailTemplate,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            try {
+                $this->mailTemplateSenderFacade->sendMail($mailTemplate, $data['mailTo'], $data['entityIdentifier'] ?? null);
+                $this->addSuccessFlash(t('Test email sent to %email%.', ['%email%' => $data['mailTo']]));
+
+                return new JsonResponse(['result' => 'valid']);
+            } catch (Throwable $exception) {
+                $this->addErrorFlash(t('Error occurred while sending email.'));
+                $this->addErrorFlash($exception->getMessage());
+
+                return $this->createInvalidResponse($form);
+            }
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->createInvalidResponse($form);
+        }
+
+        return $this->render('@ShopsysFramework/Admin/Content/Mail/mailTemplateSend.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function createInvalidResponse(FormInterface $form): JsonResponse
+    {
+        return new JsonResponse([
+            'result' => 'invalid',
+            'errors' => $this->errorExtractor->getAllErrorsAsArray($form, $this->getErrorMessages()),
         ]);
     }
 }

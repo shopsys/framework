@@ -6,6 +6,7 @@ namespace Shopsys\FrameworkBundle\Model\Watchdog;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Watchdog\Exception\WatchdogNotFoundException;
@@ -69,5 +70,36 @@ class WatchdogRepository
             ->setParameter('email', $email)
             ->setParameter('domainId', $domainId)
             ->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $locale
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getWatchdogProductsQueryBuilder(string $locale): QueryBuilder
+    {
+        return $this->getWatchdogRepository()
+            ->createQueryBuilder('w')
+            ->select('IDENTITY(w.product) as productId')
+            ->addSelect('pt.name as productName')
+            ->addSelect('p.catnum as productCatnum')
+            ->addSelect('COUNT(w.product) as watchdogCount')
+            ->leftJoin('w.product', 'p')
+            ->leftJoin('p.translations', 'pt', Join::WITH, 'pt.locale = :locale')
+            ->setParameter('locale', $locale)
+            ->groupBy('w.product, pt.name, p.catnum')
+            ->orderBy('MAX(w.createdAt)', 'DESC');
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getWatchdogsByProductQueryBuilder(Product $product): QueryBuilder
+    {
+        return $this->getWatchdogRepository()
+            ->createQueryBuilder('w')
+            ->where('w.product = :product')
+            ->setParameter('product', $product);
     }
 }

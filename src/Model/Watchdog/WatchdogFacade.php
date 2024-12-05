@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Watchdog;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
+use Shopsys\FrameworkBundle\Component\String\DatabaseSearching;
+use Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormData;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 
 class WatchdogFacade
@@ -66,5 +69,65 @@ class WatchdogFacade
     public function findByProductEmailAndDomainId(Product $product, string $email, int $domainId): ?Watchdog
     {
         return $this->watchdogRepository->findByProductEmailAndDomainId($product, $email, $domainId);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormData $quickSearchData
+     * @param string $locale
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getWatchdogProductListQueryBuilderByQuickSearchData(
+        QuickSearchFormData $quickSearchData,
+        string $locale,
+    ): QueryBuilder {
+        $queryBuilder = $this->watchdogRepository->getWatchdogProductsQueryBuilder($locale);
+
+        if ($quickSearchData->text !== null && $quickSearchData->text !== '') {
+            $queryBuilder
+                ->andWhere('(
+                    NORMALIZED(p.catnum) LIKE NORMALIZED(:text)
+                    OR
+                    NORMALIZED(pt.name) LIKE NORMALIZED(:text)
+                )');
+            $querySearchText = DatabaseSearching::getFullTextLikeSearchString($quickSearchData->text);
+            $queryBuilder->setParameter('text', $querySearchText);
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param \Shopsys\FrameworkBundle\Form\Admin\QuickSearch\QuickSearchFormData $quickSearchData
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getWatchdogsByProductQueryBuilderByQuickSearchData(
+        Product $product,
+        QuickSearchFormData $quickSearchData,
+    ): QueryBuilder {
+        $queryBuilder = $this->watchdogRepository->getWatchdogsByProductQueryBuilder($product);
+
+        if ($quickSearchData->text !== null && $quickSearchData->text !== '') {
+            $queryBuilder
+                ->andWhere('(
+                    NORMALIZED(w.email) LIKE NORMALIZED(:text)
+                )');
+            $querySearchText = DatabaseSearching::getFullTextLikeSearchString($quickSearchData->text);
+            $queryBuilder->setParameter('text', $querySearchText);
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @param int $id
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog
+     */
+    public function deleteById(int $id): void
+    {
+        $watchdog = $this->getById($id);
+
+        $this->em->remove($watchdog);
+        $this->em->flush();
     }
 }

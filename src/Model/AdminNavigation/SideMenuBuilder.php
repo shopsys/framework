@@ -258,6 +258,17 @@ class SideMenuBuilder
             ],
         );
 
+        $watchdogMenu = $menu->addChild('watchdogs', [
+            'route' => 'admin_watchdog_list',
+            'display' => true,
+            'label' => t('Watchdogs'),
+        ]);
+        $watchdogMenu->addChild('watchdog_detail', [
+            'route' => 'admin_watchdog_detail',
+            'display' => false,
+            'label' => t('Watchdog detail'),
+        ]);
+
         $this->dispatchConfigureMenuEvent(ConfigureMenuEvent::SIDE_MENU_CUSTOMERS, $menu);
 
         return $menu;

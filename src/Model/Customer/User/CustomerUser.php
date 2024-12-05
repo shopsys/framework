@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity
  */
-class CustomerUser implements UserInterface, TimelimitLoginInterface, PasswordAuthenticatedUserInterface
+class CustomerUser implements UserInterface, TimelimitLoginInterface, PasswordAuthenticatedUserInterface, ResetPasswordInterface
 {
     /**
      * @var int

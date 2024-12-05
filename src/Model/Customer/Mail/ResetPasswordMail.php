@@ -6,7 +6,7 @@ namespace Shopsys\FrameworkBundle\Model\Customer\Mail;
 
 use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
-use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser;
+use Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Model\Mail\Exception\ResetPasswordHashNotValidException;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MessageData;
@@ -31,7 +31,7 @@ class ResetPasswordMail implements MessageFactoryInterface
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $template
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
      * @return \Shopsys\FrameworkBundle\Model\Mail\MessageData
      */
     public function createMessage(MailTemplate $template, $customerUser)
@@ -49,10 +49,10 @@ class ResetPasswordMail implements MessageFactoryInterface
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
      * @return string[]
      */
-    protected function getBodyValuesIndexedByVariableName(CustomerUser $customerUser)
+    protected function getBodyValuesIndexedByVariableName(ResetPasswordInterface $customerUser)
     {
         return [
             self::VARIABLE_EMAIL => htmlspecialchars($customerUser->getEmail(), ENT_QUOTES),
@@ -61,10 +61,10 @@ class ResetPasswordMail implements MessageFactoryInterface
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
      * @return string
      */
-    protected function getVariableNewPasswordUrl(CustomerUser $customerUser)
+    protected function getVariableNewPasswordUrl(ResetPasswordInterface $customerUser)
     {
         $router = $this->domainRouterFactory->getRouter($customerUser->getDomainId());
 
@@ -87,10 +87,10 @@ class ResetPasswordMail implements MessageFactoryInterface
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
      * @return string[]
      */
-    protected function getSubjectValuesIndexedByVariableName(CustomerUser $customerUser)
+    protected function getSubjectValuesIndexedByVariableName(ResetPasswordInterface $customerUser)
     {
         return $this->getBodyValuesIndexedByVariableName($customerUser);
     }

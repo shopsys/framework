@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Customer\Mail;
 
-use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
 use Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface;
-use Shopsys\FrameworkBundle\Model\Mail\Exception\ResetPasswordHashNotValidException;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MessageData;
 use Shopsys\FrameworkBundle\Model\Mail\MessageFactoryInterface;
 use Shopsys\FrameworkBundle\Model\Mail\Setting\MailSetting;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ResetPasswordMail implements MessageFactoryInterface
 {
@@ -21,11 +18,11 @@ class ResetPasswordMail implements MessageFactoryInterface
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Setting\Setting $setting
-     * @param \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory
+     * @param \Shopsys\FrameworkBundle\Model\Customer\Mail\NewPasswordUrlProvider $newPasswordUrlProvider
      */
     public function __construct(
         protected readonly Setting $setting,
-        protected readonly DomainRouterFactory $domainRouterFactory,
+        protected readonly NewPasswordUrlProvider $newPasswordUrlProvider,
     ) {
     }
 
@@ -56,34 +53,8 @@ class ResetPasswordMail implements MessageFactoryInterface
     {
         return [
             self::VARIABLE_EMAIL => htmlspecialchars($customerUser->getEmail(), ENT_QUOTES),
-            self::VARIABLE_NEW_PASSWORD_URL => $this->getVariableNewPasswordUrl($customerUser),
+            self::VARIABLE_NEW_PASSWORD_URL => $this->newPasswordUrlProvider->getNewPasswordUrl($customerUser),
         ];
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
-     * @return string
-     */
-    protected function getVariableNewPasswordUrl(ResetPasswordInterface $customerUser)
-    {
-        $router = $this->domainRouterFactory->getRouter($customerUser->getDomainId());
-
-        if (!$customerUser->isResetPasswordHashValid($customerUser->getResetPasswordHash())) {
-            throw new ResetPasswordHashNotValidException('
-                Reset password mail cannot be sent. Customer user with ID "' . $customerUser->getId() . '" has invalid reset password hash.
-            ');
-        }
-
-        $routeParameters = [
-            'email' => $customerUser->getEmail(),
-            'hash' => $customerUser->getResetPasswordHash(),
-        ];
-
-        return $router->generate(
-            'front_registration_set_new_password',
-            $routeParameters,
-            UrlGeneratorInterface::ABSOLUTE_URL,
-        );
     }
 
     /**

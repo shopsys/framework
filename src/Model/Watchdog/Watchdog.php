@@ -69,8 +69,8 @@ class Watchdog
         $this->product = $watchdogData->product;
         $this->email = $watchdogData->email;
         $this->domainId = $watchdogData->domainId;
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
+        $this->createdAt = $watchdogData->createdAt ?? new DateTime();
+        $this->updatedAt = $watchdogData->updatedAt ?? new DateTime();
         $this->validUntil = $watchdogData->validUntil ?? new DateTime(static::VALIDITY_PERIOD);
     }
 

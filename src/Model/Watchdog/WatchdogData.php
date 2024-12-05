@@ -24,5 +24,15 @@ class WatchdogData
     /**
      * @var \DateTime|null
      */
+    public $createdAt;
+
+    /**
+     * @var \DateTime|null
+     */
+    public $updatedAt;
+
+    /**
+     * @var \DateTime|null
+     */
     public $validUntil;
 }

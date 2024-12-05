@@ -130,4 +130,12 @@ class WatchdogFacade
         $this->em->remove($watchdog);
         $this->em->flush();
     }
+
+    /**
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog|null
+     */
+    public function findNextWatchdogToSend(): ?Watchdog
+    {
+        return $this->watchdogRepository->findNextWatchdogToSend();
+    }
 }

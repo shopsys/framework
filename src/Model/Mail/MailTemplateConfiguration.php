@@ -19,6 +19,8 @@ use Shopsys\FrameworkBundle\Model\Order\Mail\OrderMail;
 use Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade;
 use Shopsys\FrameworkBundle\Model\PersonalData\Mail\PersonalDataAccessMail;
 use Shopsys\FrameworkBundle\Model\PersonalData\Mail\PersonalDataExportMail;
+use Shopsys\FrameworkBundle\Model\Watchdog\Mail\WatchdogMail;
+use Shopsys\FrameworkBundle\Model\Watchdog\Mail\WatchdogMailTemplateVariablesProvider;
 
 class MailTemplateConfiguration
 {
@@ -38,11 +40,13 @@ class MailTemplateConfiguration
      * @param \Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade $orderStatusFacade
      * @param \Shopsys\FrameworkBundle\Model\Complaint\Status\ComplaintStatusFacade $complaintStatusFacade
      * @param \Shopsys\FrameworkBundle\Model\Inquiry\Mail\InquiryMailTemplateVariablesProvider $inquiryMailTemplateVariablesProvider
+     * @param \Shopsys\FrameworkBundle\Model\Watchdog\Mail\WatchdogMailTemplateVariablesProvider $watchdogMailTemplateVariablesProvider
      */
     public function __construct(
         protected readonly OrderStatusFacade $orderStatusFacade,
         protected readonly ComplaintStatusFacade $complaintStatusFacade,
         protected readonly InquiryMailTemplateVariablesProvider $inquiryMailTemplateVariablesProvider,
+        protected readonly WatchdogMailTemplateVariablesProvider $watchdogMailTemplateVariablesProvider,
     ) {
         $this->registerStaticMailTemplates();
         $this->registerOrderStatusMailTemplates();
@@ -50,6 +54,7 @@ class MailTemplateConfiguration
         $this->registerTwoFactorAuthenticationCodeMailTemplate();
         $this->registerCustomerActivationMailTemplate();
         $this->registerInquiryMailTemplates();
+        $this->registerWatchdogMailTemplate();
     }
 
     /**
@@ -358,5 +363,11 @@ class MailTemplateConfiguration
 
         $inquiryMailTemplateVariables = $this->inquiryMailTemplateVariablesProvider->create(InquiryMail::ADMIN_MAIL_TEMPLATE_NAME);
         $this->addMailTemplateVariables(InquiryMail::ADMIN_MAIL_TEMPLATE_NAME, $inquiryMailTemplateVariables);
+    }
+
+    protected function registerWatchdogMailTemplate(): void
+    {
+        $watchdogMailTemplateVariables = $this->watchdogMailTemplateVariablesProvider->create();
+        $this->addMailTemplateVariables(WatchdogMail::WATCHDOG_MAIL_TEMPLATE_NAME, $watchdogMailTemplateVariables);
     }
 }

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Inquiry\Mail;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Component\Image\Exception\ImageNotFoundException;
-use Shopsys\FrameworkBundle\Component\Image\ImageFacade;
+use Shopsys\FrameworkBundle\Component\Mailer\MailerHelper;
 use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
 use Shopsys\FrameworkBundle\Model\Inquiry\Inquiry;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MessageData;
 use Shopsys\FrameworkBundle\Model\Mail\Setting\MailSetting;
+use Shopsys\FrameworkBundle\Model\Product\Image\ProductImageFacade;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class InquiryMail
@@ -38,14 +38,14 @@ class InquiryMail
     /**
      * @param \Shopsys\FrameworkBundle\Component\Setting\Setting $setting
      * @param \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory
-     * @param \Shopsys\FrameworkBundle\Component\Image\ImageFacade $imageFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
+     * @param \Shopsys\FrameworkBundle\Model\Product\Image\ProductImageFacade $productImageFacade
      */
     public function __construct(
         protected readonly Setting $setting,
         protected readonly DomainRouterFactory $domainRouterFactory,
-        protected readonly ImageFacade $imageFacade,
         protected readonly Domain $domain,
+        protected readonly ProductImageFacade $productImageFacade,
     ) {
     }
 
@@ -97,10 +97,10 @@ class InquiryMail
             self::VARIABLE_FULL_NAME => htmlspecialchars($inquiry->getFullName(), ENT_QUOTES),
             self::VARIABLE_EMAIL => htmlspecialchars($inquiry->getEmail(), ENT_QUOTES),
             self::VARIABLE_TELEPHONE => htmlspecialchars($inquiry->getTelephone(), ENT_QUOTES),
-            self::VARIABLE_COMPANY_NAME => $this->escapeOptionalString($inquiry->getCompanyName()),
-            self::VARIABLE_COMPANY_NUMBER => $this->escapeOptionalString($inquiry->getCompanyNumber()),
-            self::VARIABLE_COMPANY_TAX_NUMBER => $this->escapeOptionalString($inquiry->getCompanyTaxNumber()),
-            self::VARIABLE_PRODUCT_NAME => $this->escapeOptionalString($inquiry->getProduct()?->getName()),
+            self::VARIABLE_COMPANY_NAME => MailerHelper::escapeOptionalString($inquiry->getCompanyName()),
+            self::VARIABLE_COMPANY_NUMBER => MailerHelper::escapeOptionalString($inquiry->getCompanyNumber()),
+            self::VARIABLE_COMPANY_TAX_NUMBER => MailerHelper::escapeOptionalString($inquiry->getCompanyTaxNumber()),
+            self::VARIABLE_PRODUCT_NAME => MailerHelper::escapeOptionalString($inquiry->getProduct()?->getName()),
             self::VARIABLE_PRODUCT_CATALOG_NUMBER => htmlspecialchars($inquiry->getProductCatnum(), ENT_QUOTES),
         ];
     }
@@ -113,9 +113,9 @@ class InquiryMail
     {
         return [
             ...$this->getSubjectVariablesReplacements($inquiry),
-            self::VARIABLE_NOTE => $this->escapeOptionalString($inquiry->getNote()),
+            self::VARIABLE_NOTE => MailerHelper::escapeOptionalString($inquiry->getNote()),
             self::VARIABLE_PRODUCT_URL => $this->getProductUrl($inquiry),
-            self::VARIABLE_PRODUCT_IMAGE => $this->getProductImageUrl($inquiry),
+            self::VARIABLE_PRODUCT_IMAGE => $this->productImageFacade->getProductImageUrl($inquiry->getProduct(), $inquiry->getDomainId()),
         ];
     }
 
@@ -136,19 +136,6 @@ class InquiryMail
     }
 
     /**
-     * @param string|null $string
-     * @return string
-     */
-    protected function escapeOptionalString(?string $string): string
-    {
-        if ($string === null) {
-            return '-';
-        }
-
-        return htmlspecialchars($string, ENT_QUOTES);
-    }
-
-    /**
      * @param \Shopsys\FrameworkBundle\Model\Inquiry\Inquiry $inquiry
      * @return string
      */
@@ -163,29 +150,5 @@ class InquiryMail
             ['id' => $inquiry->getProduct()->getId()],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Inquiry\Inquiry $inquiry
-     * @return string
-     */
-    protected function getProductImageUrl(Inquiry $inquiry): string
-    {
-        $domainConfig = $this->domain->getDomainConfigById($inquiry->getDomainId());
-
-        if ($inquiry->getProduct() === null) {
-            return $this->imageFacade->getEmptyImageUrl($domainConfig);
-        }
-
-        try {
-            $imageUrl = $this->imageFacade->getImageUrl(
-                $domainConfig,
-                $inquiry->getProduct(),
-            );
-
-            return $imageUrl . '?width=100';
-        } catch (ImageNotFoundException) {
-            return $this->imageFacade->getEmptyImageUrl($domainConfig);
-        }
     }
 }

@@ -8,16 +8,26 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade;
 use Shopsys\FrameworkBundle\Model\Product\Product;
+use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
+use Shopsys\FrameworkBundle\Model\Stock\ProductStock;
 use Shopsys\FrameworkBundle\Model\Watchdog\Exception\WatchdogNotFoundException;
 
 class WatchdogRepository
 {
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $em
+     * @param \Shopsys\FrameworkBundle\Model\Product\ProductRepository $productRepository
+     * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade $pricingGroupSettingFacade
+     * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      */
     public function __construct(
         protected readonly EntityManagerInterface $em,
+        protected readonly ProductRepository $productRepository,
+        protected readonly PricingGroupSettingFacade $pricingGroupSettingFacade,
+        protected readonly Domain $domain,
     ) {
     }
 
@@ -60,7 +70,7 @@ class WatchdogRepository
      * @param int $domainId
      * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog|null
      */
-    public function findByProductUuidEmailAndDomainId(Product $product, string $email, int $domainId): ?Watchdog
+    public function findByProductEmailAndDomainId(Product $product, string $email, int $domainId): ?Watchdog
     {
         return $this->getQueryBuilder()
             ->where('w.product = :product')
@@ -78,17 +88,15 @@ class WatchdogRepository
      */
     public function getWatchdogProductsQueryBuilder(string $locale): QueryBuilder
     {
-        return $this->getWatchdogRepository()
-            ->createQueryBuilder('w')
+        return $this->getQueryBuilder()
             ->select('IDENTITY(w.product) as productId')
             ->addSelect('pt.name as productName')
             ->addSelect('p.catnum as productCatnum')
             ->addSelect('COUNT(w.product) as watchdogCount')
-            ->leftJoin('w.product', 'p')
-            ->leftJoin('p.translations', 'pt', Join::WITH, 'pt.locale = :locale')
+            ->join('w.product', 'p')
+            ->join('p.translations', 'pt', Join::WITH, 'pt.locale = :locale')
             ->setParameter('locale', $locale)
-            ->groupBy('w.product, pt.name, p.catnum')
-            ->orderBy('MAX(w.createdAt)', 'DESC');
+            ->groupBy('w.product, pt.name, p.catnum');
     }
 
     /**
@@ -97,9 +105,37 @@ class WatchdogRepository
      */
     public function getWatchdogsByProductQueryBuilder(Product $product): QueryBuilder
     {
-        return $this->getWatchdogRepository()
-            ->createQueryBuilder('w')
+        return $this->getQueryBuilder()
             ->where('w.product = :product')
             ->setParameter('product', $product);
+    }
+
+    /**
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog|null
+     */
+    public function findNextWatchdogToSend(): ?Watchdog
+    {
+        foreach ($this->domain->getAllIds() as $domainId) {
+            $pricingGroup = $this->pricingGroupSettingFacade->getDefaultPricingGroupByDomainId($domainId);
+            $queryBuilder = $this->productRepository->getAllSellableWithoutInquiriesQueryBuilder(
+                $domainId,
+                $pricingGroup,
+            );
+            $queryBuilder
+                ->select('w')
+                ->join(Watchdog::class, 'w', Join::WITH, 'w.product = p')
+                ->leftJoin(ProductStock::class, 'ps', Join::WITH, 'ps.product = p')
+                ->groupBy('w.id')
+                ->having('SUM(ps.productQuantity) > 0')
+                ->orderBy('w.createdAt', 'DESC')
+                ->setMaxResults(1);
+            $result = $queryBuilder->getQuery()->getOneOrNullResult();
+
+            if ($result !== null) {
+                return $result;
+            }
+        }
+
+        return null;
     }
 }

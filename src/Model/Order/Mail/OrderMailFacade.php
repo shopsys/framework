@@ -6,6 +6,7 @@ namespace Shopsys\FrameworkBundle\Model\Order\Mail;
 
 use Shopsys\FrameworkBundle\Component\UploadedFile\UploadedFileFacade;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
+use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
 use Shopsys\FrameworkBundle\Model\Order\Order;
 use Shopsys\FrameworkBundle\Model\Order\Status\OrderStatus;
@@ -37,9 +38,7 @@ class OrderMailFacade
             return;
         }
 
-        $messageData = $this->orderMail->createMessage($mailTemplate, $order);
-        $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $order->getDomainId());
+        $this->sendMailTemplate($mailTemplate, $order);
     }
 
     /**
@@ -52,5 +51,22 @@ class OrderMailFacade
         $templateName = OrderMail::getMailTemplateNameByStatus($orderStatus);
 
         return $this->mailTemplateFacade->get($templateName, $domainId);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Model\Order\Order $order
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(MailTemplate $mailTemplate, Order $order, ?string $forceSendTo = null): void
+    {
+        $messageData = $this->orderMail->createMessage($mailTemplate, $order);
+        $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
+
+        $this->mailer->sendForDomain($messageData, $order->getDomainId());
     }
 }

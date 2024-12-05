@@ -1,0 +1,12 @@
+<customer_watchdogs>
+    {# @var watchdogs \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog[] #}
+    {% for watchdog in watchdogs %}
+        <watchdog>
+            <watchdog_product_name>{{ watchdog.product.name }}</watchdog_product_name>
+            <watchdog_product_catnum>{{ watchdog.product.catnum }}</watchdog_product_catnum>
+            <watchdog_create_date>{{ watchdog.createdAt|date('c') }}</watchdog_create_date>
+            <watchdog_last_updated_date>{{ watchdog.updatedAt|date('c') }}</watchdog_last_updated_date>
+            <watchdog_valid_until_date>{{ watchdog.createdAt|date('c') }}</watchdog_valid_until_date>
+        </watchdog>
+    {% endfor %}
+</customer_watchdogs>

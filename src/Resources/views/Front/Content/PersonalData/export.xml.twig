@@ -43,5 +43,9 @@
             {% include('@ShopsysFramework/Front/Content/PersonalData/complaints.xml.twig') %}
         {% endif %}
 
+        {% if watchdogs|length > 0 %}
+            {% include('@ShopsysFramework/Front/Content/PersonalData/watchdogs.xml.twig') %}
+        {% endif %}
+
     </customer>
 </customers>

@@ -155,4 +155,13 @@ class WatchdogRepository
             ->setParameter('email', $email)
             ->getQuery()->execute();
     }
+
+    /**
+     * @param string $email
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog[]
+     */
+    public function getWatchdogsByEmail(string $email): array
+    {
+        return $this->getWatchdogRepository()->findBy(['email' => $email]);
+    }
 }

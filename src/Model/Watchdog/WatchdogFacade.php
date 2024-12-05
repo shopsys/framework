@@ -145,4 +145,13 @@ class WatchdogFacade
     {
         $this->watchdogRepository->deleteByEmail($email);
     }
+
+    /**
+     * @param string $email
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog[]
+     */
+    public function getWatchdogsByEmail(string $email): array
+    {
+        return $this->watchdogRepository->getWatchdogsByEmail($email);
+    }
 }

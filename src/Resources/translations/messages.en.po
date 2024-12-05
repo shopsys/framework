@@ -721,6 +721,9 @@ msgstr ""
 msgid "Complaint"
 msgstr ""
 
+msgid "Complaint ID"
+msgstr ""
+
 msgid "Complaint Nr."
 msgstr ""
 
@@ -1726,6 +1729,9 @@ msgstr ""
 msgid "Error messages"
 msgstr ""
 
+msgid "Error occurred while sending email."
+msgstr ""
+
 msgid "Error occurred while uploading file."
 msgstr ""
 
@@ -2171,6 +2177,9 @@ msgid "Inquiries - view"
 msgstr ""
 
 msgid "Inquiries overview"
+msgstr ""
+
+msgid "Inquiry ID"
 msgstr ""
 
 msgid "Inquiry by"
@@ -2783,6 +2792,9 @@ msgid "Operator information - view"
 msgstr ""
 
 msgid "Order"
+msgstr ""
+
+msgid "Order ID"
 msgstr ""
 
 msgid "Order Nr."
@@ -3646,10 +3658,16 @@ msgstr ""
 msgid "Selling start date"
 msgstr ""
 
+msgid "Send"
+msgstr ""
+
 msgid "Send confirmation email about registration to customer"
 msgstr ""
 
 msgid "Send email about change to this status"
+msgstr ""
+
+msgid "Send mail to"
 msgstr ""
 
 msgid "Send me authentication code"
@@ -3662,6 +3680,9 @@ msgid "Send reset password"
 msgstr ""
 
 msgid "Send reset password email"
+msgstr ""
+
+msgid "Send test mail"
 msgstr ""
 
 msgid "Sending emails off, no email will be sent from the app."
@@ -3881,6 +3902,9 @@ msgid "Telephone"
 msgstr ""
 
 msgid "Terms and conditions"
+msgstr ""
+
+msgid "Test email sent to %email%."
 msgstr ""
 
 msgid "The current list of URL addresses can be found in the project's repository in the \"storefront/config/staticRewritePaths.js\" file."
@@ -4397,6 +4421,9 @@ msgid "You have to set redirect code for redirect."
 msgstr ""
 
 msgid "You have unsaved changes!"
+msgstr ""
+
+msgid "You have unsaved changes, save them first, please."
 msgstr ""
 
 msgid "Youtube URL"

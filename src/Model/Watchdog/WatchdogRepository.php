@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\String\TransformString;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
@@ -137,5 +138,21 @@ class WatchdogRepository
         }
 
         return null;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function deleteByEmail(string $email): void
+    {
+        if (TransformString::emptyToNull($email) === null) {
+            return;
+        }
+
+        $this->em->createQueryBuilder()
+            ->delete(Watchdog::class, 'w')
+            ->where('w.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()->execute();
     }
 }

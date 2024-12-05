@@ -121,7 +121,6 @@ class WatchdogFacade
 
     /**
      * @param int $id
-     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog
      */
     public function deleteById(int $id): void
     {
@@ -137,5 +136,13 @@ class WatchdogFacade
     public function findNextWatchdogToSend(): ?Watchdog
     {
         return $this->watchdogRepository->findNextWatchdogToSend();
+    }
+
+    /**
+     * @param string $email
+     */
+    public function deleteByEmail(string $email): void
+    {
+        $this->watchdogRepository->deleteByEmail($email);
     }
 }

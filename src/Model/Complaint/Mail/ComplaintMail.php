@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ComplaintMail implements MessageFactoryInterface
 {
-    protected const string MAIL_TEMPLATE_NAME_PREFIX = 'complaint_status_';
+    public const string MAIL_TEMPLATE_NAME_PREFIX = 'complaint_status_';
     public const string VARIABLE_COMPLAINT_NUMBER = '{complaint_number}';
     public const string VARIABLE_ORDER_NUMBER = '{order_number}';
     public const string VARIABLE_DATE = '{date}';

@@ -32,17 +32,13 @@ class ComplaintMailFacade
      */
     public function sendEmail(Complaint $complaint): void
     {
-        $order = $complaint->getOrder();
-
-        $mailTemplate = $this->getMailTemplateByStatusAndDomainId($complaint->getStatus(), $order->getDomainId());
+        $mailTemplate = $this->getMailTemplateByStatusAndDomainId($complaint->getStatus(), $complaint->getDomainId());
 
         if (!$mailTemplate->isSendMail()) {
             return;
         }
 
-        $messageData = $this->complaintMail->createMessage($mailTemplate, $complaint);
-        $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $order->getDomainId());
+        $this->sendMailTemplate($mailTemplate, $complaint);
     }
 
     /**
@@ -55,5 +51,24 @@ class ComplaintMailFacade
         $templateName = ComplaintMail::getMailTemplateNameByStatus($complaintStatus);
 
         return $this->mailTemplateFacade->get($templateName, $domainId);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Model\Complaint\Complaint $complaint
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(
+        MailTemplate $mailTemplate,
+        Complaint $complaint,
+        ?string $forceSendTo = null,
+    ): void {
+        $messageData = $this->complaintMail->createMessage($mailTemplate, $complaint);
+        $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
+        $this->mailer->sendForDomain($messageData, $complaint->getDomainId());
     }
 }

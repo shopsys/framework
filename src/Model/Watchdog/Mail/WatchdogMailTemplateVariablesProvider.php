@@ -24,7 +24,7 @@ class WatchdogMailTemplateVariablesProvider
 
         $mailTemplateVariables->addVariable(
             WatchdogMail::VARIABLE_PRODUCT_QUANTITY,
-            t('Product quantity'),
+            t('Product stock quantity'),
             MailTemplateVariables::CONTEXT_BODY,
         );
 

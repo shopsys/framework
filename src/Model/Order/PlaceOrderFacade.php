@@ -13,6 +13,7 @@ use Shopsys\FrameworkBundle\Model\Order\Item\OrderItemFactory;
 use Shopsys\FrameworkBundle\Model\Order\Item\OrderItemTypeEnum;
 use Shopsys\FrameworkBundle\Model\Order\Mail\OrderMailFacade;
 use Shopsys\FrameworkBundle\Model\Order\Messenger\PlacedOrderMessageDispatcher;
+use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFacade;
 use Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusRepository;
 
 class PlaceOrderFacade
@@ -28,6 +29,7 @@ class PlaceOrderFacade
      * @param \Shopsys\FrameworkBundle\Model\Order\Messenger\PlacedOrderMessageDispatcher $placedOrderMessageDispatcher
      * @param \Shopsys\FrameworkBundle\Model\Newsletter\NewsletterFacade $newsletterFacade
      * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserFacade $customerUserFacade
+     * @param \Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFacade $promoCodeFacade
      */
     public function __construct(
         protected readonly OrderStatusRepository $orderStatusRepository,
@@ -40,6 +42,7 @@ class PlaceOrderFacade
         protected readonly PlacedOrderMessageDispatcher $placedOrderMessageDispatcher,
         protected readonly NewsletterFacade $newsletterFacade,
         protected readonly CustomerUserFacade $customerUserFacade,
+        protected readonly PromoCodeFacade $promoCodeFacade,
     ) {
     }
 
@@ -54,6 +57,14 @@ class PlaceOrderFacade
     ): Order {
         foreach ($orderData->getItemsByType(OrderItemTypeEnum::TYPE_DISCOUNT) as $discount) {
             $discount->promoCode->decreaseRemainingUses();
+        }
+
+        if ($orderData->freeTransportAndPaymentApplied && $orderData->promoCode !== null) {
+            $promoCode = $this->promoCodeFacade->findPromoCodeByCodeAndDomain($orderData->promoCode, $orderData->domainId);
+
+            if ($promoCode !== null && $promoCode->isFreeTransportAndPaymentType()) {
+                $promoCode->decreaseRemainingUses();
+            }
         }
 
         $order = $this->createOrderOnly($orderData);

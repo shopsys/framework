@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Administrator\Mail;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Model\Administrator\Administrator;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
+use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
 
 class ResetPasswordMailFacade
@@ -35,7 +37,25 @@ class ResetPasswordMailFacade
             $this->domain->getId(),
         );
 
+        $this->sendMailTemplate($mailTemplate, $administrator);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $administrator
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(
+        MailTemplate $mailTemplate,
+        ResetPasswordInterface $administrator,
+        ?string $forceSendTo = null,
+    ): void {
         $messageData = $this->resetPasswordMail->createMessage($mailTemplate, $administrator);
-        $this->mailer->sendForDomain($messageData, $this->domain->getId());
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
+
+        $this->mailer->sendForDomain($messageData, $mailTemplate->getDomainId());
     }
 }

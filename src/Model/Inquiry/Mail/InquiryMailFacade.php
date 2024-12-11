@@ -57,6 +57,6 @@ class InquiryMailFacade
         }
 
         $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $inquiry->getDomainId());
+        $this->mailer->sendForDomain($messageData, $mailTemplate->getDomainId());
     }
 }

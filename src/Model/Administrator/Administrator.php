@@ -13,6 +13,7 @@ use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface as EmailTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
 use Shopsys\FrameworkBundle\Component\Grid\Grid;
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Model\Security\Roles;
 use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
 use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
@@ -28,7 +29,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *   }
  * )
  */
-class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLoginInterface, PasswordAuthenticatedUserInterface, EmailTwoFactorInterface, GoogleTwoFactorInterface
+class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLoginInterface, PasswordAuthenticatedUserInterface, EmailTwoFactorInterface, GoogleTwoFactorInterface, ResetPasswordInterface
 {
     public const string TWO_FACTOR_AUTHENTICATION_TYPE_EMAIL = 'email';
     public const string TWO_FACTOR_AUTHENTICATION_TYPE_GOOGLE_AUTH = 'google_auth';

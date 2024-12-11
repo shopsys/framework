@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Customer\Mail;
 
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Component\UploadedFile\UploadedFileFacade;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser;
-use Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
@@ -71,7 +71,7 @@ class CustomerMailFacade
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface $customerUser
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $customerUser
      * @param string|null $forceSendTo
      */
     public function sendActivationMailTemplate(

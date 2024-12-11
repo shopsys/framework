@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Mail\MailTemplateSender;
 
-use Shopsys\FrameworkBundle\Model\Customer\User\ResetPasswordInterface;
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 
 class DummyResetPasswordUser implements ResetPasswordInterface
 {
@@ -12,9 +12,8 @@ class DummyResetPasswordUser implements ResetPasswordInterface
 
     /**
      * @param string $email
-     * @param int $domainId
      */
-    public function __construct(protected readonly string $email, protected readonly int $domainId)
+    public function __construct(protected readonly string $email)
     {
     }
 
@@ -35,11 +34,6 @@ class DummyResetPasswordUser implements ResetPasswordInterface
     public function getResetPasswordHash()
     {
         return static::DUMMY_RESET_PASSWORD_HASH;
-    }
-
-    public function getDomainId()
-    {
-        return $this->domainId;
     }
 
     public function getEmail()

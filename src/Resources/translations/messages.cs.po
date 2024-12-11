@@ -196,6 +196,9 @@ msgstr "Administrátor <strong>{{ name }}</strong> byl smazán."
 msgid "Administrator <strong>{{ name }}</strong> is the only one and can't be deleted."
 msgstr "Administrátor <strong>{{ name }}</strong> je jediný a nemůže být smazán."
 
+msgid "Administrator ID"
+msgstr "ID administrátora"
+
 msgid "Administrator activities history"
 msgstr "Historie aktivit administrátora"
 

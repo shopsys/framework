@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopsys\FrameworkBundle\Model\Customer\User;
+namespace Shopsys\FrameworkBundle\Component\Security;
 
 interface ResetPasswordInterface
 {
@@ -21,11 +21,6 @@ interface ResetPasswordInterface
      * @return string
      */
     public function getResetPasswordHash();
-
-    /**
-     * @return int
-     */
-    public function getDomainId();
 
     /**
      * @return string

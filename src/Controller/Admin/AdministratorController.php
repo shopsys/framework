@@ -527,10 +527,10 @@ class AdministratorController extends AdminBaseController
     #[Route(path: '/administrator/set-new-password/', name: 'admin_administrator_set-new-password')]
     public function setNewPasswordAction(Request $request): Response
     {
-        $username = $request->query->get('username');
+        $email = $request->query->get('email');
         $hash = $request->query->get('hash');
 
-        $administrator = $this->administratorFacade->getByUserName($username);
+        $administrator = $this->administratorFacade->getByEmail($email);
 
         if (!$administrator->isResetPasswordHashValid($hash)) {
             return $this->render('@ShopsysFramework/Admin/Content/Administrator/invalidResetPasswordHash.html.twig');

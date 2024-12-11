@@ -196,6 +196,9 @@ msgstr ""
 msgid "Administrator <strong>{{ name }}</strong> is the only one and can't be deleted."
 msgstr ""
 
+msgid "Administrator ID"
+msgstr ""
+
 msgid "Administrator activities history"
 msgstr ""
 

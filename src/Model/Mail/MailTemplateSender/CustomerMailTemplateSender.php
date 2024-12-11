@@ -135,7 +135,7 @@ class CustomerMailTemplateSender implements MailTemplateSenderInterface
         CustomerUser $customerUser,
         string $toEmail,
     ): void {
-        $resetPasswordUser = new DummyResetPasswordUser($customerUser->getEmail(), $customerUser->getDomainId());
+        $resetPasswordUser = new DummyResetPasswordUser($customerUser->getEmail());
         $this->customerMailFacade->sendActivationMailTemplate($mailTemplate, $resetPasswordUser, $toEmail);
     }
 
@@ -149,7 +149,7 @@ class CustomerMailTemplateSender implements MailTemplateSenderInterface
         CustomerUser $customerUser,
         string $toEmail,
     ): void {
-        $resetPasswordUser = new DummyResetPasswordUser($customerUser->getEmail(), $customerUser->getDomainId());
+        $resetPasswordUser = new DummyResetPasswordUser($customerUser->getEmail());
         $this->resetPasswordMailFacade->sendMailTemplate($mailTemplate, $resetPasswordUser, $toEmail);
     }
 }

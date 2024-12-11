@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Command;
 
-use App\Model\Administrator\AdministratorFacade;
 use Exception;
+use Shopsys\FrameworkBundle\Model\Administrator\AdministratorFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\AdministratorPasswordFacade;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -24,7 +24,7 @@ class ChangeAdminPasswordCommand extends Command
     private const ARG_USERNAME = 'username';
 
     /**
-     * @param \App\Model\Administrator\AdministratorFacade $administratorFacade
+     * @param \Shopsys\FrameworkBundle\Model\Administrator\AdministratorFacade $administratorFacade
      * @param \Shopsys\FrameworkBundle\Model\Administrator\AdministratorPasswordFacade $administratorPasswordFacade
      */
     public function __construct(

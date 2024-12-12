@@ -139,4 +139,12 @@ class StockFacade
 
         return $stocksById;
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->stockRepository->getCount();
+    }
 }

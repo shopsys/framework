@@ -52,23 +52,29 @@ msgstr "301 (Trvalé přesměrování)"
 msgid "302 (Temporary redirect)"
 msgstr "302 (Dočasné přesměrování)"
 
-msgid "<a href=\"{{ url }}\">Default unit is not set.</a>"
-msgstr "<a href=\"{{ url }}\">Není nastavena výchozí jednotka.</a>"
+msgid "<a href=\"%url%\">Default unit is not set.</a>"
+msgstr "<a href=\"%url%\">Není nastavena výchozí jednotka.</a>"
 
-msgid "<a href=\"{{ url }}\">Privacy policy article for domain {{ domainName }} is not set.</a>"
-msgstr "<a href=\"{{ url }}\">Není nastaven článek zásady ochrany osobních údajů pro doménu {{ domainName }}.</a>"
+msgid "<a href=\"%url%\">Privacy policy article for domain %domainName% is not set.</a>"
+msgstr "<a href=\"%url%\">Není nastaven článek zásady ochrany osobních údajů pro doménu %domainName%.</a>"
 
-msgid "<a href=\"{{ url }}\">Some required email templates are not fully set.</a>"
-msgstr "<a href=\"{{ url }}\">Některé povinné e-mailové šablony nejsou vyplněny.</a>"
+msgid "<a href=\"%url%\">Some required email templates are not fully set.</a>"
+msgstr "<a href=\"%url%\">Některé povinné e-mailové šablony nejsou vyplněny.</a>"
 
-msgid "<a href=\"{{ url }}\">Terms and conditions article for domain {{ domainName }} is not set.</a>"
-msgstr "<a href=\"{{ url }}\">Není nastaven článek obchodní podmínky pro doménu {{ domainName }}.</a>"
+msgid "<a href=\"%url%\">Term and conditions article for domain %domainName% is not set.</a>"
+msgstr "<a href=\"%url%\">Není nastaven článek obchodní podmínky pro doménu %domainName%.</a>"
 
-msgid "<a href=\"{{ url }}\">There are no units, you need to create some.</a>"
-msgstr "<a href=\"{{ url }}\">Neexistují žádné jednotky, musíte nějakou vytvořit.</a>"
+msgid "<a href=\"%url%\">There are no countries, you need to create some.</a>"
+msgstr "<a href=\"%url%\">Neexistují žádné státy, musíte nějaký vytvořit.</a>"
 
-msgid "<a href=\"{{ url }}\">User consent policy article for domain {{ domainName }} is not set.</a>"
-msgstr "<a href=\"{{ url }}\">Není nastaven článek správa osobních údajů pro doménu {{ domainName }}.</a>"
+msgid "<a href=\"%url%\">There are no units, you need to create some.</a>"
+msgstr "<a href=\"%url%\">Neexistují žádné jednotky, musíte nějakou vytvořit.</a>"
+
+msgid "<a href=\"%url%\">There are no warehouses, you need to create some.</a>"
+msgstr "<a href=\"%url%\">Neexistují žádné sklady, musíte nějaký vytvořit.</a>"
+
+msgid "<a href=\"%url%\">User consent policy article for domain %domainName% is not set.</a>"
+msgstr "<a href=\"%url%\">Není nastaven článek správa osobních údajů pro doménu %domainName%.</a>"
 
 msgid "<strong><a href=\"{{ url }}\">SEO category</a></strong> has been saved"
 msgstr "<strong><a href=\"{{ url }}\">SEO kombinace kategorie</a></strong> byla uložena"
@@ -1903,8 +1909,8 @@ msgstr "Vyplňte také URL pro zvolenou doménu"
 msgid "Fill URL only for selected domain"
 msgstr "Vyplňte pouze URL pro zvolenou doménu"
 
-msgid "Fill missing settings to enable creating products. More information here."
-msgstr "Pro vytvoření produktu doplňte chybějící nastavení. Více informací zde."
+msgid "Fill missing settings to enable creating products."
+msgstr "Pro vytvoření produktu doplňte chybějící nastavení."
 
 msgid "Filter by"
 msgstr "Filtrovat podle"

@@ -168,4 +168,12 @@ class UnitFacade
     {
         $this->eventDispatcher->dispatch(new UnitEvent($unit), $eventType);
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->unitRepository->getCount();
+    }
 }

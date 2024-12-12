@@ -108,4 +108,12 @@ class CountryFacade
     {
         return $this->countryRepository->findByCode($countryCode);
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->countryRepository->getCount();
+    }
 }

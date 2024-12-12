@@ -19,6 +19,8 @@
                 {{ render(controller('Shopsys\\FrameworkBundle\\Controller\\Admin\\FlashMessageController::indexAction')) }}
             </div>
 
+            {{ render_required_settings() }}
+
             {% if showHeading is not defined or showHeading %}
                 <div class="wrap-bar">
                     <h1 class="wrap-bar__heading">

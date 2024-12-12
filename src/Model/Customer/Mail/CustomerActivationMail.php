@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Customer\Mail;
 
-use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
+use Shopsys\FrameworkBundle\Component\Security\NewPasswordUrlProvider;
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
-use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser;
-use Shopsys\FrameworkBundle\Model\Mail\Exception\ResetPasswordHashNotValidException;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MessageData;
 use Shopsys\FrameworkBundle\Model\Mail\MessageFactoryInterface;
 use Shopsys\FrameworkBundle\Model\Mail\Setting\MailSetting;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CustomerActivationMail implements MessageFactoryInterface
 {
@@ -22,77 +20,57 @@ class CustomerActivationMail implements MessageFactoryInterface
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Setting\Setting $setting
-     * @param \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory
+     * @param \Shopsys\FrameworkBundle\Component\Security\NewPasswordUrlProvider $newPasswordUrlProvider
      */
     public function __construct(
         protected readonly Setting $setting,
-        protected readonly DomainRouterFactory $domainRouterFactory,
+        protected readonly NewPasswordUrlProvider $newPasswordUrlProvider,
     ) {
     }
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $template
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $customerUser
      * @return \Shopsys\FrameworkBundle\Model\Mail\MessageData
      */
     public function createMessage(MailTemplate $template, $customerUser)
     {
+        $domainId = $template->getDomainId();
+
         return new MessageData(
             $customerUser->getEmail(),
             $template->getBccEmail(),
             $template->getBody(),
             $template->getSubject(),
-            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL, $customerUser->getDomainId()),
-            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL_NAME, $customerUser->getDomainId()),
-            $this->getBodyValuesIndexedByVariableName($customerUser),
-            $this->getSubjectValuesIndexedByVariableName($customerUser),
+            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL, $domainId),
+            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL_NAME, $domainId),
+            $this->getBodyValuesIndexedByVariableName($customerUser, $domainId),
+            $this->getSubjectValuesIndexedByVariableName($customerUser, $domainId),
         );
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $customerUser
+     * @param int $domainId
      * @return string[]
      */
-    protected function getBodyValuesIndexedByVariableName(CustomerUser $customerUser): array
+    protected function getBodyValuesIndexedByVariableName(ResetPasswordInterface $customerUser, int $domainId): array
     {
         return [
             self::VARIABLE_EMAIL => htmlspecialchars($customerUser->getEmail(), ENT_QUOTES),
-            self::VARIABLE_ACTIVATION_URL => $this->getVariableNewPasswordUrl($customerUser),
+            self::VARIABLE_ACTIVATION_URL => $this->newPasswordUrlProvider->getNewPasswordUrl($customerUser, $domainId, 'front_registration_set_new_password'),
         ];
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
-     * @return string
-     */
-    protected function getVariableNewPasswordUrl(CustomerUser $customerUser): string
-    {
-        $router = $this->domainRouterFactory->getRouter($customerUser->getDomainId());
-
-        if (!$customerUser->isResetPasswordHashValid($customerUser->getResetPasswordHash())) {
-            throw new ResetPasswordHashNotValidException('
-                Reset password mail cannot be sent. Customer user with ID "' . $customerUser->getId() . '" has invalid reset password hash.
-            ');
-        }
-
-        $routeParameters = [
-            'email' => $customerUser->getEmail(),
-            'hash' => $customerUser->getResetPasswordHash(),
-        ];
-
-        return $router->generate(
-            'front_registration_set_new_password',
-            $routeParameters,
-            UrlGeneratorInterface::ABSOLUTE_URL,
-        );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser $customerUser
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $customerUser
+     * @param int $domainId
      * @return string[]
      */
-    protected function getSubjectValuesIndexedByVariableName(CustomerUser $customerUser): array
-    {
-        return $this->getBodyValuesIndexedByVariableName($customerUser);
+    protected function getSubjectValuesIndexedByVariableName(
+        ResetPasswordInterface $customerUser,
+        int $domainId,
+    ): array {
+        return $this->getBodyValuesIndexedByVariableName($customerUser, $domainId);
     }
 }

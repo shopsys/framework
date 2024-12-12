@@ -141,6 +141,15 @@ class AdministratorFacade
     }
 
     /**
+     * @param string $administratorEmail
+     * @return \Shopsys\FrameworkBundle\Model\Administrator\Administrator
+     */
+    public function getByEmail(string $administratorEmail): Administrator
+    {
+        return $this->administratorRepository->getByEmail($administratorEmail);
+    }
+
+    /**
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getAllListableQueryBuilder(): QueryBuilder

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Form\Admin\Mail;
 
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Shopsys\FrameworkBundle\Form\Admin\GrapesJsMailType;
 use Shopsys\FrameworkBundle\Form\Constraints\Contains;
 use Shopsys\FrameworkBundle\Form\Constraints\Email;
 use Shopsys\FrameworkBundle\Form\FileUploadType;
@@ -50,10 +50,10 @@ class MailTemplateFormType extends AbstractType
             ])
             ->add(
                 $builder
-                    ->create('body', CKEditorType::class, [
+                    ->create('body', GrapesJsMailType::class, [
                         'label' => t('Content'),
                         'required' => true,
-                        'config_name' => 'email',
+                        'body_variables' => $options['body_variables'],
                         'constraints' => $this->getBodyConstraints($options),
                     ])
                     ->addModelTransformer(new EmptyWysiwygTransformer()),
@@ -141,11 +141,12 @@ class MailTemplateFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setRequired(['required_subject_variables', 'required_body_variables', 'entity', 'allow_disable_sending'])
+            ->setRequired(['required_subject_variables', 'required_body_variables', 'entity', 'allow_disable_sending', 'body_variables'])
             ->setAllowedTypes('required_subject_variables', 'array')
             ->setAllowedTypes('required_body_variables', 'array')
             ->setAllowedTypes('entity', MailTemplate::class)
             ->setAllowedTypes('allow_disable_sending', 'boolean')
+            ->setAllowedTypes('body_variables', 'array')
             ->setDefaults([
                 'required_subject_variables' => [],
                 'required_body_variables' => [],
@@ -164,6 +165,7 @@ class MailTemplateFormType extends AbstractType
 
                     return $validationGroups;
                 },
+                'body_variables' => [],
             ]);
     }
 }

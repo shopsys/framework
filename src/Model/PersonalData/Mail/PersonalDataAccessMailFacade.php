@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\PersonalData\Mail;
 
 use Shopsys\FrameworkBundle\Component\UploadedFile\UploadedFileFacade;
+use Shopsys\FrameworkBundle\Model\Mail\Exception\MailTemplateNotFoundException;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
@@ -31,25 +32,46 @@ class PersonalDataAccessMailFacade
     /**
      * @param \Shopsys\FrameworkBundle\Model\PersonalData\PersonalDataAccessRequest $personalDataAccessRequest
      */
-    public function sendMail(PersonalDataAccessRequest $personalDataAccessRequest)
+    public function sendMail(PersonalDataAccessRequest $personalDataAccessRequest): void
     {
         if ($personalDataAccessRequest->getType() === PersonalDataAccessRequest::TYPE_DISPLAY) {
             $mailTemplate = $this->mailTemplateFacade->get(
                 MailTemplate::PERSONAL_DATA_ACCESS_NAME,
                 $personalDataAccessRequest->getDomainId(),
             );
-
-            $messageData = $this->personalDataAccessMail->createMessage($mailTemplate, $personalDataAccessRequest);
         } else {
             $mailTemplate = $this->mailTemplateFacade->get(
                 MailTemplate::PERSONAL_DATA_EXPORT_NAME,
                 $personalDataAccessRequest->getDomainId(),
             );
+        }
 
+        $this->sendMailTemplate($mailTemplate, $personalDataAccessRequest);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Model\PersonalData\PersonalDataAccessRequest $personalDataAccessRequest
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(
+        MailTemplate $mailTemplate,
+        PersonalDataAccessRequest $personalDataAccessRequest,
+        ?string $forceSendTo = null,
+    ): void {
+        if ($mailTemplate->getName() === MailTemplate::PERSONAL_DATA_ACCESS_NAME) {
+            $messageData = $this->personalDataAccessMail->createMessage($mailTemplate, $personalDataAccessRequest);
+        } elseif ($mailTemplate->getName() === MailTemplate::PERSONAL_DATA_EXPORT_NAME) {
             $messageData = $this->personalDataExportMail->createMessage($mailTemplate, $personalDataAccessRequest);
+        } else {
+            throw new MailTemplateNotFoundException($mailTemplate->getName());
         }
 
         $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
 
         $this->mailer->sendForDomain($messageData, $personalDataAccessRequest->getDomainId());
     }

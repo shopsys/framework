@@ -101,6 +101,23 @@ class AdministratorRepository
     }
 
     /**
+     * @param string $administratorEmail
+     * @return \Shopsys\FrameworkBundle\Model\Administrator\Administrator
+     */
+    public function getByEmail(string $administratorEmail): Administrator
+    {
+        $administrator = $this->getAdministratorRepository()->findOneBy(['email' => $administratorEmail]);
+
+        if ($administrator === null) {
+            throw new AdministratorNotFoundException(
+                'Administrator with email "' . $administratorEmail . '" not found.',
+            );
+        }
+
+        return $administrator;
+    }
+
+    /**
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getAllListableQueryBuilder()

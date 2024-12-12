@@ -28,7 +28,7 @@ class TwoFactorAuthenticationMail implements MessageFactoryInterface
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $template
-     * @param \Shopsys\FrameworkBundle\Model\Administrator\Administrator $administrator
+     * @param \Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface $administrator
      * @return \Shopsys\FrameworkBundle\Model\Mail\MessageData
      */
     public function createMessage(MailTemplate $template, $administrator)
@@ -36,7 +36,7 @@ class TwoFactorAuthenticationMail implements MessageFactoryInterface
         $domainId = $this->domain->getId();
 
         return new MessageData(
-            $administrator->getEmail(),
+            $administrator->getEmailAuthRecipient(),
             $template->getBccEmail(),
             $template->getBody(),
             $template->getSubject(),

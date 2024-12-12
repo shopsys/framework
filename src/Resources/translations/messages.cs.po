@@ -196,6 +196,9 @@ msgstr "Administrátor <strong>{{ name }}</strong> byl smazán."
 msgid "Administrator <strong>{{ name }}</strong> is the only one and can't be deleted."
 msgstr "Administrátor <strong>{{ name }}</strong> je jediný a nemůže být smazán."
 
+msgid "Administrator ID"
+msgstr "ID administrátora"
+
 msgid "Administrator activities history"
 msgstr "Historie aktivit administrátora"
 
@@ -720,6 +723,9 @@ msgstr "IČ"
 
 msgid "Complaint"
 msgstr "Reklamace"
+
+msgid "Complaint ID"
+msgstr "ID reklamace"
 
 msgid "Complaint Nr."
 msgstr "Reklamace č."
@@ -1726,6 +1732,9 @@ msgstr "Chyba"
 msgid "Error messages"
 msgstr "Chybové hlášky"
 
+msgid "Error occurred while sending email."
+msgstr "Při odesílání e-mailu nastala chyba."
+
 msgid "Error occurred while uploading file."
 msgstr "Při nahrávání souboru došlo k chybě."
 
@@ -2172,6 +2181,9 @@ msgstr "Poptávky - zobrazení"
 
 msgid "Inquiries overview"
 msgstr "Přehled poptávek"
+
+msgid "Inquiry ID"
+msgstr "ID poptávky"
 
 msgid "Inquiry by"
 msgstr "Poptávka od"
@@ -2784,6 +2796,9 @@ msgstr "Informace o provozovateli - zobrazení"
 
 msgid "Order"
 msgstr "Objednávka"
+
+msgid "Order ID"
+msgstr "ID objednávky"
 
 msgid "Order Nr."
 msgstr "Objednávka č."
@@ -3646,11 +3661,17 @@ msgstr "Datum stažení"
 msgid "Selling start date"
 msgstr "Datum vložení"
 
+msgid "Send"
+msgstr "Odeslat"
+
 msgid "Send confirmation email about registration to customer"
 msgstr "Odeslat e-mail s potvrzením registrace zákazníkovi"
 
 msgid "Send email about change to this status"
 msgstr "Zasílat e-mail o změně na tento stav"
+
+msgid "Send mail to"
+msgstr "Odeslat email na adresu"
 
 msgid "Send me authentication code"
 msgstr "Pošlete mi ověřovací kód"
@@ -3663,6 +3684,9 @@ msgstr "Odeslat email pro reset hesla"
 
 msgid "Send reset password email"
 msgstr "Zaslat e-mail pro reset hesla"
+
+msgid "Send test mail"
+msgstr "Odeslat testovací email"
 
 msgid "Sending emails off, no email will be sent from the app."
 msgstr "Odesílání e-mailů je vypnuto, z aplikace nebude odeslán žádný e-mail."
@@ -3882,6 +3906,9 @@ msgstr "Telefon"
 
 msgid "Terms and conditions"
 msgstr "Obchodní podmínky"
+
+msgid "Test email sent to %email%."
+msgstr "Testovací email odeslán na adresu %email%."
 
 msgid "The current list of URL addresses can be found in the project's repository in the \"storefront/config/staticRewritePaths.js\" file."
 msgstr "Aktuální seznam URL adres lze nalézt v repozitáři projektu v souboru \"storefront/config/staticRewritePaths.js\"."
@@ -4398,6 +4425,9 @@ msgstr "Pro nastavení přesměrování musíte zadat typ přesměrování."
 
 msgid "You have unsaved changes!"
 msgstr "Máte neuložené změny!"
+
+msgid "You have unsaved changes, save them first, please."
+msgstr "Máte neuložené změny. Nejdříve je prosím uložte."
 
 msgid "Youtube URL"
 msgstr "Youtube URL"

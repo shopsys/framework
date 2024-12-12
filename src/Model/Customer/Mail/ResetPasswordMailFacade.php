@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Customer\Mail;
 
+use Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface;
 use Shopsys\FrameworkBundle\Component\UploadedFile\UploadedFileFacade;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
@@ -35,8 +36,26 @@ class ResetPasswordMailFacade
             MailTemplate::RESET_PASSWORD_NAME,
             $customerUser->getDomainId(),
         );
+        $this->sendMailTemplate($mailTemplate, $customerUser);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Component\Security\ResetPasswordInterface $customerUser
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(
+        MailTemplate $mailTemplate,
+        ResetPasswordInterface $customerUser,
+        ?string $forceSendTo = null,
+    ): void {
         $messageData = $this->resetPasswordMail->createMessage($mailTemplate, $customerUser);
         $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $customerUser->getDomainId());
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
+
+        $this->mailer->sendForDomain($messageData, $mailTemplate->getDomainId());
     }
 }

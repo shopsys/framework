@@ -6,7 +6,9 @@ namespace Shopsys\FrameworkBundle\Model\Inquiry\Mail;
 
 use Shopsys\FrameworkBundle\Component\UploadedFile\UploadedFileFacade;
 use Shopsys\FrameworkBundle\Model\Inquiry\Inquiry;
+use Shopsys\FrameworkBundle\Model\Mail\Exception\MailTemplateNotFoundException;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
+use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
 
 class InquiryMailFacade
@@ -31,13 +33,30 @@ class InquiryMailFacade
     public function sendMail(Inquiry $inquiry): void
     {
         $mailTemplate = $this->mailTemplateFacade->get(InquiryMail::ADMIN_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
-        $messageData = $this->inquiryMail->createMessageForAdmin($mailTemplate, $inquiry);
-        $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $inquiry->getDomainId());
+        $this->sendMailTemplate($mailTemplate, $inquiry);
 
         $mailTemplate = $this->mailTemplateFacade->get(InquiryMail::CUSTOMER_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
-        $messageData = $this->inquiryMail->createMessageForCustomer($mailTemplate, $inquiry);
+        $this->sendMailTemplate($mailTemplate, $inquiry);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Shopsys\FrameworkBundle\Model\Inquiry\Inquiry $inquiry
+     * @param string|null $forceSendTo
+     */
+    public function sendMailTemplate(MailTemplate $mailTemplate, Inquiry $inquiry, ?string $forceSendTo = null): void
+    {
+        $messageData = match ($mailTemplate->getName()) {
+            InquiryMail::ADMIN_MAIL_TEMPLATE_NAME => $this->inquiryMail->createMessageForAdmin($mailTemplate, $inquiry),
+            InquiryMail::CUSTOMER_MAIL_TEMPLATE_NAME => $this->inquiryMail->createMessageForCustomer($mailTemplate, $inquiry),
+            default => throw new MailTemplateNotFoundException($mailTemplate->getName()),
+        };
+
+        if ($forceSendTo !== null) {
+            $messageData->toEmail = $forceSendTo;
+        }
+
         $messageData->attachments = $this->uploadedFileFacade->getUploadedFilesByEntity($mailTemplate);
-        $this->mailer->sendForDomain($messageData, $inquiry->getDomainId());
+        $this->mailer->sendForDomain($messageData, $mailTemplate->getDomainId());
     }
 }

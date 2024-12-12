@@ -8,6 +8,7 @@ use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Mail\Mailer;
+use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateFacade;
 
 class TwoFactorAuthenticationMailFacade implements AuthCodeMailerInterface
@@ -35,7 +36,17 @@ class TwoFactorAuthenticationMailFacade implements AuthCodeMailerInterface
             TwoFactorAuthenticationMail::TWO_FACTOR_AUTHENTICATION_CODE,
             $this->domain->getId(),
         );
-        $messageData = $this->twoFactorAuthenticationMail->createMessage($mailTemplate, $administrator);
+        $this->sendMail($mailTemplate, $administrator);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @param \Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface $twoFactorUser
+     */
+    public function sendMail(MailTemplate $mailTemplate, TwoFactorInterface $twoFactorUser): void
+    {
+        $messageData = $this->twoFactorAuthenticationMail->createMessage($mailTemplate, $twoFactorUser);
+
         $this->mailer->sendForDomain($messageData, $this->domain->getId());
     }
 }

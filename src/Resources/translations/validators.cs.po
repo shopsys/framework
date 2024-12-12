@@ -232,6 +232,9 @@ msgstr "Vyplňte prosím název dph"
 msgid "Please enter VAT rate"
 msgstr "Vyplňte prosím výši DPH"
 
+msgid "Please enter an ID"
+msgstr "Zadejte prosím ID"
+
 msgid "Please enter article content"
 msgstr "Vyplňte prosím text článku"
 
@@ -300,6 +303,9 @@ msgstr "Vyplňte prosím procento slevy."
 
 msgid "Please enter email"
 msgstr "Vyplňte prosím e-mail"
+
+msgid "Please enter email address"
+msgstr ""
 
 msgid "Please enter email content"
 msgstr "Vyplňte prosím text e-mailu"

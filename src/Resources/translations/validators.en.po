@@ -232,6 +232,9 @@ msgstr ""
 msgid "Please enter VAT rate"
 msgstr ""
 
+msgid "Please enter an ID"
+msgstr ""
+
 msgid "Please enter article content"
 msgstr ""
 
@@ -299,6 +302,9 @@ msgid "Please enter discount percentage"
 msgstr ""
 
 msgid "Please enter email"
+msgstr ""
+
+msgid "Please enter email address"
 msgstr ""
 
 msgid "Please enter email content"

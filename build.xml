@@ -1445,7 +1445,7 @@
         <phingcall target="tests-check-failed"/>
     </target>
 
-    <target name="tests-functional-application-run" description="Runs application functional tests in provided folder" hidden="true">
+    <target name="tests-functional-application-run" depends="domains-info-load" description="Runs application functional tests in provided folder" hidden="true">
         <echo message="Running tests from: ${path.tests.functional}${testsDirname}"/>
         <exec executable="${path.phpunit.executable}" logoutput="true" passthru="true" checkreturn="${tests.stop-on-failed-group}" returnProperty="tests.exit-code">
             <arg value="--colors=always"/>
@@ -1491,7 +1491,7 @@
         <phingcall target="tests-check-failed"/>
     </target>
 
-    <target name="tests-functional-frontend-api-b2b-run" description="Runs application functional tests in provided folder" hidden="true">
+    <target name="tests-functional-frontend-api-b2b-run" depends="domains-info-load" description="Runs application functional tests in provided folder" hidden="true">
         <echo message="Running tests from: ${path.tests.frontend_api.functional.b2b}${testsDirname}"/>
         <exec executable="${path.phpunit.executable}" logoutput="true" passthru="true" checkreturn="${tests.stop-on-failed-group}" returnProperty="tests.exit-code">
             <arg value="--colors=always"/>
@@ -1512,7 +1512,7 @@
         </if>
     </target>
 
-    <target name="tests-functional-frontend-api-run" description="Runs application functional tests in provided folder" hidden="true">
+    <target name="tests-functional-frontend-api-run" depends="domains-info-load" description="Runs application functional tests in provided folder" hidden="true">
         <echo message="Running tests from: ${path.tests.frontend_api.functional}${testsDirname}"/>
         <exec executable="${path.phpunit.executable}" logoutput="true" passthru="true" checkreturn="${tests.stop-on-failed-group}" returnProperty="tests.exit-code">
             <arg value="--colors=always"/>

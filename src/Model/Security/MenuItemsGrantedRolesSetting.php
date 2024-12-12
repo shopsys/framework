@@ -46,6 +46,9 @@ class MenuItemsGrantedRolesSetting
             'customers' . static::MENU_ITEM_PATH_SEPARATOR . 'sales_representatives' => [
                 Roles::ROLE_SALES_REPRESENTATIVE_VIEW,
             ],
+            'customers' . static::MENU_ITEM_PATH_SEPARATOR . 'watchdog' => [
+                Roles::ROLE_WATCHDOG_VIEW,
+            ],
             'products' . static::MENU_ITEM_PATH_SEPARATOR . 'products' => [
                 Roles::ROLE_PRODUCT_VIEW,
             ],

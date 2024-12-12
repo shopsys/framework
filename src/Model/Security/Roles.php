@@ -168,6 +168,9 @@ class Roles
 
     public const string ROLE_INQUIRY_VIEW = 'ROLE_INQUIRY_VIEW';
 
+    public const string ROLE_WATCHDOG_FULL = 'ROLE_WATCHDOG_FULL';
+    public const string ROLE_WATCHDOG_VIEW = 'ROLE_WATCHDOG_VIEW';
+
     /**
      * @return array<string, string>
      */
@@ -394,6 +397,10 @@ class Roles
             ],
             [
                 static::ROLE_INQUIRY_VIEW => t('Inquiries - view'),
+            ],
+            [
+                static::ROLE_WATCHDOG_FULL => t('Watchdogs - full'),
+                static::ROLE_WATCHDOG_VIEW => t('Watchdogs - view'),
             ],
         ];
     }

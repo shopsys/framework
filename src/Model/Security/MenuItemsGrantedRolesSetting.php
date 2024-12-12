@@ -52,6 +52,9 @@ class MenuItemsGrantedRolesSetting
             'products' . static::MENU_ITEM_PATH_SEPARATOR . 'categories' => [
                 Roles::ROLE_CATEGORY_VIEW,
             ],
+            'files' => [
+                Roles::ROLE_FILES_VIEW,
+            ],
             'pricing' . static::MENU_ITEM_PATH_SEPARATOR . 'pricing_groups' => [
                 Roles::ROLE_PRICING_GROUP_VIEW,
             ],

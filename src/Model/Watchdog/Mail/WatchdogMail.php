@@ -13,6 +13,7 @@ use Shopsys\FrameworkBundle\Model\Mail\MessageData;
 use Shopsys\FrameworkBundle\Model\Mail\Setting\MailSetting;
 use Shopsys\FrameworkBundle\Model\Product\Availability\ProductAvailabilityFacade;
 use Shopsys\FrameworkBundle\Model\Product\Image\ProductImageFacade;
+use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Watchdog\Watchdog;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -47,60 +48,84 @@ class WatchdogMail
      */
     public function createMessage(MailTemplate $template, Watchdog $watchdog): MessageData
     {
-        $locale = $this->domain->getDomainConfigById($watchdog->getDomainId())->getLocale();
-
-        return new MessageData(
+        return $this->createMessageFromProductAndEmail(
+            $template,
             $watchdog->getEmail(),
-            $template->getBccEmail(),
-            $template->getBody(),
-            $template->getSubject(),
-            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL, $watchdog->getDomainId()),
-            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL_NAME, $watchdog->getDomainId()),
-            $this->getBodyVariablesReplacements($watchdog, $locale),
-            $this->getSubjectVariablesReplacements($watchdog, $locale),
-        );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog $watchdog
-     * @param string $locale
-     * @return array<string, string>
-     */
-    protected function getSubjectVariablesReplacements(Watchdog $watchdog, string $locale): array
-    {
-        return [
-            self::VARIABLE_PRODUCT_NAME => MailerHelper::escapeOptionalString($watchdog->getProduct()->getName($locale)),
-        ];
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog $watchdog
-     * @param string $locale
-     * @return array<string, string>
-     */
-    protected function getBodyVariablesReplacements(Watchdog $watchdog, string $locale): array
-    {
-        return [
-            ...$this->getSubjectVariablesReplacements($watchdog, $locale),
-            self::VARIABLE_PRODUCT_URL => $this->getProductUrl($watchdog),
-            self::VARIABLE_PRODUCT_IMAGE => $this->productImageFacade->getProductImageUrl($watchdog->getProduct(), $watchdog->getDomainId()),
-            self::VARIABLE_PRODUCT_QUANTITY => $this->getProductQuantity($watchdog, $locale),
-        ];
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog $watchdog
-     * @param string $locale
-     * @return string
-     */
-    protected function getProductQuantity(Watchdog $watchdog, string $locale): string
-    {
-        $productQuantity = $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId(
             $watchdog->getProduct(),
             $watchdog->getDomainId(),
         );
+    }
 
-        $unit = $watchdog->getProduct()->getUnit()->getName($locale);
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $template
+     * @param string $email
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return \Shopsys\FrameworkBundle\Model\Mail\MessageData
+     */
+    public function createMessageFromProductAndEmail(
+        MailTemplate $template,
+        string $email,
+        Product $product,
+        int $domainId,
+    ): MessageData {
+        $locale = $this->domain->getDomainConfigById($domainId)->getLocale();
+
+        return new MessageData(
+            $email,
+            $template->getBccEmail(),
+            $template->getBody(),
+            $template->getSubject(),
+            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL, $domainId),
+            $this->setting->getForDomain(MailSetting::MAIN_ADMIN_MAIL_NAME, $domainId),
+            $this->getBodyVariablesReplacements($product, $domainId),
+            $this->getSubjectVariablesReplacements($product, $locale),
+        );
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param string $locale
+     * @return array<string, string>
+     */
+    protected function getSubjectVariablesReplacements(Product $product, string $locale): array
+    {
+        return [
+            self::VARIABLE_PRODUCT_NAME => MailerHelper::escapeOptionalString($product->getName($locale)),
+        ];
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @return array<string, string>
+     */
+    protected function getBodyVariablesReplacements(Product $product, int $domainId): array
+    {
+        $locale = $this->domain->getDomainConfigById($domainId)->getLocale();
+
+        return [
+            ...$this->getSubjectVariablesReplacements($product, $locale),
+            self::VARIABLE_PRODUCT_URL => $this->getProductUrl($product, $domainId),
+            self::VARIABLE_PRODUCT_IMAGE => $this->productImageFacade->getProductImageUrl($product, $domainId),
+            self::VARIABLE_PRODUCT_QUANTITY => $this->getProductQuantity($product, $domainId, $locale),
+        ];
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
+     * @param string $locale
+     * @return string
+     */
+    protected function getProductQuantity(Product $product, int $domainId, string $locale): string
+    {
+        $productQuantity = $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId(
+            $product,
+            $domainId,
+        );
+
+        $unit = $product->getUnit()->getName($locale);
 
         if ($productQuantity === null) {
             return '';
@@ -110,14 +135,15 @@ class WatchdogMail
     }
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog $watchdog
+     * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
+     * @param int $domainId
      * @return string
      */
-    protected function getProductUrl(Watchdog $watchdog): string
+    protected function getProductUrl(Product $product, int $domainId): string
     {
-        return $this->domainRouterFactory->getRouter($watchdog->getDomainId())->generate(
+        return $this->domainRouterFactory->getRouter($domainId)->generate(
             'front_product_detail',
-            ['id' => $watchdog->getProduct()->getId()],
+            ['id' => $product->getId()],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
     }

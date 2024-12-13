@@ -3217,6 +3217,9 @@ msgstr ""
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr ""
 
+msgid "Product ID"
+msgstr ""
+
 msgid "Product associated with this inquiry is no longer available in the catalog."
 msgstr ""
 

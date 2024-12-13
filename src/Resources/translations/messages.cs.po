@@ -3217,6 +3217,9 @@ msgstr "Bylo upraveno zboží <strong><a href=\"{{ url }}\">{{ product|productDi
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr "Produkt <strong>{{ product|productDisplayName }}</strong> byl smazán"
 
+msgid "Product ID"
+msgstr "ID produktu"
+
 msgid "Product associated with this inquiry is no longer available in the catalog."
 msgstr "Produkt v této poptávce není již dostupný v katalogu."
 

@@ -34,7 +34,7 @@ class CustomerMailFacade
      */
     public function sendRegistrationMail(CustomerUser $customerUser): void
     {
-        $mailTemplate = $this->mailTemplateFacade->get(
+        $mailTemplate = $this->mailTemplateFacade->getWrappedWithGrapesJsBody(
             MailTemplate::REGISTRATION_CONFIRM_NAME,
             $customerUser->getDomainId(),
         );
@@ -46,7 +46,7 @@ class CustomerMailFacade
      */
     public function sendActivationMail(CustomerUser $customerUser): void
     {
-        $mailTemplate = $this->mailTemplateFacade->get(CustomerActivationMail::CUSTOMER_ACTIVATION_NAME, $customerUser->getDomainId());
+        $mailTemplate = $this->mailTemplateFacade->getWrappedWithGrapesJsBody(CustomerActivationMail::CUSTOMER_ACTIVATION_NAME, $customerUser->getDomainId());
         $this->sendActivationMailTemplate($mailTemplate, $customerUser);
     }
 

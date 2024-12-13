@@ -40,16 +40,11 @@ class MailTemplateFacade
      * @param int $domainId
      * @return \Shopsys\FrameworkBundle\Model\Mail\MailTemplate
      */
-    public function get($templateName, $domainId)
+    public function getWrappedWithGrapesJsBody(string $templateName, int $domainId): MailTemplate
     {
         $mailTemplate = $this->mailTemplateRepository->getByNameAndDomainId($templateName, $domainId);
 
-        if ($mailTemplate !== null) {
-            $mailTemplate->setBody($this->mailTemplateBuilder->getMailTemplateWithContent($domainId, $mailTemplate->getBody()));
-            $this->em->detach($mailTemplate);
-        }
-
-        return $mailTemplate;
+        return $this->getTemplateWrappedWithGrapesBody($mailTemplate);
     }
 
     /**
@@ -114,5 +109,17 @@ class MailTemplateFacade
     public function existsTemplateWithEnabledSendingHavingEmptyBodyOrSubject()
     {
         return $this->mailTemplateRepository->existsTemplateWithEnabledSendingHavingEmptyBodyOrSubject();
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate
+     * @return \Shopsys\FrameworkBundle\Model\Mail\MailTemplate
+     */
+    public function getTemplateWrappedWithGrapesBody(MailTemplate $mailTemplate): MailTemplate
+    {
+        $mailTemplate->setBody($this->mailTemplateBuilder->getMailTemplateWithContent($mailTemplate->getDomainId(), $mailTemplate->getBody()));
+        $this->em->detach($mailTemplate); // detach from entity manager to avoid accidental persisting the changes to the database
+
+        return $mailTemplate;
     }
 }

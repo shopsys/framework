@@ -32,7 +32,7 @@ class ResetPasswordMailFacade
      */
     public function sendMail(Administrator $administrator)
     {
-        $mailTemplate = $this->mailTemplateFacade->get(
+        $mailTemplate = $this->mailTemplateFacade->getWrappedWithGrapesJsBody(
             ResetPasswordMail::MAIL_TEMPLATE_NAME,
             $this->domain->getId(),
         );

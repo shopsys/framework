@@ -50,7 +50,7 @@ class OrderMailFacade
     {
         $templateName = OrderMail::getMailTemplateNameByStatus($orderStatus);
 
-        return $this->mailTemplateFacade->get($templateName, $domainId);
+        return $this->mailTemplateFacade->getWrappedWithGrapesJsBody($templateName, $domainId);
     }
 
     /**

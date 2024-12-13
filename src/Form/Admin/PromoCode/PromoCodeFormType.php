@@ -142,10 +142,12 @@ class PromoCodeFormType extends AbstractType
             'constraints' => [
                 new Constraints\NotBlank([
                     'message' => 'Please enter discount percentage',
+                    'groups' => [self::VALIDATION_GROUP_TYPE_PERCENT, self::VALIDATION_GROUP_TYPE_NOMINAL],
                 ]),
                 new Constraints\Range([
                     'min' => 0,
                     'max' => 100,
+                    'groups' => [self::VALIDATION_GROUP_TYPE_PERCENT, self::VALIDATION_GROUP_TYPE_NOMINAL],
                 ]),
             ],
             'invalid_message' => 'Please enter whole number.',

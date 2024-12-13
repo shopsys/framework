@@ -23,7 +23,6 @@ use Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorRolesChang
 use Shopsys\FrameworkBundle\Model\AdminNavigation\BreadcrumbOverrider;
 use Shopsys\FrameworkBundle\Model\Security\Authenticator;
 use Shopsys\FrameworkBundle\Model\Security\Roles;
-use Shopsys\FrontendApiBundle\Model\Token\TokenAuthenticator;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,7 +49,6 @@ class AdministratorController extends AdminBaseController
      * @param \Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorRolesChangedFacade $administratorRolesChangedFacade
      * @param \Shopsys\FrameworkBundle\Model\Administrator\AdministratorTwoFactorAuthenticationFacade $administratorTwoFactorAuthenticationFacade
      * @param \Shopsys\FrameworkBundle\Model\Administrator\AdministratorPasswordFacade $administratorPasswordFacade
-     * @param \Shopsys\FrontendApiBundle\Model\Token\TokenAuthenticator $tokenAuthenticator
      * @param \Shopsys\FrameworkBundle\Model\Security\Authenticator $authenticator
      */
     public function __construct(
@@ -62,7 +60,6 @@ class AdministratorController extends AdminBaseController
         protected readonly AdministratorRolesChangedFacade $administratorRolesChangedFacade,
         protected readonly AdministratorTwoFactorAuthenticationFacade $administratorTwoFactorAuthenticationFacade,
         protected readonly AdministratorPasswordFacade $administratorPasswordFacade,
-        protected readonly TokenAuthenticator $tokenAuthenticator,
         protected readonly Authenticator $authenticator,
     ) {
     }

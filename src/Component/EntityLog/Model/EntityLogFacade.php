@@ -119,7 +119,7 @@ class EntityLogFacade
         }
 
         if ($loggableSetup->isLocalized()) {
-            return call_user_func([$entity, $functionName], $this->localization->getAdminLocale());
+            return call_user_func([$entity, $functionName], $this->localization->getDefaultAdminLocale());
         }
 
         return call_user_func([$entity, $functionName]);

@@ -1,6 +1,6 @@
 <div class="js-toggle-menu-submenu box-dropdown__options js-domains-select">
     {{ form_start(form, {'action': path('admin_domains_filter'), 'method': 'POST'}) }}
-    <ul class="multi-column-list">
+    <ul class="domain-filter__list">
         {% for child in form.domains %}
             <li class="box-dropdown__options__item">
                 <div class="form-choice form-choice--inline-checkbox">
@@ -11,10 +11,12 @@
             </li>
         {% endfor %}
     </ul>
-    <div class="select-domain-buttons">
-        <button class="btn btn--light btn--small js-domains-select-all" type="button">{{ 'Select all'|trans }}</button>
-        <button class="btn btn--light btn--small js-domains-select-none"
-                type="button">{{ 'Select none'|trans }}</button>
+    <div class="domain-filter__buttons">
+        <label class="checkbox">
+            <input type="checkbox" class="checkbox__input js-domains-select-all-checkbox">
+            <span class="checkbox__checkmark"></span>
+            <span class="checkbox__label">{{ 'All'|trans }}</span>
+        </label>
         {{ form_widget(form.apply) }}
     </div>
     {{ form_end(form) }}

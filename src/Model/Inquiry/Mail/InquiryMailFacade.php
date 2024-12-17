@@ -32,10 +32,10 @@ class InquiryMailFacade
      */
     public function sendMail(Inquiry $inquiry): void
     {
-        $mailTemplate = $this->mailTemplateFacade->get(InquiryMail::ADMIN_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
+        $mailTemplate = $this->mailTemplateFacade->getWrappedWithGrapesJsBody(InquiryMail::ADMIN_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
         $this->sendMailTemplate($mailTemplate, $inquiry);
 
-        $mailTemplate = $this->mailTemplateFacade->get(InquiryMail::CUSTOMER_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
+        $mailTemplate = $this->mailTemplateFacade->getWrappedWithGrapesJsBody(InquiryMail::CUSTOMER_MAIL_TEMPLATE_NAME, $inquiry->getDomainId());
         $this->sendMailTemplate($mailTemplate, $inquiry);
     }
 

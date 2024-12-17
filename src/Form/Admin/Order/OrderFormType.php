@@ -231,6 +231,16 @@ class OrderFormType extends AbstractType
                 ],
             ]);
 
+        $promoCode = $order->getPromoCode();
+
+        if ($promoCode !== null) {
+            $builderBasicInformationGroup
+                ->add('promoCode', DisplayOnlyType::class, [
+                    'label' => t('Promo code'),
+                    'data' => $promoCode,
+                ]);
+        }
+
         return $builderBasicInformationGroup;
     }
 

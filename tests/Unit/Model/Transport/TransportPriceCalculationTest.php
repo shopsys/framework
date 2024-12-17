@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Money\Money;
-use Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleResolver;
 use Shopsys\FrameworkBundle\Model\Pricing\BasePriceCalculation;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyData;
@@ -25,6 +24,7 @@ use Shopsys\FrameworkBundle\Model\Transport\TransportInputPricesData;
 use Shopsys\FrameworkBundle\Model\Transport\TransportPrice;
 use Shopsys\FrameworkBundle\Model\Transport\TransportPriceCalculation;
 use Shopsys\FrameworkBundle\Model\Transport\TransportPriceFacade;
+use Shopsys\FrameworkBundle\Model\TransportAndPayment\FreeTransportAndPaymentFacade;
 use Tests\FrameworkBundle\Test\IsMoneyEqual;
 
 class TransportPriceCalculationTest extends TestCase
@@ -71,13 +71,6 @@ class TransportPriceCalculationTest extends TestCase
         $pricingSettingMock
             ->expects($this->any())->method('getInputPriceType')
                 ->willReturn($inputPriceType);
-        $customerUserRoleResolverMock = $this->getMockBuilder(CustomerUserRoleResolver::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['canCurrentCustomerUserSeePrices'])
-            ->getMock();
-        $customerUserRoleResolverMock
-            ->expects($this->any())->method('canCurrentCustomerUserSeePrices')
-                ->willReturn(true);
 
         $rounding = new Rounding();
         $priceCalculation = new PriceCalculation($rounding);
@@ -89,8 +82,9 @@ class TransportPriceCalculationTest extends TestCase
             ->expects($this->any())->method('getDomainDefaultCurrencyByDomainId')
             ->willReturn(new Currency($currencyData));
         $transportPriceFacadeMock = $this->createMock(TransportPriceFacade::class);
+        $freeTransportAndPaymentFacadeMock = $this->createMock(FreeTransportAndPaymentFacade::class);
 
-        $transportPriceCalculation = new TransportPriceCalculation($basePriceCalculation, $pricingSettingMock, $customerUserRoleResolverMock, $currencyFacadeMock, $transportPriceFacadeMock);
+        $transportPriceCalculation = new TransportPriceCalculation($basePriceCalculation, $pricingSettingMock, $currencyFacadeMock, $transportPriceFacadeMock, $freeTransportAndPaymentFacadeMock);
 
         $vatData = new VatData();
         $vatData->name = 'vat';

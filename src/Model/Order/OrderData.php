@@ -253,12 +253,18 @@ class OrderData
      */
     public $password;
 
+    /**
+     * @var bool
+     */
+    public $freeTransportAndPaymentApplied;
+
     public function __construct()
     {
         $this->deliveryAddressSameAsBillingAddress = false;
         $this->paymentTransactionRefunds = [];
         $this->heurekaAgreement = false;
         $this->isCompanyCustomer = false;
+        $this->freeTransportAndPaymentApplied = false;
 
         $this->totalPrice = new Price(Money::zero(), Money::zero());
     }

@@ -1984,6 +1984,9 @@ msgstr "Doprava a platba zdarma"
 msgid "Free shipping and payment settings saved"
 msgstr "Nastavení dopravy a platby zdarma bylo uloženo"
 
+msgid "Free transport and payment"
+msgstr "Doprava a platba zdarma"
+
 msgid "Free transport and payment - full"
 msgstr "Doprava a platba zdarma - vše"
 

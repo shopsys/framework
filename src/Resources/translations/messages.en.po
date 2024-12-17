@@ -1984,6 +1984,9 @@ msgstr ""
 msgid "Free shipping and payment settings saved"
 msgstr ""
 
+msgid "Free transport and payment"
+msgstr ""
+
 msgid "Free transport and payment - full"
 msgstr ""
 

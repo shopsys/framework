@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\EntityExtension\EntityNameResolver;
 use Shopsys\FrameworkBundle\Component\Money\Money;
-use Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleResolver;
 use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentData;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentPriceCalculation;
@@ -23,6 +22,7 @@ use Shopsys\FrameworkBundle\Model\Pricing\PricingSetting;
 use Shopsys\FrameworkBundle\Model\Pricing\Rounding;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\VatData;
+use Shopsys\FrameworkBundle\Model\TransportAndPayment\FreeTransportAndPaymentFacade;
 use Tests\FrameworkBundle\Test\IsMoneyEqual;
 
 class PaymentPriceCalculationTest extends TestCase
@@ -57,6 +57,7 @@ class PaymentPriceCalculationTest extends TestCase
                 'priceWithoutVat' => Money::create('6999.17'),
                 'priceWithVat' => Money::create(8469),
                 'productsPrice' => new Price(Money::create(100), Money::create(121)),
+                'forceFreePrice' => false,
             ],
             [
                 'inputPriceType' => PricingSetting::INPUT_PRICE_TYPE_WITH_VAT,
@@ -65,6 +66,16 @@ class PaymentPriceCalculationTest extends TestCase
                 'priceWithoutVat' => Money::create('5785.12'),
                 'priceWithVat' => Money::create(7000),
                 'productsPrice' => new Price(Money::create(1000), Money::create(1210)),
+                'forceFreePrice' => false,
+            ],
+            [
+                'inputPriceType' => PricingSetting::INPUT_PRICE_TYPE_WITHOUT_VAT,
+                'inputPrice' => Money::create(6999),
+                'vatPercent' => '21',
+                'priceWithoutVat' => Money::create('6999.17'),
+                'priceWithVat' => Money::create(8469),
+                'productsPrice' => new Price(Money::create(100), Money::create(121)),
+                'forceFreePrice' => true,
             ],
         ];
     }
@@ -91,20 +102,14 @@ class PaymentPriceCalculationTest extends TestCase
         $pricingSettingMock
             ->expects($this->any())->method('getInputPriceType')
                 ->willReturn($inputPriceType);
-        $customerUserRoleResolverMock = $this->getMockBuilder(CustomerUserRoleResolver::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['canCurrentCustomerUserSeePrices'])
-            ->getMock();
-        $customerUserRoleResolverMock
-            ->expects($this->any())->method('canCurrentCustomerUserSeePrices')
-                ->willReturn(true);
+        $freeTransportAndPaymentFacadeMock = $this->createMock(FreeTransportAndPaymentFacade::class);
 
         $rounding = new Rounding();
 
         $priceCalculation = new PriceCalculation($rounding);
         $basePriceCalculation = new BasePriceCalculation($priceCalculation, $rounding);
 
-        $paymentPriceCalculation = new PaymentPriceCalculation($basePriceCalculation, $pricingSettingMock, $customerUserRoleResolverMock);
+        $paymentPriceCalculation = new PaymentPriceCalculation($basePriceCalculation, $pricingSettingMock, $freeTransportAndPaymentFacadeMock);
 
         $vatData = new VatData();
         $vatData->name = 'vat';
@@ -149,6 +154,7 @@ class PaymentPriceCalculationTest extends TestCase
      * @param \Shopsys\FrameworkBundle\Component\Money\Money $priceWithoutVat
      * @param \Shopsys\FrameworkBundle\Component\Money\Money $priceWithVat
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Price $productsPrice
+     * @param bool $forceFreePrice
      */
     #[DataProvider('calculatePriceProvider')]
     public function testCalculatePrice(
@@ -158,6 +164,7 @@ class PaymentPriceCalculationTest extends TestCase
         Money $priceWithoutVat,
         Money $priceWithVat,
         Price $productsPrice,
+        bool $forceFreePrice,
     ) {
         $priceLimit = Money::create(1000);
         $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
@@ -167,23 +174,21 @@ class PaymentPriceCalculationTest extends TestCase
         $pricingSettingMock
             ->expects($this->any())->method('getInputPriceType')
                 ->willReturn($inputPriceType);
-        $pricingSettingMock
-            ->expects($this->any())->method('getFreeTransportAndPaymentPriceLimit')
-                ->willReturn($priceLimit);
-        $customerUserRoleResolverMock = $this->getMockBuilder(CustomerUserRoleResolver::class)
+        $freeTransportAndPaymentFacadeMock = $this->getMockBuilder(FreeTransportAndPaymentFacade::class)
+            ->onlyMethods(['isFree'])
             ->disableOriginalConstructor()
-            ->onlyMethods(['canCurrentCustomerUserSeePrices'])
             ->getMock();
-        $customerUserRoleResolverMock
-            ->expects($this->any())->method('canCurrentCustomerUserSeePrices')
-                ->willReturn(true);
+        $priceShouldBeFree = $forceFreePrice || $productsPrice->getPriceWithVat()->isGreaterThan($priceLimit);
+        $freeTransportAndPaymentFacadeMock
+            ->expects($this->any())->method('isFree')
+            ->willReturn($priceShouldBeFree);
 
         $rounding = new Rounding();
 
         $priceCalculation = new PriceCalculation($rounding);
         $basePriceCalculation = new BasePriceCalculation($priceCalculation, $rounding);
 
-        $paymentPriceCalculation = new PaymentPriceCalculation($basePriceCalculation, $pricingSettingMock, $customerUserRoleResolverMock);
+        $paymentPriceCalculation = new PaymentPriceCalculation($basePriceCalculation, $pricingSettingMock, $freeTransportAndPaymentFacadeMock);
 
         $vatData = new VatData();
         $vatData->name = 'vat';
@@ -220,9 +225,10 @@ class PaymentPriceCalculationTest extends TestCase
             $currency,
             $productsPrice,
             Domain::FIRST_DOMAIN_ID,
+            $forceFreePrice,
         );
 
-        if ($productsPrice->getPriceWithVat()->isGreaterThan($priceLimit)) {
+        if ($priceShouldBeFree) {
             $this->assertThat($price->getPriceWithoutVat(), new IsMoneyEqual(Money::zero()));
             $this->assertThat($price->getPriceWithVat(), new IsMoneyEqual(Money::zero()));
         } else {

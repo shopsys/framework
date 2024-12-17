@@ -40,6 +40,7 @@ class PromoCodeLimitType extends AbstractType
             'constraints' => [
                 new Constraints\NotBlank([
                     'message' => 'Please enter limit from',
+                    'groups' => [PromoCodeFormType::VALIDATION_GROUP_TYPE_PERCENT, PromoCodeFormType::VALIDATION_GROUP_TYPE_NOMINAL],
                 ]),
             ],
         ]);

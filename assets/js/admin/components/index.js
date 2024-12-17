@@ -49,6 +49,7 @@ import './productsPicker';
 import './ProductsPickerWindow';
 import './MultiplePicker';
 import './PickerWindow';
+import './PromoCode';
 import './PromoCodeFlags';
 import './PromoCodeGroup';
 import './PromoCodeLimits';

@@ -240,7 +240,10 @@ class CurrentPromoCodeFacade
         $this->validateRemainingUses($promoCode);
         $allowedProductIdsByProducts = $this->validatePromoCodeByProductsInCart($promoCode, $products);
         $allowedProductIdsByFlags = $this->validatePromoCodeByFlags($promoCode, $products);
-        $this->validateLimit($promoCode, $totalProductPrice);
+
+        if ($promoCode->isFreeTransportAndPaymentType() === false) {
+            $this->validateLimit($promoCode, $totalProductPrice);
+        }
 
         return array_intersect($allowedProductIdsByProducts, $allowedProductIdsByFlags);
     }

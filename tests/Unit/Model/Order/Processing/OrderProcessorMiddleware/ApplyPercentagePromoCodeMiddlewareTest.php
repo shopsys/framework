@@ -16,6 +16,7 @@ use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCode;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeData;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFacade;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeLimit\PromoCodeLimit;
+use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeTypeEnum;
 use Shopsys\FrameworkBundle\Model\Pricing\Price;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Twig\NumberFormatterExtension;
@@ -35,7 +36,7 @@ class ApplyPercentagePromoCodeMiddlewareTest extends MiddlewareTestCase
 
         $promoCodeData = new PromoCodeData();
         $promoCodeData->code = 'promoCode';
-        $promoCodeData->discountType = PromoCode::DISCOUNT_TYPE_PERCENT;
+        $promoCodeData->discountType = PromoCodeTypeEnum::DISCOUNT_TYPE_PERCENT;
         $promoCode = new PromoCode($promoCodeData);
 
         $orderProcessingData->orderInput->addPromoCode($promoCode);
@@ -92,10 +93,10 @@ class ApplyPercentagePromoCodeMiddlewareTest extends MiddlewareTestCase
     }
 
     /**
-     * @param int|null $promoCodeType
+     * @param string|null $promoCodeType
      */
     #[DataProvider('invalidPromoCodeTypeDataProvider')]
-    public function testNoPromoCodeIsAdded(?int $promoCodeType): void
+    public function testNoPromoCodeIsAdded(?string $promoCodeType): void
     {
         $orderProcessingData = $this->createOrderProcessingData();
 
@@ -154,7 +155,9 @@ class ApplyPercentagePromoCodeMiddlewareTest extends MiddlewareTestCase
      */
     public static function invalidPromoCodeTypeDataProvider(): iterable
     {
-        yield [PromoCode::DISCOUNT_TYPE_NOMINAL];
+        yield [PromoCodeTypeEnum::DISCOUNT_TYPE_NOMINAL];
+
+        yield [PromoCodeTypeEnum::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT];
 
         yield [null];
     }

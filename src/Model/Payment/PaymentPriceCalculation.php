@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Shopsys\FrameworkBundle\Model\Payment;
 
-use Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleResolver;
 use Shopsys\FrameworkBundle\Model\Pricing\BasePriceCalculation;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
 use Shopsys\FrameworkBundle\Model\Pricing\Price;
 use Shopsys\FrameworkBundle\Model\Pricing\PricingSetting;
+use Shopsys\FrameworkBundle\Model\TransportAndPayment\FreeTransportAndPaymentFacade;
 
 class PaymentPriceCalculation
 {
     /**
      * @param \Shopsys\FrameworkBundle\Model\Pricing\BasePriceCalculation $basePriceCalculation
      * @param \Shopsys\FrameworkBundle\Model\Pricing\PricingSetting $pricingSetting
-     * @param \Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleResolver $customerUserRoleResolver
+     * @param \Shopsys\FrameworkBundle\Model\TransportAndPayment\FreeTransportAndPaymentFacade $freeTransportAndPaymentFacade
      */
     public function __construct(
         protected readonly BasePriceCalculation $basePriceCalculation,
         protected readonly PricingSetting $pricingSetting,
-        protected readonly CustomerUserRoleResolver $customerUserRoleResolver,
+        protected readonly FreeTransportAndPaymentFacade $freeTransportAndPaymentFacade,
     ) {
     }
 
@@ -29,6 +29,7 @@ class PaymentPriceCalculation
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency $currency
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Price $productsPrice
      * @param int $domainId
+     * @param bool $forceFreePayment
      * @return \Shopsys\FrameworkBundle\Model\Pricing\Price
      */
     public function calculatePrice(
@@ -36,8 +37,9 @@ class PaymentPriceCalculation
         Currency $currency,
         Price $productsPrice,
         int $domainId,
+        bool $forceFreePayment,
     ): Price {
-        if ($this->isFree($productsPrice, $domainId)) {
+        if ($this->freeTransportAndPaymentFacade->isFree($productsPrice->getPriceWithVat(), $domainId, $forceFreePayment)) {
             return Price::zero();
         }
 
@@ -58,25 +60,5 @@ class PaymentPriceCalculation
             $payment->getPaymentDomain($domainId)->getVat(),
             $currency,
         );
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Pricing\Price $productsPrice
-     * @param int $domainId
-     * @return bool
-     */
-    protected function isFree(Price $productsPrice, int $domainId): bool
-    {
-        if (!$this->customerUserRoleResolver->canCurrentCustomerUserSeePrices()) {
-            return false;
-        }
-
-        $freeTransportAndPaymentPriceLimit = $this->pricingSetting->getFreeTransportAndPaymentPriceLimit($domainId);
-
-        if ($freeTransportAndPaymentPriceLimit === null) {
-            return false;
-        }
-
-        return $productsPrice->getPriceWithVat()->isGreaterThanOrEqualTo($freeTransportAndPaymentPriceLimit);
     }
 }

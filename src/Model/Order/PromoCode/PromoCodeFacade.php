@@ -146,6 +146,10 @@ class PromoCodeFacade
     {
         $this->promoCodeLimitRepository->deleteByPromoCodeId($promoCode->getId());
 
+        if ($promoCode->isFreeTransportAndPaymentType()) {
+            return;
+        }
+
         foreach ($limits as $limit) {
             $limit->setPromoCode($promoCode);
             $this->em->persist($limit);

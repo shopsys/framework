@@ -70,7 +70,7 @@ class BlogCategoryRepository extends NestedTreeRepository
             ->select('bc, bcd, bct')
             ->join('bc.domains', 'bcd')
             ->join('bc.translations', 'bct')
-            ->where('bc.parent IN (:openedParentIds)')
+            ->where('bc.parent IN (:openedParentIds) OR bc.parent IS NULL')
             ->setParameter('openedParentIds', $openedParentIds)
             ->getQuery()
             ->getResult();

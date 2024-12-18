@@ -4393,6 +4393,9 @@ msgstr ""
 msgid "Watchdogs"
 msgstr ""
 
+msgid "Watchdogs - full"
+msgstr ""
+
 msgid "Watchdogs - view"
 msgstr ""
 

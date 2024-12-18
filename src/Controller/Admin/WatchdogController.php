@@ -21,6 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WatchdogController extends AdminBaseController
 {
+    protected const string WATCHDOG_DOMAIN_FILTER_NAMESPACE = 'watchdogs';
+
     /**
      * @param \Shopsys\FrameworkBundle\Model\Watchdog\WatchdogFacade $watchdogFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\AdminDomainFilterTabsFacade $adminDomainFilterTabsFacade
@@ -50,8 +52,6 @@ class WatchdogController extends AdminBaseController
     #[Route(path: '/watchdog/list/')]
     public function listAction(Request $request): Response
     {
-        $domainFilterNamespace = 'watchdogs';
-
         $quickSearchForm = $this->createForm(QuickSearchFormType::class, new QuickSearchFormData());
         $quickSearchForm->handleRequest($request);
 
@@ -60,7 +60,7 @@ class WatchdogController extends AdminBaseController
             $this->localization->getAdminLocale(),
         );
 
-        $selectedDomainId = $this->adminDomainFilterTabsFacade->getSelectedDomainId($domainFilterNamespace);
+        $selectedDomainId = $this->adminDomainFilterTabsFacade->getSelectedDomainId(static::WATCHDOG_DOMAIN_FILTER_NAMESPACE);
 
         if ($selectedDomainId !== null) {
             $queryBuilder
@@ -74,7 +74,7 @@ class WatchdogController extends AdminBaseController
 
         return $this->render('@ShopsysFramework/Admin/Content/Watchdog/list.html.twig', [
             'gridView' => $this->watchdogGridFactory->createView($queryBuilder, $this->getCurrentAdministrator()),
-            'domainFilterNamespace' => $domainFilterNamespace,
+            'domainFilterNamespace' => static::WATCHDOG_DOMAIN_FILTER_NAMESPACE,
             'quickSearchForm' => $quickSearchForm->createView(),
         ]);
     }
@@ -87,7 +87,6 @@ class WatchdogController extends AdminBaseController
     #[Route(path: '/watchdog/detail/{id}', requirements: ['id' => '\d+'])]
     public function detailAction(Request $request, int $id): Response
     {
-        $domainFilterNamespace = 'watchdogsDetail';
         $product = $this->productFacade->getById($id);
 
         $quickSearchForm = $this->createForm(QuickSearchFormType::class, new QuickSearchFormData());
@@ -102,7 +101,7 @@ class WatchdogController extends AdminBaseController
             t('Watchdog - %name%', ['%name%' => $this->productExtension->getProductDisplayName($product)]),
         );
 
-        $selectedDomainId = $this->adminDomainFilterTabsFacade->getSelectedDomainId($domainFilterNamespace);
+        $selectedDomainId = $this->adminDomainFilterTabsFacade->getSelectedDomainId(static::WATCHDOG_DOMAIN_FILTER_NAMESPACE);
 
         if ($selectedDomainId !== null) {
             $queryBuilder
@@ -117,7 +116,7 @@ class WatchdogController extends AdminBaseController
         return $this->render('@ShopsysFramework/Admin/Content/Watchdog/detail.html.twig', [
             'gridView' => $this->watchdogGridFactory->createDetailView($queryBuilder, $this->getCurrentAdministrator()),
             'product' => $product,
-            'domainFilterNamespace' => $domainFilterNamespace,
+            'domainFilterNamespace' => static::WATCHDOG_DOMAIN_FILTER_NAMESPACE,
             'quickSearchForm' => $quickSearchForm->createView(),
         ]);
     }

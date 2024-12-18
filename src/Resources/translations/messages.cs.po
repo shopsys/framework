@@ -4393,6 +4393,9 @@ msgstr "Hlídací pes pro e-mail <strong>{{ email }}</strong> byl odstraněn."
 msgid "Watchdogs"
 msgstr "Hlídací psi"
 
+msgid "Watchdogs - full"
+msgstr "Hlídací psi - vše"
+
 msgid "Watchdogs - view"
 msgstr "Hlídací psi - zobrazení"
 

@@ -12,6 +12,7 @@ use Shopsys\FrameworkBundle\Form\Transformers\EmptyWysiwygTransformer;
 use Shopsys\FrameworkBundle\Form\ValidationGroup;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateData;
+use Shopsys\FrameworkBundle\Model\Watchdog\Mail\WatchdogMail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -32,6 +33,9 @@ class MailTemplateFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var \Shopsys\FrameworkBundle\Model\Mail\MailTemplate $mailTemplate */
+        $mailTemplate = $options['entity'];
+
         $builder
             ->add('subject', TextType::class, [
                 'label' => t('Subject'),
@@ -55,6 +59,9 @@ class MailTemplateFormType extends AbstractType
                         'required' => true,
                         'body_variables' => $options['body_variables'],
                         'constraints' => $this->getBodyConstraints($options),
+                        'custom_plugins' => [
+                            $mailTemplate->getName() === WatchdogMail::WATCHDOG_MAIL_TEMPLATE_NAME ? 'mail-custom-image-with-variable' : null,
+                        ],
                     ])
                     ->addModelTransformer(new EmptyWysiwygTransformer()),
             )
@@ -68,7 +75,7 @@ class MailTemplateFormType extends AbstractType
                             . 'Maximum size of an file is {{ limit }} {{ suffix }}.',
                     ]),
                 ],
-                'entity' => $options['entity'],
+                'entity' => $mailTemplate,
                 'file_entity_class' => MailTemplate::class,
             ]);
 

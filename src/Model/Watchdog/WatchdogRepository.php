@@ -14,6 +14,8 @@ use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
 use Shopsys\FrameworkBundle\Model\Stock\ProductStock;
+use Shopsys\FrameworkBundle\Model\Stock\Stock;
+use Shopsys\FrameworkBundle\Model\Stock\StockDomain;
 use Shopsys\FrameworkBundle\Model\Watchdog\Exception\WatchdogNotFoundException;
 
 class WatchdogRepository
@@ -125,7 +127,10 @@ class WatchdogRepository
             $queryBuilder
                 ->select('w')
                 ->join(Watchdog::class, 'w', Join::WITH, 'w.product = p')
-                ->leftJoin(ProductStock::class, 'ps', Join::WITH, 'ps.product = p')
+                ->join(ProductStock::class, 'ps', Join::WITH, 'ps.product = p')
+                ->join(Stock::class, 's', Join::WITH, 'ps.stock = s')
+                ->join(StockDomain::class, 'sd', Join::WITH, 's.id = sd.stock AND sd.domainId = :domainId AND sd.isEnabled = TRUE')
+                ->andWhere('sd.domainId = w.domainId')
                 ->groupBy('w.id')
                 ->having('SUM(ps.productQuantity) > 0')
                 ->orderBy('w.createdAt', 'DESC')

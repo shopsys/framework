@@ -116,4 +116,15 @@ class CountryRepository
     {
         return $this->getCountryRepository()->findOneBy(['code' => $countryCode]);
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->getCountryRepository()->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -120,4 +120,15 @@ class StockRepository
         $stock->setDefault();
         $this->em->flush();
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->getQueryBuilder()
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -2356,9 +2356,6 @@ msgstr ""
 msgid "Login name"
 msgstr ""
 
-msgid "Login name <strong>{{ name }}</strong> is already used"
-msgstr ""
-
 msgid "Login time"
 msgstr ""
 

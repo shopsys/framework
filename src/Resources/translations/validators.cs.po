@@ -7,6 +7,12 @@ msgstr ""
 msgid "Address {{ url }} already exists."
 msgstr "Adresa {{ url }} již existuje."
 
+msgid "Administrator with email \"{{ value }}\" is already registered"
+msgstr "Aministrátor s e-mailem \"{{ value }}\" je již registrován"
+
+msgid "Administrator with user name \"{{ value }}\" is already registered"
+msgstr "Aministrátor s uživatelským jménem \"{{ value }}\" je již registrován"
+
 msgid "Amount of money should be greater than or equal to zero."
 msgstr "Tato částka musí být větší nebo rovna nule."
 
@@ -546,6 +552,9 @@ msgstr "DIČ nesmí být delší než {{ limit }} znaků"
 
 msgid "Telephone number cannot be longer than {{ limit }} characters"
 msgstr "Telefon nesmí být delší než {{ limit }} znaků"
+
+msgid "The \"{{ value }}\" value of \"{{ fieldName }}\" field must be unique"
+msgstr "Hodnota \"{{ value }}\" pole \"{{ fieldName }}\" musí být unikátní"
 
 msgid "The amount of money should be {{ limit }} or less."
 msgstr "Tato částka musí být {{ limit }} nebo méně."

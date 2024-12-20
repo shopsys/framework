@@ -2356,9 +2356,6 @@ msgstr "Přihlášení se nepodařilo."
 msgid "Login name"
 msgstr "Přihlašovací jméno"
 
-msgid "Login name <strong>{{ name }}</strong> is already used"
-msgstr "Přihlašovací jméno <strong>{{ name }}</strong> je již použito"
-
 msgid "Login time"
 msgstr "Čas přihlášení"
 

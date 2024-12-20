@@ -69,6 +69,12 @@ class AdministratorFormType extends AbstractType
                     new Constraints\Length(
                         ['max' => 100, 'maxMessage' => 'Username cannot be longer than {{ limit }} characters'],
                     ),
+                    new UniqueEntityField([
+                        'entityInstance' => $options['administrator'],
+                        'message' => 'Administrator with user name "{{ value }}" is already registered',
+                        'fieldName' => 'username',
+                        'entityName' => Administrator::class,
+                    ]),
                 ],
                 'label' => t('Login name'),
             ])

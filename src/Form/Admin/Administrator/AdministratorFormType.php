@@ -6,6 +6,7 @@ namespace Shopsys\FrameworkBundle\Form\Admin\Administrator;
 
 use Shopsys\FrameworkBundle\Component\Router\Security\RouteCsrfProtector;
 use Shopsys\FrameworkBundle\Form\Constraints\Email;
+use Shopsys\FrameworkBundle\Form\Constraints\UniqueEntityField;
 use Shopsys\FrameworkBundle\Form\DisplayOnlyType;
 use Shopsys\FrameworkBundle\Form\DisplayOnlyUrlType;
 use Shopsys\FrameworkBundle\Form\GroupType;
@@ -88,6 +89,12 @@ class AdministratorFormType extends AbstractType
                     new Constraints\Length(
                         ['max' => 255, 'maxMessage' => 'Email cannot be longer than {{ limit }} characters'],
                     ),
+                    new UniqueEntityField([
+                        'entityInstance' => $options['administrator'],
+                        'message' => 'Administrator with email "{{ value }}" is already registered',
+                        'fieldName' => 'email',
+                        'entityName' => Administrator::class,
+                    ]),
                 ],
                 'label' => t('Email'),
             ]);

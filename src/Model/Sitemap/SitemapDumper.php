@@ -34,7 +34,7 @@ class SitemapDumper extends Dumper
         string $sitemapFilePrefix = Configuration::DEFAULT_FILENAME,
         ?int $itemsBySet = null,
     ) {
-        parent::__construct($dispatcher, $filesystem, $sitemapFilePrefix, $itemsBySet, $urlGenerator);
+        parent::__construct($dispatcher, $filesystem, $urlGenerator, $sitemapFilePrefix, $itemsBySet);
     }
 
     /**

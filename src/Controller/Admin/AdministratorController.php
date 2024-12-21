@@ -134,7 +134,9 @@ class AdministratorController extends AdminBaseController
                 ],
             );
 
-            return $this->redirectToRoute('admin_administrator_list');
+            $redirectRouteName = $this->isGranted(Roles::ROLE_ADMINISTRATOR_VIEW) ? 'admin_administrator_list' : 'admin_default_dashboard';
+
+            return $this->redirectToRoute($redirectRouteName);
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -532,7 +534,9 @@ class AdministratorController extends AdminBaseController
                 $this->authenticator->loginAdministrator($administrator);
             }
 
-            return $this->redirectToRoute('admin_administrator_list');
+            $this->addSuccessFlash(t('Password has been successfully set.'));
+
+            return $this->redirectToRoute('admin_default_dashboard');
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {

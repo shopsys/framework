@@ -3010,6 +3010,9 @@ msgstr ""
 msgid "Password again"
 msgstr ""
 
+msgid "Password has been successfully set."
+msgstr ""
+
 msgid "Password has to include uppercase letters, lowercase letters, numbers and must be longer than 10 characters."
 msgstr ""
 

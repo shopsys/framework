@@ -121,7 +121,7 @@ class Mailer
      */
     protected function replaceVariableImagesPaths(string $body): string
     {
-        $pattern = '/<img\s+([^>]*?)src="([^"]+)"(\s+[^>]*?)path="([^"]*?)"(.*?)>/i';
+        $pattern = '/<img\s+([^>]*?)src="([^"]*)"(\s+[^>]*?)path="([^"]*?)"(.*?)>/i';
         $replacement = '<img $1src="$4"$3$5>';
 
         return preg_replace($pattern, $replacement, $body);

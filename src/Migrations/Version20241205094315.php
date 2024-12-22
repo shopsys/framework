@@ -31,7 +31,7 @@ class Version20241205094315 extends AbstractMigration implements ContainerAwareI
                                 <div class="gjs-text-ckeditor"> <p>We are excited to let you know that the product you added to your watchlist is now back in stock:</p></div>
                                 <div class="gjs-text-ckeditor"><h2>{product_name}</h2></div>
                                 <div class="gjs-text-ckeditor"> 
-                                    <img data-gjs-type="mail-custom-image-with-variable"  draggable="true" alt="{product_name}" src="" path="{product_image}" class="mail-custom-image-with-variable gjs-plh-image gjs-selected">
+                                    <img data-gjs-type="mail-custom-image-with-variable"  draggable="true" alt="{product_name}" src="" path="{product_image}" style="display:block;margin:auto" class="mail-custom-image-with-variable gjs-plh-image gjs-selected">
                                 </div>
                                 <div class="gjs-text-ckeditor"><p style="text-align: center; font-size: 18px; font-weight: bold;">
                                     Currently available: {product_quantity}

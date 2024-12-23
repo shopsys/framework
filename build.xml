@@ -382,7 +382,7 @@
     </target>
 
     <target name="db-migrations-count-with-maintenance" hidden="true" description="Get count of database migrations to execute and enable maintenance mode if more than zero.">
-        <exec executable="${path.php.executable}" checkreturn="true" outputProperty="migrationCounts">
+        <exec executable="${path.php.executable}" checkreturn="true" passthru="true" returnProperty="migrationCounts">
             <arg value="${path.bin-console}"/>
             <arg value="shopsys:migrations:count"/>
             <arg value="--simple"/>

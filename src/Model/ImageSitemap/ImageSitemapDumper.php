@@ -13,7 +13,7 @@ class ImageSitemapDumper extends SitemapDumper
      */
     protected function populate(?string $section = null): void
     {
-        $event = new ImageSitemapPopulateEvent($this, $section);
+        $event = new ImageSitemapPopulateEvent($this, $this->urlGenerator, $section);
 
         $this->dispatcher->dispatch($event);
     }

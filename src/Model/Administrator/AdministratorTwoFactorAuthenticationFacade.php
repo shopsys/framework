@@ -73,18 +73,18 @@ class AdministratorTwoFactorAuthenticationFacade
     {
         $qrCodeContent = $this->googleAuthenticator->getQRContent($administrator);
 
-        $result = Builder::create()
-            ->writer($this->pngWriter)
-            ->writerOptions([])
-            ->data($qrCodeContent)
-            ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(ErrorCorrectionLevel::High)
-            ->size(250)
-            ->margin(30)
-            ->roundBlockSizeMode(RoundBlockSizeMode::Margin)
-            ->build();
+        $result = new Builder(
+            writer: $this->pngWriter,
+            writerOptions: [],
+            data: $qrCodeContent,
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::High,
+            size: 250,
+            margin: 30,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+        );
 
-        return 'data:image/png;base64,' . base64_encode($result->getString());
+        return 'data:image/png;base64,' . base64_encode($result->build()->getString());
     }
 
     /**

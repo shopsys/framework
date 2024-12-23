@@ -2356,9 +2356,6 @@ msgstr ""
 msgid "Login name"
 msgstr ""
 
-msgid "Login name <strong>{{ name }}</strong> is already used"
-msgstr ""
-
 msgid "Login time"
 msgstr ""
 
@@ -3011,6 +3008,9 @@ msgid "Password"
 msgstr ""
 
 msgid "Password again"
+msgstr ""
+
+msgid "Password has been successfully set."
 msgstr ""
 
 msgid "Password has to include uppercase letters, lowercase letters, numbers and must be longer than 10 characters."

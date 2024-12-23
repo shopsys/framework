@@ -2356,9 +2356,6 @@ msgstr "Přihlášení se nepodařilo."
 msgid "Login name"
 msgstr "Přihlašovací jméno"
 
-msgid "Login name <strong>{{ name }}</strong> is already used"
-msgstr "Přihlašovací jméno <strong>{{ name }}</strong> je již použito"
-
 msgid "Login time"
 msgstr "Čas přihlášení"
 
@@ -3012,6 +3009,9 @@ msgstr "Heslo"
 
 msgid "Password again"
 msgstr "Heslo znovu"
+
+msgid "Password has been successfully set."
+msgstr "Heslo bylo úspěšně nastaveno."
 
 msgid "Password has to include uppercase letters, lowercase letters, numbers and must be longer than 10 characters."
 msgstr "Heslo musí obsahovat velká písmena, malá písmena, číslice a musí být delší než 10 znaků."

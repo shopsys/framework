@@ -80,7 +80,7 @@ class Administrator implements UserInterface, UniqueLoginInterface, TimelimitLog
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     protected $email;
 

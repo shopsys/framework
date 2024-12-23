@@ -10,7 +10,6 @@ use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingLastAdministratorException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingSelfException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingSuperadminException;
-use Shopsys\FrameworkBundle\Model\Administrator\Exception\DuplicateUserNameException;
 use Shopsys\FrameworkBundle\Model\Administrator\Role\AdministratorRoleFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\Security\Exception\AdministratorIsNotLoggedException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -42,11 +41,6 @@ class AdministratorFacade
      */
     public function create(AdministratorData $administratorData): Administrator
     {
-        $administratorByUserName = $this->administratorRepository->findByUserName($administratorData->username);
-
-        if ($administratorByUserName !== null) {
-            throw new DuplicateUserNameException($administratorByUserName->getUsername());
-        }
         $administrator = $this->administratorFactory->create($administratorData);
 
         $this->em->persist($administrator);
@@ -65,7 +59,6 @@ class AdministratorFacade
     public function edit($administratorId, AdministratorData $administratorData): Administrator
     {
         $administrator = $this->administratorRepository->getById($administratorId);
-        $this->checkUsername($administrator, $administratorData->username);
         $administrator->edit($administratorData);
 
         $this->em->flush();
@@ -73,22 +66,6 @@ class AdministratorFacade
         $this->administratorRoleFacade->refreshAdministratorRoles($administrator, $administratorData->roles);
 
         return $administrator;
-    }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Administrator\Administrator $administrator
-     * @param string $username
-     */
-    protected function checkUsername(Administrator $administrator, string $username): void
-    {
-        $administratorByUserName = $this->administratorRepository->findByUserName($username);
-
-        if ($administratorByUserName !== null
-            && $administratorByUserName !== $administrator
-            && $administratorByUserName->getUsername() === $username
-        ) {
-            throw new DuplicateUserNameException($administrator->getUsername());
-        }
     }
 
     /**

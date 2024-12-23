@@ -7,6 +7,12 @@ msgstr ""
 msgid "Address {{ url }} already exists."
 msgstr ""
 
+msgid "Administrator with email \"{{ value }}\" is already registered"
+msgstr ""
+
+msgid "Administrator with user name \"{{ value }}\" is already registered"
+msgstr ""
+
 msgid "Amount of money should be greater than or equal to zero."
 msgstr ""
 
@@ -545,6 +551,9 @@ msgid "Tax number cannot be longer than {{ limit }} characters"
 msgstr ""
 
 msgid "Telephone number cannot be longer than {{ limit }} characters"
+msgstr ""
+
+msgid "The \"{{ value }}\" value of \"{{ fieldName }}\" field must be unique"
 msgstr ""
 
 msgid "The amount of money should be {{ limit }} or less."

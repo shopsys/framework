@@ -18,7 +18,6 @@ use Shopsys\FrameworkBundle\Model\Administrator\AdministratorTwoFactorAuthentica
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\AdministratorNotFoundException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingLastAdministratorException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingSelfException;
-use Shopsys\FrameworkBundle\Model\Administrator\Exception\DuplicateUserNameException;
 use Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorRolesChangedFacade;
 use Shopsys\FrameworkBundle\Model\AdminNavigation\BreadcrumbOverrider;
 use Shopsys\FrameworkBundle\Model\Security\Authenticator;
@@ -121,30 +120,23 @@ class AdministratorController extends AdminBaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->administratorFacade->edit($id, $administratorData);
+            $this->administratorFacade->edit($id, $administratorData);
 
-                if ($loggedUser->getId() === $id) {
-                    $this->administratorRolesChangedFacade->refreshAdministratorToken($administrator);
-                }
-
-                $this->addSuccessFlashTwig(
-                    t('Administrator <strong><a href="{{ url }}">{{ name }}</a></strong> modified'),
-                    [
-                        'name' => $administratorData->realName,
-                        'url' => $this->generateUrl('admin_administrator_edit', ['id' => $administrator->getId()]),
-                    ],
-                );
-
-                return $this->redirectToRoute('admin_administrator_list');
-            } catch (DuplicateUserNameException $ex) {
-                $this->addErrorFlashTwig(
-                    t('Login name <strong>{{ name }}</strong> is already used'),
-                    [
-                        'name' => $administratorData->username,
-                    ],
-                );
+            if ($loggedUser->getId() === $id) {
+                $this->administratorRolesChangedFacade->refreshAdministratorToken($administrator);
             }
+
+            $this->addSuccessFlashTwig(
+                t('Administrator <strong><a href="{{ url }}">{{ name }}</a></strong> modified'),
+                [
+                    'name' => $administratorData->realName,
+                    'url' => $this->generateUrl('admin_administrator_edit', ['id' => $administrator->getId()]),
+                ],
+            );
+
+            $redirectRouteName = $this->isGranted(Roles::ROLE_ADMINISTRATOR_VIEW) ? 'admin_administrator_list' : 'admin_default_dashboard';
+
+            return $this->redirectToRoute($redirectRouteName);
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -193,27 +185,18 @@ class AdministratorController extends AdminBaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $administratorData = $form->getData();
 
-            try {
-                $administrator = $this->administratorFacade->create($administratorData);
-                $this->administratorPasswordFacade->resetPassword($administrator->getUsername());
+            $administrator = $this->administratorFacade->create($administratorData);
+            $this->administratorPasswordFacade->resetPassword($administrator->getUsername());
 
-                $this->addSuccessFlashTwig(
-                    t('Administrator <strong><a href="{{ url }}">{{ name }}</a></strong> created. A link to set a password has been sent to his email.'),
-                    [
-                        'name' => $administrator->getRealName(),
-                        'url' => $this->generateUrl('admin_administrator_edit', ['id' => $administrator->getId()]),
-                    ],
-                );
+            $this->addSuccessFlashTwig(
+                t('Administrator <strong><a href="{{ url }}">{{ name }}</a></strong> created. A link to set a password has been sent to his email.'),
+                [
+                    'name' => $administrator->getRealName(),
+                    'url' => $this->generateUrl('admin_administrator_edit', ['id' => $administrator->getId()]),
+                ],
+            );
 
-                return $this->redirectToRoute('admin_administrator_list');
-            } catch (DuplicateUserNameException $ex) {
-                $this->addErrorFlashTwig(
-                    t('Login name <strong>{{ name }}</strong> is already used'),
-                    [
-                        'name' => $administratorData->username,
-                    ],
-                );
-            }
+            return $this->redirectToRoute('admin_administrator_list');
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -551,7 +534,9 @@ class AdministratorController extends AdminBaseController
                 $this->authenticator->loginAdministrator($administrator);
             }
 
-            return $this->redirectToRoute('admin_administrator_list');
+            $this->addSuccessFlash(t('Password has been successfully set.'));
+
+            return $this->redirectToRoute('admin_default_dashboard');
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {

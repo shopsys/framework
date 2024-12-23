@@ -1129,3 +1129,5 @@ services:
 
     twig.stringloader:
         class: Twig\Loader\ArrayLoader
+
+    Shopsys\FrameworkBundle\Model\Watchdog\Mail\WatchdogMail: ~

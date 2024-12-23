@@ -228,7 +228,8 @@ class FilterQueryFactory
     public function createVisibleProductsByProductIdsFilter(array $productIds): FilterQuery
     {
         return $this->createVisible()
-            ->filterByProductIds($productIds);
+            ->filterByProductIds($productIds)
+            ->applyOrderingByIdsArray($productIds);
     }
 
     /**
@@ -240,8 +241,7 @@ class FilterQueryFactory
     {
         $filterQuery = $this
             ->createVisibleProductsByProductIdsFilter($productIds)
-            ->filterOnlySellable()
-            ->applyOrderingByIdsArray($productIds);
+            ->filterOnlySellable();
 
         if ($limit === null) {
             return $filterQuery;

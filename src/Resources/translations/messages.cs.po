@@ -961,6 +961,9 @@ msgstr "Vytvořena"
 msgid "Created %dataType%: \"%readableValue%\""
 msgstr "Vytvořen %dataType%: \"%readableValue%\""
 
+msgid "Created at"
+msgstr "Vytvořeno dne"
+
 msgid "Created by administrator"
 msgstr "Vytvořeno administrátorem"
 
@@ -2716,6 +2719,9 @@ msgstr "Nebyly nalezeny žádné jednotky. Nejprve musíte nějaké vytvořit."
 msgid "No warehouse associated"
 msgstr "Žádný sklad není přiřazen"
 
+msgid "No watchdog found."
+msgstr "Žádný hlídací pes nebyl nalezen"
+
 msgid "Nominal"
 msgstr "Nominální"
 
@@ -2757,6 +2763,9 @@ msgstr "Počty zboží ve filtru"
 
 msgid "Number of selected products is not limited, however only %limit% will be displayed on frontend."
 msgstr "Počet vybraných produktů není omezen, ale na frontendu jich bude zobrazeno maximálně %limit%."
+
+msgid "Number of watchdogs"
+msgstr "Počet hlídacích psů"
 
 msgid "Oh, you just tried to log in using default credentials. We do not allow that on production environment. If you are random hacker, please go somewhere else. If you are authorized user, please use another account or contact developers and change password during deployment."
 msgstr "Pokusili jste se přihlásit výchozími přihlašovacími údaji. V produkčním prostředí toto není dovoleno. Pokud jste hacker, běžte prosím jinam. Pokud jste oprávněný uživatel, použijte jiný účet nebo kontaktujte vývojáře, aby vám změnili heslo."
@@ -3208,6 +3217,9 @@ msgstr "Bylo upraveno zboží <strong><a href=\"{{ url }}\">{{ product|productDi
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr "Produkt <strong>{{ product|productDisplayName }}</strong> byl smazán"
 
+msgid "Product ID"
+msgstr "ID produktu"
+
 msgid "Product associated with this inquiry is no longer available in the catalog."
 msgstr "Produkt v této poptávce není již dostupný v katalogu."
 
@@ -3249,6 +3261,9 @@ msgstr "Zboží bylo uloženo do objednávky"
 
 msgid "Product settings on the main page successfully changed"
 msgstr "Nastavení zboží na titulce bylo úspěšně změněno."
+
+msgid "Product stock quantity"
+msgstr "Počet kusů skladem"
 
 msgid "Product type"
 msgstr "Typ produktu"
@@ -3535,6 +3550,9 @@ msgstr "Vyhledává se ve všech měnách"
 msgid "Searching searches in complaint number, order number, delivery last name, delivery company name, last name from order, email from order, complaint author last name, complaint author company name. It is possible to use wildcards * and ?."
 msgstr "Vyhledávání hledá v čísle reklamace, čísle objednávky, příjmení pro doručení, názvu firmy pro doručení, příjmení z objednávky, e-mailu objednávky, příjmení zadavatele reklamace a názvu firmy zadavatele reklamace. Je možné používat operátory * a ?."
 
+msgid "Searching searches in email. It is possible to use wildcards * and ?."
+msgstr "Vyhledávání hledá v e-mailu. Je možné používat operátory * a ?."
+
 msgid "Searching searches in last name, company name, email, telephone. It is possible to use wildcards * and ?."
 msgstr "Vyhledávání hledá v příjmení, názvu firmy, e-mailu a telefonu. Je možné používat operátory * a ?."
 
@@ -3546,6 +3564,9 @@ msgstr "Vyhledávání hledá v názvu. Je možné používat operátory * a ?."
 
 msgid "Searching searches in order number, registered customer email, customer's email in order, customer's last name and company name. It is possible to use wildcards * and ?."
 msgstr "Vyhledávání hledá v číslu objednávky, e-mailu registrovaného zákazníka, e-mailu zákazníka v objednávce, příjmení zákazníka a názvu firmy. Je možné používat operátory * a ?."
+
+msgid "Searching searches in product name and product catalog number. It is possible to use wildcards * and ?."
+msgstr "Vyhledávání hledá v názvu produktu a katalogovém čísle produktu. Je možné používat operátory * a ?."
 
 msgid "Searching searches in product name, product catalog number, company number, company name, customer last name, and customer email. It is possible to use wildcards * and ?."
 msgstr "Vyhledávání hledá v názvu produktu, katalogovém čísle produktu, IČ, názvu firmy, příjmení zákazníka, a e-mailu zákazníka. Je možné používat operátory * a ?."
@@ -3660,6 +3681,9 @@ msgstr "Zvolená jednotka neexistuje."
 
 msgid "Selected warehouse does not exist."
 msgstr "Vybraný sklad neexistuje."
+
+msgid "Selected watchdog does not exist."
+msgstr "Vybraný hlídací pes neexistuje."
 
 msgid "Selling end date"
 msgstr "Datum stažení"
@@ -3925,6 +3949,9 @@ msgstr "Čím vyšší priorita, tím bude stát zobrazen výše v seznamech. St
 msgid "The optimal size of the icon is 46x26 px. Only PNG format is allowed."
 msgstr "Optimální velikost ikony je 46x26 px. Je povolen pouze PNG formát."
 
+msgid "The product has no specified name for the locale."
+msgstr ""
+
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr "Produkt již není v katalogu. Toto bylo katalogové číslo v době vytvoření poptávky."
 
@@ -4180,6 +4207,9 @@ msgstr "Seznam nepoužívaných hezkých URL - vše"
 msgid "Unused friendly URLs - view"
 msgstr "Seznam nepoužívaných hezkých URL - zobrazení"
 
+msgid "Updated at"
+msgstr "Aktualizováno dne"
+
 msgid "Upload"
 msgstr "Nahrát"
 
@@ -4276,6 +4306,9 @@ msgstr "Platnost od"
 msgid "Valid to"
 msgstr "Platnost do"
 
+msgid "Valid until"
+msgstr "Platnost do"
+
 msgid "Value"
 msgstr "Hodnota"
 
@@ -4341,6 +4374,33 @@ msgstr "Sklady - vše"
 
 msgid "Warehouses - view"
 msgstr "Sklady - zobrazení"
+
+msgid "Watchdog"
+msgstr "Hlídací pes"
+
+msgid "Watchdog -"
+msgstr "Hlídací pes -"
+
+msgid "Watchdog - %name%"
+msgstr "Hlídací pes - %name%"
+
+msgid "Watchdog detail"
+msgstr "Hlídací pes"
+
+msgid "Watchdog for email <strong>{{ email }}</strong> has been removed"
+msgstr "Hlídací pes pro e-mail <strong>{{ email }}</strong> byl odstraněn."
+
+msgid "Watchdogs"
+msgstr "Hlídací psi"
+
+msgid "Watchdogs - full"
+msgstr "Hlídací psi - vše"
+
+msgid "Watchdogs - view"
+msgstr "Hlídací psi - zobrazení"
+
+msgid "Watchdogs overview"
+msgstr "Přehled hlídacích psů"
 
 msgid "We have nothing to show you at this url."
 msgstr "Na téhle url adrese nemáme nic, co bychom Vám ukázali."
@@ -4590,6 +4650,9 @@ msgstr "jednotky"
 
 msgid "unregistered customer"
 msgstr "neregistrovaný zákazník"
+
+msgid "watchdogs"
+msgstr "hlídací psi"
 
 msgid "without positioning"
 msgstr "bez umístění"

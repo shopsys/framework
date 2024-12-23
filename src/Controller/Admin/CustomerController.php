@@ -27,6 +27,7 @@ use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserPasswordFacade;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactory;
 use Shopsys\FrameworkBundle\Model\Order\OrderFacade;
 use Shopsys\FrameworkBundle\Model\Security\LoginAdministratorAsUserUrlProvider;
+use Shopsys\FrameworkBundle\Model\Watchdog\WatchdogFacade;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,6 +48,7 @@ class CustomerController extends AdminBaseController
      * @param \Shopsys\FrameworkBundle\Model\Security\LoginAdministratorAsUserUrlProvider $loginAdministratorAsUserUrlProvider
      * @param \Shopsys\FrameworkBundle\Model\Customer\CustomerFacade $customerFacade
      * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserPasswordFacade $customerUserPasswordFacade
+     * @param \Shopsys\FrameworkBundle\Model\Watchdog\WatchdogFacade $watchdogFacade
      */
     public function __construct(
         protected readonly CustomerUserDataFactoryInterface $customerUserDataFactory,
@@ -62,6 +64,7 @@ class CustomerController extends AdminBaseController
         protected readonly LoginAdministratorAsUserUrlProvider $loginAdministratorAsUserUrlProvider,
         protected readonly CustomerFacade $customerFacade,
         protected readonly CustomerUserPasswordFacade $customerUserPasswordFacade,
+        protected readonly WatchdogFacade $watchdogFacade,
     ) {
     }
 
@@ -329,8 +332,10 @@ class CustomerController extends AdminBaseController
 
         try {
             $fullName = $customerUser->getCustomerUserFullName();
+            $customerUserEmail = $customerUser->getEmail();
 
             $this->customerUserFacade->delete($id);
+            $this->watchdogFacade->deleteByEmail($customerUserEmail);
 
             $this->addSuccessFlashTwig(
                 t('Customer <strong>{{ name }}</strong> deleted'),

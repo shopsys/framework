@@ -7,6 +7,7 @@
             data-template="{{ getMailTemplate('')|escape }}"
             data-elfinder-url="{{ url('elfinder', {instance: 'grapesJs'}) }}"
             data-variables="{{ form.vars.body_variables|json_encode }}"
+            data-custom-plugins="{{ form.vars.custom_plugins|json_encode }}"
     >
         {{ 'Edit'|trans }}
     </button>

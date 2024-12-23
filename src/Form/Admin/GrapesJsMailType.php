@@ -41,6 +41,7 @@ class GrapesJsMailType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['body_variables'] = $options['body_variables'];
+        $view->vars['custom_plugins'] = $options['custom_plugins'];
 
         parent::buildView($view, $form, $options);
     }
@@ -59,10 +60,12 @@ class GrapesJsMailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefined(['body_variables'])
+            ->setDefined(['body_variables', 'custom_plugins'])
             ->setAllowedTypes('body_variables', 'array')
+            ->setAllowedTypes('custom_plugins', 'array')
             ->setDefaults([
                 'body_variables' => [],
+                'custom_plugins' => [],
             ]);
     }
 }

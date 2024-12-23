@@ -961,6 +961,9 @@ msgstr ""
 msgid "Created %dataType%: \"%readableValue%\""
 msgstr ""
 
+msgid "Created at"
+msgstr ""
+
 msgid "Created by administrator"
 msgstr ""
 
@@ -2716,6 +2719,9 @@ msgstr ""
 msgid "No warehouse associated"
 msgstr ""
 
+msgid "No watchdog found."
+msgstr ""
+
 msgid "Nominal"
 msgstr ""
 
@@ -2756,6 +2762,9 @@ msgid "Number of products in filter"
 msgstr ""
 
 msgid "Number of selected products is not limited, however only %limit% will be displayed on frontend."
+msgstr ""
+
+msgid "Number of watchdogs"
 msgstr ""
 
 msgid "Oh, you just tried to log in using default credentials. We do not allow that on production environment. If you are random hacker, please go somewhere else. If you are authorized user, please use another account or contact developers and change password during deployment."
@@ -3208,6 +3217,9 @@ msgstr ""
 msgid "Product <strong>{{ product|productDisplayName }}</strong> deleted"
 msgstr ""
 
+msgid "Product ID"
+msgstr ""
+
 msgid "Product associated with this inquiry is no longer available in the catalog."
 msgstr ""
 
@@ -3248,6 +3260,9 @@ msgid "Product saved in order"
 msgstr ""
 
 msgid "Product settings on the main page successfully changed"
+msgstr ""
+
+msgid "Product stock quantity"
 msgstr ""
 
 msgid "Product type"
@@ -3535,6 +3550,9 @@ msgstr ""
 msgid "Searching searches in complaint number, order number, delivery last name, delivery company name, last name from order, email from order, complaint author last name, complaint author company name. It is possible to use wildcards * and ?."
 msgstr ""
 
+msgid "Searching searches in email. It is possible to use wildcards * and ?."
+msgstr ""
+
 msgid "Searching searches in last name, company name, email, telephone. It is possible to use wildcards * and ?."
 msgstr ""
 
@@ -3545,6 +3563,9 @@ msgid "Searching searches in name. It is possible to use wildcards * and ?."
 msgstr ""
 
 msgid "Searching searches in order number, registered customer email, customer's email in order, customer's last name and company name. It is possible to use wildcards * and ?."
+msgstr ""
+
+msgid "Searching searches in product name and product catalog number. It is possible to use wildcards * and ?."
 msgstr ""
 
 msgid "Searching searches in product name, product catalog number, company number, company name, customer last name, and customer email. It is possible to use wildcards * and ?."
@@ -3659,6 +3680,9 @@ msgid "Selected unit doesn't exist."
 msgstr ""
 
 msgid "Selected warehouse does not exist."
+msgstr ""
+
+msgid "Selected watchdog does not exist."
 msgstr ""
 
 msgid "Selling end date"
@@ -3925,6 +3949,9 @@ msgstr ""
 msgid "The optimal size of the icon is 46x26 px. Only PNG format is allowed."
 msgstr ""
 
+msgid "The product has no specified name for the locale."
+msgstr ""
+
 msgid "The product is no longer in the catalog. This was the catalog number at the time of the inquiry."
 msgstr ""
 
@@ -4180,6 +4207,9 @@ msgstr ""
 msgid "Unused friendly URLs - view"
 msgstr ""
 
+msgid "Updated at"
+msgstr ""
+
 msgid "Upload"
 msgstr ""
 
@@ -4276,6 +4306,9 @@ msgstr ""
 msgid "Valid to"
 msgstr ""
 
+msgid "Valid until"
+msgstr ""
+
 msgid "Value"
 msgstr ""
 
@@ -4340,6 +4373,33 @@ msgid "Warehouses - full"
 msgstr ""
 
 msgid "Warehouses - view"
+msgstr ""
+
+msgid "Watchdog"
+msgstr ""
+
+msgid "Watchdog -"
+msgstr ""
+
+msgid "Watchdog - %name%"
+msgstr ""
+
+msgid "Watchdog detail"
+msgstr ""
+
+msgid "Watchdog for email <strong>{{ email }}</strong> has been removed"
+msgstr ""
+
+msgid "Watchdogs"
+msgstr ""
+
+msgid "Watchdogs - full"
+msgstr ""
+
+msgid "Watchdogs - view"
+msgstr ""
+
+msgid "Watchdogs overview"
 msgstr ""
 
 msgid "We have nothing to show you at this url."
@@ -4589,6 +4649,9 @@ msgid "units"
 msgstr ""
 
 msgid "unregistered customer"
+msgstr ""
+
+msgid "watchdogs"
 msgstr ""
 
 msgid "without positioning"

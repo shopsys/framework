@@ -12,6 +12,7 @@ use Shopsys\FrameworkBundle\Model\Newsletter\NewsletterFacade;
 use Shopsys\FrameworkBundle\Model\Order\OrderFacade;
 use Shopsys\FrameworkBundle\Model\PersonalData\PersonalDataAccessRequest;
 use Shopsys\FrameworkBundle\Model\PersonalData\PersonalDataAccessRequestFacade;
+use Shopsys\FrameworkBundle\Model\Watchdog\WatchdogFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,6 +27,7 @@ class PersonalDataController extends AbstractController
      * @param \Shopsys\FrameworkBundle\Model\PersonalData\PersonalDataAccessRequestFacade $personalDataAccessRequestFacade
      * @param \Shopsys\FrameworkBundle\Component\HttpFoundation\XmlResponse $xmlResponse
      * @param \Shopsys\FrameworkBundle\Model\Complaint\ComplaintFacade $complaintFacade
+     * @param \Shopsys\FrameworkBundle\Model\Watchdog\WatchdogFacade $watchdogFacade
      */
     public function __construct(
         protected readonly Domain $domain,
@@ -35,6 +37,7 @@ class PersonalDataController extends AbstractController
         protected readonly PersonalDataAccessRequestFacade $personalDataAccessRequestFacade,
         protected readonly XmlResponse $xmlResponse,
         protected readonly ComplaintFacade $complaintFacade,
+        protected readonly WatchdogFacade $watchdogFacade,
     ) {
     }
 
@@ -74,11 +77,14 @@ class PersonalDataController extends AbstractController
                 $complaints = $this->complaintFacade->getComplaintsByCustomerUserAndDomainIdAndLocale($customerUser, $this->domain->getId(), $this->domain->getLocale());
             }
 
+            $watchdogs = $this->watchdogFacade->getWatchdogsByEmail($personalDataAccessRequest->getEmail());
+
             $xmlContent = $this->render('@ShopsysFramework/Front/Content/PersonalData/export.xml.twig', [
                 'customerUser' => $customerUser,
                 'newsletterSubscriber' => $newsletterSubscriber,
                 'orders' => $orders,
                 'complaints' => $complaints,
+                'watchdogs' => $watchdogs,
             ])->getContent();
 
             $fileName = $personalDataAccessRequest->getEmail() . '.xml';

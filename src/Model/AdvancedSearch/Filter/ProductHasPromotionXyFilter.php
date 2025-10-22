@@ -12,9 +12,9 @@ use Shopsys\FrameworkBundle\Model\Product\ProductDomain;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormTypeInterface;
 
-class ProductCalculatedSellingDeniedFilter implements AdvancedSearchFilterInterface
+class ProductHasPromotionXyFilter implements AdvancedSearchFilterInterface
 {
-    public const string NAME = 'productCalculatedSellingDenied';
+    public const string NAME = 'productHasPromotionXy';
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $em
@@ -25,7 +25,7 @@ class ProductCalculatedSellingDeniedFilter implements AdvancedSearchFilterInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     #[Override]
     public function getName(): string
@@ -34,19 +34,16 @@ class ProductCalculatedSellingDeniedFilter implements AdvancedSearchFilterInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     #[Override]
     public function getAllowedOperators(): array
     {
-        return [
-            self::OPERATOR_IS,
-            self::OPERATOR_IS_NOT,
-        ];
+        return [self::OPERATOR_IS, self::OPERATOR_IS_NOT];
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Symfony\Component\Form\FormTypeInterface|string
      */
     #[Override]
     public function getValueFormType(): FormTypeInterface|string
@@ -55,7 +52,7 @@ class ProductCalculatedSellingDeniedFilter implements AdvancedSearchFilterInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     #[Override]
     public function getValueFormOptions(): array
@@ -72,9 +69,11 @@ class ProductCalculatedSellingDeniedFilter implements AdvancedSearchFilterInterf
     {
         $existsDql = $this->em->createQueryBuilder()
             ->select('1')
-            ->from(ProductDomain::class, 'pds')
-            ->where('pds.product = p.id')
-            ->andWhere('pds.calculatedSellingDenied = true')
+            ->from(ProductDomain::class, 'pd_xy')
+            ->join('pd_xy.promotionXy', 'pxy')
+            ->where('pd_xy.product = p.id')
+            ->andWhere('pxy.buyQuantity IS NOT NULL')
+            ->andWhere('pxy.freeQuantity IS NOT NULL')
             ->getDQL();
 
         foreach ($rulesData as $ruleData) {

@@ -38,11 +38,12 @@ class BlogArticleDetailFriendlyUrlDataProvider implements FriendlyUrlDataProvide
             ->distinct()
             ->from(BlogArticle::class, 'ba')
             ->join('ba.translations', 'bat', Join::WITH, 'bat.locale = :locale')
-            ->setParameter('locale', $domainConfig->getId())
+            ->setParameter('locale', $domainConfig->getLocale())
             ->leftJoin(FriendlyUrl::class, 'f', Join::WITH, 'ba.id = f.entityId AND f.routeName = :routeName AND f.domainId = :domainId')
             ->setParameter('routeName', static::ROUTE_NAME)
             ->setParameter('domainId', $domainConfig->getId())
-            ->andWhere('f.entityId IS NULL');
+            ->andWhere('f.entityId IS NULL')
+            ->andWhere('bat.name IS NOT NULL');
 
         $scalarData = $queryBuilder->getQuery()->getScalarResult();
 

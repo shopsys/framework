@@ -24,6 +24,8 @@ use Shopsys\FrameworkBundle\Model\Product\Exception\VariantCanBeAddedOnlyToMainV
 use Shopsys\FrameworkBundle\Model\Product\Unit\Unit;
 use Shopsys\FrameworkBundle\Model\ProductVideo\ProductVideo;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * Product
@@ -31,6 +33,7 @@ use Shopsys\FrameworkBundle\Model\Transport\Transport;
  * @method \Shopsys\FrameworkBundle\Model\Product\ProductTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Product\ProductTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'products')]
 #[ORM\Index(columns: ['variant_type'])]
 #[ORM\Entity]
@@ -44,6 +47,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -60,48 +64,56 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $catnum;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $partno;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $ean;
 
     /**
      * @var \DateTimeImmutable|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     protected $sellingFrom;
 
     /**
      * @var \DateTimeImmutable|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     protected $sellingTo;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $sellingDenied;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $hidden;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Unit\Unit
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'unit_id', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Unit::class)]
     protected $unit;
@@ -115,6 +127,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Brand\Brand|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'brand_id', referencedColumnName: 'id', onDelete: 'SET NULL', nullable: true)]
     #[ORM\ManyToOne(targetEntity: Brand::class)]
     protected $brand;
@@ -129,6 +142,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Product|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'main_variant_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'variants', cascade: ['persist'])]
     protected $mainVariant;
@@ -136,6 +150,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 32, nullable: false)]
     protected $variantType;
 
@@ -148,12 +163,14 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     /**
      * @var int|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer', nullable: true)]
     protected $weight;
 
@@ -176,6 +193,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 32, nullable: false)]
     protected $productType;
 
@@ -188,6 +206,7 @@ class Product extends AbstractTranslatableEntity
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $isAllowedNegativeStock;
 
@@ -206,7 +225,6 @@ class Product extends AbstractTranslatableEntity
         $this->ean = $productData->ean;
         $this->createDomains($productData);
         $this->productCategoryDomains = new ArrayCollection();
-
         $this->variants = new ArrayCollection();
 
         if ($variants === null) {
@@ -215,7 +233,6 @@ class Product extends AbstractTranslatableEntity
             $this->variantType = self::VARIANT_TYPE_MAIN;
             $this->addVariants($variants);
         }
-
         $this->uuid = $productData->uuid ?: Uuid::uuid4()->toString();
         $this->setData($productData);
     }
@@ -223,10 +240,8 @@ class Product extends AbstractTranslatableEntity
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductCategoryDomain[] $productCategoryDomains
      */
-    public function edit(
-        array $productCategoryDomains,
-        ProductData $productData,
-    ): void {
+    public function edit(array $productCategoryDomains, ProductData $productData): void
+    {
         $this->setDomains($productData);
 
         if (!$this->isVariant()) {
@@ -312,13 +327,7 @@ class Product extends AbstractTranslatableEntity
 
     public function getFullName(?string $locale = null): ?string
     {
-        return trim(
-            $this->getNamePrefix($locale)
-            . ' '
-            . $this->getName($locale)
-            . ' '
-            . $this->getNameSuffix($locale),
-        );
+        return trim($this->getNamePrefix($locale) . ' ' . $this->getName($locale) . ' ' . $this->getNameSuffix($locale));
     }
 
     /**
@@ -373,12 +382,9 @@ class Product extends AbstractTranslatableEntity
         if ($this->getPromotionXy($domainId) === null) {
             return 0;
         }
-
         $buyQuantity = $this->getPromotionXy($domainId)->getBuyQuantity();
         $freeQuantity = $this->getPromotionXy($domainId)->getFreeQuantity();
-
         $totalPromotionsSize = $buyQuantity + $freeQuantity;
-
         $numberOfAppliedFullPromotions = intdiv($quantity, $totalPromotionsSize);
         $remainder = $quantity % $totalPromotionsSize;
         $extra = max(0, min($remainder - $buyQuantity, $freeQuantity));
@@ -477,10 +483,7 @@ class Product extends AbstractTranslatableEntity
         }
 
         foreach ($productCategoryDomains as $productCategoryDomain) {
-            if ($this->isProductCategoryDomainInArray(
-                $productCategoryDomain,
-                $this->productCategoryDomains->getValues(),
-            ) === false) {
+            if ($this->isProductCategoryDomainInArray($productCategoryDomain, $this->productCategoryDomains->getValues()) === false) {
                 $this->productCategoryDomains->add($productCategoryDomain);
             }
         }
@@ -502,9 +505,7 @@ class Product extends AbstractTranslatableEntity
         array $productCategoryDomains,
     ): bool {
         foreach ($productCategoryDomains as $productCategoryDomain) {
-            if ($productCategoryDomain->getCategory() === $searchProductCategoryDomain->getCategory()
-                && $productCategoryDomain->getDomainId() === $searchProductCategoryDomain->getDomainId()
-            ) {
+            if ($productCategoryDomain->getCategory() === $searchProductCategoryDomain->getCategory() && $productCategoryDomain->getDomainId() === $searchProductCategoryDomain->getDomainId()) {
                 return true;
             }
         }
@@ -525,7 +526,6 @@ class Product extends AbstractTranslatableEntity
         if ($this->isMainVariant() || $this->isVariant()) {
             throw new ProductCannotBeTransformedException($this);
         }
-
         $this->variantType = static::VARIANT_TYPE_MAIN;
     }
 
@@ -546,7 +546,6 @@ class Product extends AbstractTranslatableEntity
             if (!array_key_exists($domain->getDomainId(), $flagsByDomainId)) {
                 continue;
             }
-
             $domain->setFlags($flagsByDomainId[$domain->getDomainId()]);
         }
     }
@@ -618,10 +617,7 @@ class Product extends AbstractTranslatableEntity
     public function addVariant(self $variant): void
     {
         if (!$this->isMainVariant()) {
-            throw new VariantCanBeAddedOnlyToMainVariantException(
-                $this->getId(),
-                $variant->getId(),
-            );
+            throw new VariantCanBeAddedOnlyToMainVariantException($this->getId(), $variant->getId());
         }
 
         if ($variant->isMainVariant()) {
@@ -635,7 +631,6 @@ class Product extends AbstractTranslatableEntity
         if ($this->variants->contains($variant)) {
             return;
         }
-
         $this->variants->add($variant);
         $variant->setMainVariant($this);
         $variant->copyProductCategoryDomains($this->productCategoryDomains->getValues());
@@ -739,10 +734,7 @@ class Product extends AbstractTranslatableEntity
      */
     protected function getProductDomain(int $domainId)
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('domainId', $domainId))
-            ->setMaxResults(1);
-
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('domainId', $domainId))->setMaxResults(1);
         $result = $this->domains->matching($criteria)->first();
 
         if ($result === false) {
@@ -831,7 +823,6 @@ class Product extends AbstractTranslatableEntity
             $productDomain = new ProductDomain($this, $domainId);
             $this->domains->add($productDomain);
         }
-
         $this->setDomains($productData);
     }
 

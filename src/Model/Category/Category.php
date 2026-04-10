@@ -14,11 +14,14 @@ use Shopsys\FrameworkBundle\Component\Image\Config\Attributes\EntityImage;
 use Shopsys\FrameworkBundle\Model\Category\AutomatedFilter\CategoryAutomatedFilterInterface;
 use Shopsys\FrameworkBundle\Model\Category\Exception\CategoryDomainNotFoundException;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Category\CategoryTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Category\CategoryTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'categories')]
 #[ORM\Index(columns: ['lft'])]
 #[ORM\Index(columns: ['rgt'])]
@@ -30,6 +33,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -39,6 +43,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
@@ -52,6 +57,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\Category|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, name: 'parent_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     #[Gedmo\TreeParent]
@@ -67,6 +73,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[Gedmo\TreeLevel]
     protected $level;
@@ -74,6 +81,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[Gedmo\TreeLeft]
     protected $lft;
@@ -81,6 +89,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[Gedmo\TreeRight]
     protected $rgt;
@@ -94,6 +103,7 @@ class Category extends AbstractTranslatableEntity
     /**
      * @var string[]
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'json')]
     protected $automatedFilters;
 
@@ -102,7 +112,6 @@ class Category extends AbstractTranslatableEntity
         $this->translations = new ArrayCollection();
         $this->domains = new ArrayCollection();
         $this->children = new ArrayCollection();
-
         $this->createDomains($categoryData);
         $this->uuid = $categoryData->uuid ?: Uuid::uuid4()->toString();
         $this->setData($categoryData);
@@ -330,7 +339,6 @@ class Category extends AbstractTranslatableEntity
             $categoryDomain = new CategoryDomain($this, $domainId);
             $this->domains->add($categoryDomain);
         }
-
         $this->setDomains($categoryData);
     }
 }

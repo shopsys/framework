@@ -19,11 +19,14 @@ use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Transport\Exception\TransportDomainNotFoundException;
 use Shopsys\FrameworkBundle\Model\Transport\Exception\TransportPriceNotFoundException;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Transport\TransportTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Transport\TransportTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'transports')]
 #[ORM\Entity]
 #[EntityImage]
@@ -34,6 +37,7 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -62,18 +66,21 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $hidden;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $deleted;
 
     /**
      * @var int|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[Gedmo\SortablePosition]
     protected $position;
@@ -87,24 +94,28 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $daysUntilDelivery;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected $trackingUrl;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 25)]
     protected $type;
 
@@ -163,11 +174,11 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
         return $this->id;
     }
 
-    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     /**
      * @param string|null $locale
      * @return string|null
      */
+    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     public function getName($locale = null)
     {
         return $this->translation($locale)->getName();
@@ -270,7 +281,6 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
             $transportDomain = new TransportDomain($this, $domainId, $transportData->inputPricesByDomain[$domainId]->vat);
             $this->domains->add($transportDomain);
         }
-
         $this->setDomains($transportData);
     }
 
@@ -366,7 +376,6 @@ class Transport extends AbstractTranslatableEntity implements OrderableEntityInt
         if ($prices !== []) {
             return $prices;
         }
-
         $message = 'Transport prices with domain ID ' . $domainId . ' and transport ID ' . $this->getId() . ' not found.';
 
         throw new TransportPriceNotFoundException($message);

@@ -12,11 +12,14 @@ use Ramsey\Uuid\Uuid;
 use Shopsys\FrameworkBundle\Component\Image\Config\Attributes\EntityImage;
 use Shopsys\FrameworkBundle\Model\Blog\Article\Exception\BlogArticleDomainNotFoundException;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method translation($locale = null): BlogArticleTranslation
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Blog\Article\BlogArticleTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'blog_articles')]
 #[ORM\Entity]
 #[EntityImage]
@@ -25,6 +28,7 @@ class BlogArticle extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -53,30 +57,35 @@ class BlogArticle extends AbstractTranslatableEntity
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $hidden;
 
     /**
      * @var \DateTimeImmutable
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable')]
     protected $createdAt;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $visibleOnHomepage;
 
     /**
      * @var \DateTimeImmutable
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable')]
     protected $publishDate;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
@@ -85,9 +94,7 @@ class BlogArticle extends AbstractTranslatableEntity
         $this->translations = new ArrayCollection();
         $this->domains = new ArrayCollection();
         $this->blogArticleBlogCategoryDomains = new ArrayCollection();
-
         $this->setTranslations($blogArticleData);
-
         $this->hidden = $blogArticleData->hidden;
         $this->createdAt = $blogArticleData->createdAt;
         $this->visibleOnHomepage = $blogArticleData->visibleOnHomepage;
@@ -102,7 +109,6 @@ class BlogArticle extends AbstractTranslatableEntity
         $this->setTranslations($blogArticleData);
         $this->setDomains($blogArticleData);
         $this->setCategories($blogArticleBlogCategoryDomainFactory, $blogArticleData->blogCategoriesByDomainId);
-
         $this->hidden = $blogArticleData->hidden;
         $this->visibleOnHomepage = $blogArticleData->visibleOnHomepage;
         $this->publishDate = $blogArticleData->publishDate;
@@ -317,7 +323,6 @@ class BlogArticle extends AbstractTranslatableEntity
             $categoryDomain = new BlogArticleDomain($this, $domainId);
             $this->domains[] = $categoryDomain;
         }
-
         $this->setDomains($blogArticleData);
     }
 

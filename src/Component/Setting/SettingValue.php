@@ -10,16 +10,17 @@ use Shopsys\FrameworkBundle\Component\DateTimeHelper\DateTimeHelper;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Component\Setting\Exception\InvalidArgumentException;
 use Shopsys\FrameworkBundle\Component\Setting\Exception\SettingValueTypeNotMatchValueException;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 use function get_class;
 use function gettype;
 use function is_object;
 
+#[AsMcpTable(false)]
 #[ORM\Table(name: 'setting_values')]
 #[ORM\Entity]
 class SettingValue
 {
     protected const DATETIME_STORED_FORMAT = DateTimeInterface::ISO8601;
-
     protected const TYPE_STRING = 'string';
     protected const TYPE_INTEGER = 'integer';
     protected const TYPE_FLOAT = 'float';
@@ -27,10 +28,8 @@ class SettingValue
     protected const TYPE_DATETIME = 'datetime';
     protected const TYPE_MONEY = 'money';
     protected const TYPE_NULL = 'none';
-
     protected const BOOLEAN_TRUE = 'true';
     protected const BOOLEAN_FALSE = 'false';
-
     public const DOMAIN_ID_COMMON = 0;
 
     /**
@@ -175,16 +174,7 @@ class SettingValue
         if ($value instanceof Money) {
             return static::TYPE_MONEY;
         }
-
-        $message = sprintf(
-            'Setting value type of "%s" is unsupported.',
-            is_object($value) ? get_class($value) : gettype($value),
-        )
-            . sprintf(
-                ' Supported is "%s", "%s", string, integer, float, boolean or null.',
-                DateTimeInterface::class,
-                Money::class,
-            );
+        $message = sprintf('Setting value type of "%s" is unsupported.', is_object($value) ? get_class($value) : gettype($value)) . sprintf(' Supported is "%s", "%s", string, integer, float, boolean or null.', DateTimeInterface::class, Money::class);
 
         throw new InvalidArgumentException($message);
     }

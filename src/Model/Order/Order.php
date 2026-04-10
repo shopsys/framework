@@ -26,27 +26,23 @@ use Shopsys\FrameworkBundle\Model\Payment\Transaction\PaymentTransaction;
 use Shopsys\FrameworkBundle\Model\Pricing\Price;
 use Shopsys\FrameworkBundle\Model\Pricing\PriceInterface;
 use Shopsys\FrameworkBundle\Model\Product\Exception\ProductNotFoundException;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 use Symfony\Component\Clock\DatePoint;
 
+#[AsMcpTable]
 #[Loggable(Loggable::STRATEGY_INCLUDE_ALL)]
 #[ORM\Table(name: 'orders')]
 #[ORM\Entity]
 class Order
 {
     public const int MAX_TRANSACTION_COUNT = 2;
-
-    protected const array SORTED_TYPES = [
-        OrderItemTypeEnum::TYPE_PRODUCT,
-        OrderItemTypeEnum::TYPE_PRODUCT_GIFT,
-        OrderItemTypeEnum::TYPE_DISCOUNT,
-        OrderItemTypeEnum::TYPE_PAYMENT,
-        OrderItemTypeEnum::TYPE_TRANSPORT,
-        OrderItemTypeEnum::TYPE_ROUNDING,
-    ];
+    protected const array SORTED_TYPES = [OrderItemTypeEnum::TYPE_PRODUCT, OrderItemTypeEnum::TYPE_PRODUCT_GIFT, OrderItemTypeEnum::TYPE_DISCOUNT, OrderItemTypeEnum::TYPE_PAYMENT, OrderItemTypeEnum::TYPE_TRANSPORT, OrderItemTypeEnum::TYPE_ROUNDING];
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -55,18 +51,21 @@ class Order
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30, unique: true, nullable: false)]
     protected $number;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, name: 'customer_user_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
     protected $customerUser;
@@ -74,12 +73,14 @@ class Order
     /**
      * @var \DateTimeImmutable
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable')]
     protected $createdAt;
 
     /**
      * @var \DateTimeImmutable|null
      */
+    #[AsMcpColumn]
     #[ExcludeLog]
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     protected $orderPaymentStatusPageValidFrom;
@@ -87,6 +88,7 @@ class Order
     /**
      * @var \DateTimeImmutable|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     protected $deliveredAt;
 
@@ -100,6 +102,7 @@ class Order
     /**
      * @var \Shopsys\FrameworkBundle\Model\Order\Status\OrderStatus
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: OrderStatus::class)]
     protected $status;
@@ -107,18 +110,21 @@ class Order
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'money', precision: 20, scale: 6)]
     protected $totalPriceWithVat;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'money', precision: 20, scale: 6)]
     protected $totalPriceWithoutVat;
 
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money
      */
+    #[AsMcpColumn]
     #[ExcludeLog]
     #[ORM\Column(type: 'money', precision: 20, scale: 6)]
     protected $totalProductPriceWithoutVat;
@@ -126,6 +132,7 @@ class Order
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money
      */
+    #[AsMcpColumn]
     #[ExcludeLog]
     #[ORM\Column(type: 'money', precision: 20, scale: 6)]
     protected $totalProductPriceWithVat;
@@ -133,66 +140,77 @@ class Order
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $firstName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $lastName;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 255)]
     protected $email;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30)]
     protected $telephone;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $companyName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     protected $companyNumber;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     protected $companyTaxNumber;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100)]
     protected $street;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100)]
     protected $city;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30)]
     protected $postcode;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Country\Country
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'country_id', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Country::class)]
     protected $country;
@@ -200,54 +218,63 @@ class Order
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $deliveryAddressSameAsBillingAddress;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $deliveryFirstName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $deliveryLastName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $deliveryCompanyName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     protected $deliveryTelephone;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100)]
     protected $deliveryStreet;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100)]
     protected $deliveryCity;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30)]
     protected $deliveryPostcode;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Country\Country|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'delivery_country_id', referencedColumnName: 'id', nullable: true)]
     #[ORM\ManyToOne(targetEntity: Country::class)]
     protected $deliveryCountry;
@@ -255,30 +282,35 @@ class Order
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $note;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $deleted;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $domainId;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 50, unique: true)]
     protected $urlHash;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Administrator\Administrator|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, name: 'administrator_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: Administrator::class)]
     protected $createdAsAdministrator;
@@ -286,18 +318,21 @@ class Order
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $createdAsAdministratorName;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     protected $origin;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn(false)]
     #[ExcludeLog]
     #[ORM\Column(type: 'guid', nullable: true)]
     protected $orderPaymentStatusPageValidityHash;
@@ -312,36 +347,42 @@ class Order
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     protected $goPayBankSwift;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $heurekaAgreement;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $pickupPlaceIdentifier;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $trackingNumber;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 64, nullable: true)]
     protected $promoCode;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\Customer|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, name: 'customer_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: Customer::class)]
     protected $customer;
@@ -349,36 +390,42 @@ class Order
     /**
      * @var bool|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $freeTransportAndPaymentApplied;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 3)]
     protected $currencyCode;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 15)]
     protected $currencyRoundingType;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $currencyRoundingPlacesPriceWithoutVat;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $currencyMinFractionDigits;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $paymentCzkRounding;
 
@@ -389,14 +436,10 @@ class Order
         ?CustomerUser $customerUser = null,
     ) {
         $this->fillCommonFields($orderData);
-
         $this->items = new ArrayCollection();
-
         $this->number = $orderNumber;
-
         $this->setCustomerUser($customerUser);
         $this->deleted = false;
-
         $this->createdAt = $orderData->createdAt;
         $this->domainId = $orderData->domainId;
         $this->urlHash = $urlHash;
@@ -409,7 +452,6 @@ class Order
         $this->paymentTransactions = new ArrayCollection();
         $this->goPayBankSwift = $orderData->goPayBankSwift;
         $this->pickupPlaceIdentifier = $orderData->pickupPlaceIdentifier;
-
         $this->currencyCode = $orderData->currencyCode;
         $this->currencyRoundingType = $orderData->currencyRoundingType;
         $this->currencyRoundingPlacesPriceWithoutVat = $orderData->currencyRoundingPlacesPriceWithoutVat;
@@ -534,7 +576,6 @@ class Order
     protected function editData(OrderData $orderData): void
     {
         $this->fillCommonFields($orderData);
-
         $this->editOrderTransport($orderData);
         $this->editOrderPayment($orderData);
     }
@@ -553,21 +594,14 @@ class Order
         $this->trackingNumber = $orderData->trackingNumber;
 
         if ($orderData->isCompanyCustomer === true) {
-            $this->setCompanyInfo(
-                $orderData->companyName,
-                $orderData->companyNumber,
-                $orderData->companyTaxNumber,
-            );
+            $this->setCompanyInfo($orderData->companyName, $orderData->companyNumber, $orderData->companyTaxNumber);
         } else {
             $this->setCompanyInfo();
         }
-
         $this->status = $orderData->status;
         $this->heurekaAgreement = $orderData->heurekaAgreement;
         $this->deliveredAt = $orderData->deliveredAt;
-
         $this->setDeliveryAddress($orderData);
-
         $this->promoCode = $orderData->promoCode;
         $this->freeTransportAndPaymentApplied = $orderData->freeTransportAndPaymentApplied;
     }
@@ -860,7 +894,6 @@ class Order
     public function getItemsSortedWithRelatedItems(): array
     {
         $itemsSortedWithRelatedItems = [];
-
         $items = clone $this->items;
 
         foreach (static::SORTED_TYPES as $orderItemType) {
@@ -868,7 +901,6 @@ class Order
                 if (!$items->contains($orderItem)) {
                     continue;
                 }
-
                 $itemsSortedWithRelatedItems[] = $orderItem;
                 $items->removeElement($orderItem);
 
@@ -876,7 +908,6 @@ class Order
                     if (!$items->contains($relatedOrderItem)) {
                         continue;
                     }
-
                     $itemsSortedWithRelatedItems[] = $relatedOrderItem;
                     $items->removeElement($relatedOrderItem);
                 }
@@ -891,10 +922,7 @@ class Order
      */
     public function getItemsByType(string $type): array
     {
-        return array_filter(
-            $this->items->getValues(),
-            fn (OrderItem $item) => $item->isType($type),
-        );
+        return array_filter($this->items->getValues(), fn (OrderItem $item) => $item->isType($type));
     }
 
     /**
@@ -1239,9 +1267,7 @@ class Order
             return null;
         }
 
-        return strtr($trackingUrl, [
-            OrderMail::VARIABLE_TRANSPORT_TRACKING_NUMBER => $trackingNumber,
-        ]);
+        return strtr($trackingUrl, [OrderMail::VARIABLE_TRANSPORT_TRACKING_NUMBER => $trackingNumber]);
     }
 
     /**

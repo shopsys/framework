@@ -12,11 +12,14 @@ use Ramsey\Uuid\Uuid;
 use Shopsys\FrameworkBundle\Component\Image\Config\Attributes\EntityImage;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
 use Shopsys\FrameworkBundle\Model\Product\Brand\Exception\BrandDomainNotFoundException;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Product\Brand\BrandTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'brands')]
 #[ORM\Entity]
 #[EntityImage]
@@ -25,6 +28,7 @@ class Brand extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,12 +38,14 @@ class Brand extends AbstractTranslatableEntity
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected $name;
 
@@ -60,9 +66,7 @@ class Brand extends AbstractTranslatableEntity
     {
         $this->translations = new ArrayCollection();
         $this->domains = new ArrayCollection();
-
         $this->uuid = $brandData->uuid ?: Uuid::uuid4()->toString();
-
         $this->createDomains($brandData);
         $this->setData($brandData);
     }
@@ -137,7 +141,6 @@ class Brand extends AbstractTranslatableEntity
             $brandDomain = new BrandDomain($this, $domainId);
             $this->domains->add($brandDomain);
         }
-
         $this->setDomains($brandData);
     }
 

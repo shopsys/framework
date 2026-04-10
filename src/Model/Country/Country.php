@@ -11,11 +11,14 @@ use Prezent\Doctrine\Translatable\Attribute as Prezent;
 use Shopsys\FrameworkBundle\Component\EntityLog\Attribute\EntityLogIdentify;
 use Shopsys\FrameworkBundle\Model\Country\Exception\CountryDomainNotFoundException;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Country\CountryTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Country\CountryTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'countries')]
 #[ORM\Entity]
 class Country extends AbstractTranslatableEntity
@@ -23,6 +26,7 @@ class Country extends AbstractTranslatableEntity
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,6 +38,7 @@ class Country extends AbstractTranslatableEntity
      *
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 2)]
     protected $code;
 
@@ -77,10 +82,10 @@ class Country extends AbstractTranslatableEntity
         }
     }
 
-    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     /**
      * @param string|null $locale
      */
+    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     public function getName($locale = null): string
     {
         return $this->translation($locale)->getName();
@@ -135,7 +140,6 @@ class Country extends AbstractTranslatableEntity
             $countryDomain = new CountryDomain($this, $domainId);
             $this->domains->add($countryDomain);
         }
-
         $this->setDomains($countryData);
     }
 

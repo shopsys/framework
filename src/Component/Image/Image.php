@@ -14,12 +14,15 @@ use Shopsys\FrameworkBundle\Component\FileUpload\FileForUpload;
 use Shopsys\FrameworkBundle\Component\FileUpload\FileNamingConvention;
 use Shopsys\FrameworkBundle\Component\Image\Exception\ImageNotFoundException;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 use Symfony\Component\Clock\DatePoint;
 
 /**
  * @method \Shopsys\FrameworkBundle\Component\Image\ImageTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Component\Image\ImageTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'images')]
 #[ORM\Index(columns: ['entity_name', 'entity_id', 'type'])]
 #[ORM\Entity]
@@ -31,6 +34,7 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
     /**
      * @var int|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -47,36 +51,42 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100)]
     protected $entityName;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $entityId;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     protected $type;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 5)]
     protected $extension;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $position;
 
     /**
      * @var \DateTimeImmutable
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable')]
     protected $modifiedAt;
 
@@ -148,13 +158,7 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
         $files = [];
 
         if ($this->temporaryFilename !== null) {
-            $files[static::UPLOAD_KEY] = new FileForUpload(
-                $this->temporaryFilename,
-                self::class,
-                $this->entityName,
-                FileNamingConvention::TYPE_ID,
-                $this->type . '/',
-            );
+            $files[static::UPLOAD_KEY] = new FileForUpload($this->temporaryFilename, self::class, $this->entityName, FileNamingConvention::TYPE_ID, $this->type . '/');
         }
 
         return $files;
@@ -166,7 +170,6 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
         if ($key !== static::UPLOAD_KEY) {
             throw new InvalidFileKeyException($key);
         }
-
         $this->extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
     }
 
@@ -176,7 +179,6 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
         if ($key !== static::UPLOAD_KEY) {
             throw new InvalidFileKeyException($key);
         }
-
         $this->temporaryFilename = null;
     }
 
@@ -260,14 +262,7 @@ class Image extends AbstractTranslatableEntity implements EntityFileUploadInterf
     public function checkForDelete(string $entityName, int $entityId): void
     {
         if ($this->entityName !== $entityName || $this->entityId !== $entityId) {
-            throw new ImageNotFoundException(
-                sprintf(
-                    'Entity %s with ID %s does not own image with ID %s',
-                    $entityName,
-                    $entityId,
-                    $this->id,
-                ),
-            );
+            throw new ImageNotFoundException(sprintf('Entity %s with ID %s does not own image with ID %s', $entityName, $entityId, $this->id));
         }
     }
 

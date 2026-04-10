@@ -19,11 +19,14 @@ use Shopsys\FrameworkBundle\Model\Payment\Exception\PaymentDomainNotFoundExcepti
 use Shopsys\FrameworkBundle\Model\Payment\Exception\PaymentPriceNotFoundException;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation translation(?string $locale = null)
  * @method \Doctrine\Common\Collections\Collection<string, \Shopsys\FrameworkBundle\Model\Payment\PaymentTranslation> getTranslations()
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'payments')]
 #[ORM\Entity]
 #[EntityImage]
@@ -34,6 +37,7 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -63,18 +67,21 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $hidden;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $deleted;
 
     /**
      * @var int|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[Gedmo\SortablePosition]
     protected $position;
@@ -82,6 +89,7 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $czkRounding;
 
@@ -94,12 +102,14 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string')]
     protected $type;
 
@@ -135,7 +145,6 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
                 $paymentDomain->setHiddenByGoPay(!$paymentDomain->getGoPayPaymentMethod()?->isAvailable());
             }
         }
-
         $this->setTranslations($paymentData);
     }
 
@@ -194,10 +203,8 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
         }
     }
 
-    public function setPrice(
-        Money $price,
-        int $domainId,
-    ): void {
+    public function setPrice(Money $price, int $domainId): void
+    {
         foreach ($this->prices as $paymentInputPrice) {
             if ($paymentInputPrice->getDomainId() === $domainId) {
                 $paymentInputPrice->setPrice($price);
@@ -231,11 +238,11 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
         return $this->id;
     }
 
-    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     /**
      * @param string|null $locale
      * @return string|null
      */
+    #[EntityLogIdentify(EntityLogIdentify::IS_LOCALIZED)]
     public function getName($locale = null)
     {
         return $this->translation($locale)->getName();
@@ -386,19 +393,9 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
         $domainIds = array_keys($paymentData->enabled);
 
         foreach ($domainIds as $domainId) {
-            $paymentDomain = new PaymentDomain(
-                $this,
-                $domainId,
-                $paymentData->vatsIndexedByDomainId[$domainId],
-                $paymentData->goPayPaymentMethodByDomainId[$domainId] ?? null,
-                $paymentData->hiddenByGoPay[$domainId] ?? false,
-                $paymentData->accountNumberByDomainId[$domainId] ?? null,
-                $paymentData->ibanByDomainId[$domainId] ?? null,
-                $paymentData->bicSwiftByDomainId[$domainId] ?? null,
-            );
+            $paymentDomain = new PaymentDomain($this, $domainId, $paymentData->vatsIndexedByDomainId[$domainId], $paymentData->goPayPaymentMethodByDomainId[$domainId] ?? null, $paymentData->hiddenByGoPay[$domainId] ?? false, $paymentData->accountNumberByDomainId[$domainId] ?? null, $paymentData->ibanByDomainId[$domainId] ?? null, $paymentData->bicSwiftByDomainId[$domainId] ?? null);
             $this->domains->add($paymentDomain);
         }
-
         $this->setDomains($paymentData);
     }
 
@@ -431,7 +428,6 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
                 return $price;
             }
         }
-
         $message = 'Payment price for domain ID ' . $domainId . ' and payment ID ' . $this->getId() . 'not found.';
 
         throw new PaymentPriceNotFoundException($message);
@@ -450,9 +446,7 @@ class Payment extends AbstractTranslatableEntity implements OrderableEntityInter
      */
     protected function getGatewayPayments(): array
     {
-        return [
-            PaymentTypeEnum::TYPE_GOPAY,
-        ];
+        return [PaymentTypeEnum::TYPE_GOPAY];
     }
 
     public function isGatewayPayment(): bool

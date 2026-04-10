@@ -10,7 +10,10 @@ use Ramsey\Uuid\Uuid;
 use Shopsys\FrameworkBundle\Model\Category\Category;
 use Shopsys\FrameworkBundle\Model\Product\Flag\Flag;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
+#[AsMcpTable]
 #[ORM\Table(name: 'ready_category_seo_mixes')]
 #[ORM\UniqueConstraint(name: 'selected_category_seo_mix_combination_json', columns: ['selected_category_seo_mix_combination_json'])]
 #[ORM\Entity]
@@ -19,6 +22,7 @@ class ReadyCategorySeoMix
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -27,18 +31,21 @@ class ReadyCategorySeoMix
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $domainId;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text')]
     protected $selectedCategorySeoMixCombinationJson;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Category\Category
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: false, name: 'category_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: Category::class)]
     protected $category;
@@ -46,6 +53,7 @@ class ReadyCategorySeoMix
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Flag\Flag|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, name: 'flag_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: Flag::class)]
     protected $flag;
@@ -53,6 +61,7 @@ class ReadyCategorySeoMix
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     protected $ordering;
 
@@ -65,62 +74,66 @@ class ReadyCategorySeoMix
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: false)]
     protected $h1;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $shortDescription;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $description;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $title;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'text', nullable: true)]
     protected $metaDescription;
 
     /**
      * @var bool
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'boolean')]
     protected $showInCategory;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'guid', unique: true)]
     protected $uuid;
 
     public function __construct(ReadyCategorySeoMixData $readyCategorySeoMixData)
     {
         $this->readyCategorySeoMixParameterParameterValues = new ArrayCollection();
-
         $this->category = $readyCategorySeoMixData->category;
         $this->flag = $readyCategorySeoMixData->flag;
         $this->ordering = $readyCategorySeoMixData->ordering;
         $this->domainId = $readyCategorySeoMixData->domainId;
         $this->selectedCategorySeoMixCombinationJson = $readyCategorySeoMixData->selectedCategorySeoMixCombinationJson;
-
         $this->h1 = $readyCategorySeoMixData->h1;
         $this->shortDescription = $readyCategorySeoMixData->shortDescription;
         $this->description = $readyCategorySeoMixData->description;
         $this->title = $readyCategorySeoMixData->title;
         $this->metaDescription = $readyCategorySeoMixData->metaDescription;
         $this->showInCategory = $readyCategorySeoMixData->showInCategory;
-
         $this->uuid = Uuid::uuid4()->toString();
     }
 
@@ -129,7 +142,6 @@ class ReadyCategorySeoMix
         $this->category = $readyCategorySeoMixData->category;
         $this->flag = $readyCategorySeoMixData->flag;
         $this->ordering = $readyCategorySeoMixData->ordering;
-
         $this->h1 = $readyCategorySeoMixData->h1;
         $this->shortDescription = $readyCategorySeoMixData->shortDescription;
         $this->description = $readyCategorySeoMixData->description;
@@ -188,10 +200,7 @@ class ReadyCategorySeoMix
 
     public function hasPriceBasedOrdering(): bool
     {
-        return in_array($this->ordering, [
-            ProductListOrderingConfig::ORDER_BY_PRICE_ASC,
-            ProductListOrderingConfig::ORDER_BY_PRICE_DESC,
-        ], true);
+        return in_array($this->ordering, [ProductListOrderingConfig::ORDER_BY_PRICE_ASC, ProductListOrderingConfig::ORDER_BY_PRICE_DESC], true);
     }
 
     /**

@@ -27,10 +27,8 @@ class Product extends BaseProduct
      * @param \Tests\FrameworkBundle\Unit\Component\Doctrine\__fixtures\ProductData $productData
      */
     #[Override]
-    public function edit(
-        array $productCategoryDomains,
-        BaseProductData $productData,
-    ): void {
+    public function edit(array $productCategoryDomains, BaseProductData $productData): void
+    {
         parent::edit($productCategoryDomains, $productData);
     }
 }

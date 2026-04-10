@@ -6,28 +6,29 @@ namespace Shopsys\FrameworkBundle\Model\Pricing\Currency;
 
 use Doctrine\ORM\Mapping as ORM;
 use Shopsys\FrameworkBundle\Model\Pricing\Exception\InvalidRoundingTypeException;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
+#[AsMcpTable]
 #[ORM\Table(name: 'currencies')]
 #[ORM\Entity]
 class Currency
 {
     public const string CODE_CZK = 'CZK';
     public const string CODE_EUR = 'EUR';
-
     public const string ROUNDING_TYPE_HUNDREDTHS = 'hundredths';
     public const string ROUNDING_TYPE_FIFTIES = 'fifties';
     public const string ROUNDING_TYPE_INTEGER = 'integer';
-
     public const string DEFAULT_EXCHANGE_RATE = '1';
     public const int DEFAULT_MIN_FRACTION_DIGITS = 2;
     public const string DEFAULT_ROUNDING_TYPE = self::ROUNDING_TYPE_INTEGER;
     public const int DEFAULT_ROUNDING_PLACES_PRICE_WITHOUT_VAT = 2;
-
     public const int MAX_ROUNDING_PLACES_PRICE_WITHOUT_VAT = 6;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -36,36 +37,42 @@ class Currency
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 50)]
     protected $name;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 3, unique: true)]
     protected $code;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'decimal', precision: 20, scale: 6)]
     protected $exchangeRate;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $minFractionDigits;
 
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 15)]
     protected $roundingType;
 
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     protected $roundingPlacesPriceWithoutVat;
 
@@ -153,7 +160,6 @@ class Currency
         if (in_array($roundingType, $this->getRoundingTypes(), true) !== true) {
             throw new InvalidRoundingTypeException($roundingType);
         }
-
         $this->roundingType = $roundingType;
     }
 
@@ -170,10 +176,6 @@ class Currency
      */
     protected function getRoundingTypes(): array
     {
-        return [
-            self::ROUNDING_TYPE_HUNDREDTHS,
-            self::ROUNDING_TYPE_FIFTIES,
-            self::ROUNDING_TYPE_INTEGER,
-        ];
+        return [self::ROUNDING_TYPE_HUNDREDTHS, self::ROUNDING_TYPE_FIFTIES, self::ROUNDING_TYPE_INTEGER];
     }
 }

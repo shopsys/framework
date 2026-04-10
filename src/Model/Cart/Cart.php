@@ -16,8 +16,11 @@ use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCode;
 use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Product\Exception\ProductNotFoundException;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 use Symfony\Component\Clock\DatePoint;
 
+#[AsMcpTable]
 #[ORM\Table(name: 'carts')]
 #[ORM\Entity]
 class Cart
@@ -25,6 +28,7 @@ class Cart
     /**
      * @var int
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -33,12 +37,14 @@ class Cart
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 127)]
     protected $cartIdentifier;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUser|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
     protected $customerUser;
@@ -53,6 +59,7 @@ class Cart
     /**
      * @var \DateTimeImmutable
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'datetime_immutable')]
     protected $modifiedAt;
 
@@ -67,6 +74,7 @@ class Cart
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\Transport|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: Transport::class)]
     protected $transport;
@@ -74,18 +82,21 @@ class Cart
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'money', precision: 20, scale: 6, nullable: true)]
     protected $transportWatchedPrice;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', nullable: true)]
     protected $pickupPlaceIdentifier;
 
     /**
      * @var \Shopsys\FrameworkBundle\Model\Payment\Payment|null
      */
+    #[AsMcpColumn]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: Payment::class)]
     protected $payment;
@@ -93,12 +104,14 @@ class Cart
     /**
      * @var \Shopsys\FrameworkBundle\Component\Money\Money|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'money', precision: 20, scale: 6, nullable: true)]
     protected $paymentWatchedPrice;
 
     /**
      * @var string|null
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 15, nullable: true)]
     protected $paymentGoPayBankSwift;
 
@@ -173,7 +186,6 @@ class Cart
                 $item->changeQuantity((int)$quantitiesByItemId[$item->getId()]);
             }
         }
-
         $this->setModifiedNow();
     }
 
@@ -224,10 +236,7 @@ class Cart
      */
     public function getProducts(): array
     {
-        return array_map(
-            static fn (QuantifiedProduct $quantifiedProduct) => $quantifiedProduct->getProduct(),
-            $this->getQuantifiedProducts(),
-        );
+        return array_map(static fn (QuantifiedProduct $quantifiedProduct) => $quantifiedProduct->getProduct(), $this->getQuantifiedProducts());
     }
 
     public function findSimilarItemByItem(CartItem $item): ?CartItem
@@ -317,11 +326,9 @@ class Cart
 
     public function isPromoCodeApplied(string $promoCodeCode): bool
     {
-        return $this->promoCodes->exists(
-            static function ($key, PromoCode $promoCode) use ($promoCodeCode) {
-                return $promoCode->getCode() === $promoCodeCode;
-            },
-        );
+        return $this->promoCodes->exists(static function ($key, PromoCode $promoCode) use ($promoCodeCode) {
+            return $promoCode->getCode() === $promoCodeCode;
+        });
     }
 
     public function unsetCartTransport(): void
@@ -448,7 +455,6 @@ class Cart
                 return $item;
             }
         }
-
         $message = 'Cart item with UUID "' . $itemUuid . '" not found in cart.';
 
         throw new InvalidCartItemException($message);

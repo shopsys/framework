@@ -21,89 +21,127 @@ use stdClass;
 
 class ProductFilterCountDataElasticsearchRepositoryTest extends TestCase
 {
-    private const int FLAG_ID = 7;
+    private const int CATEGORY_ID = 11;
 
-    private const int BRAND_ID = 5;
+    private const int SELECTED_FLAG_ID = 7;
+
+    private const int OTHER_FLAG_ID = 9;
+
+    private const int SELECTED_BRAND_ID = 5;
+
+    private const int OTHER_BRAND_ID = 6;
 
     private const int PARAMETER_ID = 3;
 
-    private const int PARAMETER_VALUE_ID = 30;
+    private const int SELECTED_PARAMETER_VALUE_ID = 30;
+
+    private const int OTHER_PARAMETER_VALUE_ID = 31;
 
     private const int SECOND_PARAMETER_ID = 4;
 
-    private const int SECOND_PARAMETER_VALUE_ID = 40;
+    private const int SECOND_PARAMETER_SELECTED_VALUE_ID = 40;
+
+    private const int SECOND_PARAMETER_OTHER_VALUE_ID = 41;
+
+    /**
+     * Count of a selected filter option in "absolute_numbers" that has to be replaced by the "plus numbers" of the same option
+     */
+    private const int COUNT_THAT_MUST_NOT_LEAK = 99;
 
     private const string INDEX_NAME = 'product_1';
 
     public function testCountDataOfCategoryIsLoadedWithOneMultiSearch(): void
     {
+        $expectedCountInStock = 4;
+        $expectedCountByFlagId = [self::OTHER_FLAG_ID => 6];
+        $expectedCountByBrandId = [self::OTHER_BRAND_ID => 4];
+        $expectedCountByParameterIdAndValueId = [
+            self::PARAMETER_ID => [self::OTHER_PARAMETER_VALUE_ID => 8],
+            self::SECOND_PARAMETER_ID => [self::SECOND_PARAMETER_OTHER_VALUE_ID => 5],
+        ];
+
         $multipleSearchRepository = $this->createMock(MultipleSearchRepository::class);
         $multipleSearchRepository->expects($this->once())
             ->method('searchIndexedByKey')
             ->with($this->callback($this->assertSearchQueriesOfCategory(...)))
             ->willReturn([
                 'absolute_numbers' => $this->createAbsoluteNumbersResponse(
+                    [self::SELECTED_FLAG_ID => self::COUNT_THAT_MUST_NOT_LEAK, self::OTHER_FLAG_ID => self::COUNT_THAT_MUST_NOT_LEAK],
+                    [self::SELECTED_BRAND_ID => self::COUNT_THAT_MUST_NOT_LEAK],
+                    $expectedCountInStock,
                     [
-                        self::FLAG_ID => 2,
-                        9 => 1,
+                        self::PARAMETER_ID => [
+                            self::SELECTED_PARAMETER_VALUE_ID => self::COUNT_THAT_MUST_NOT_LEAK,
+                            self::OTHER_PARAMETER_VALUE_ID => self::COUNT_THAT_MUST_NOT_LEAK,
+                        ],
                     ],
-                    [self::BRAND_ID => 3],
-                    4,
-                    [self::PARAMETER_ID => [self::PARAMETER_VALUE_ID => 1, 31 => 2]],
                 ),
-                'flags_plus_numbers' => $this->createAbsoluteNumbersResponse([9 => 6], [], 0),
-                'brands_plus_numbers' => $this->createAbsoluteNumbersResponse([], [6 => 4], 0),
-                'parameter_plus_numbers_3' => $this->createParameterPlusNumbersResponse([31 => 8]),
-                'parameter_plus_numbers_4' => $this->createParameterPlusNumbersResponse([41 => 5]),
+                'flags_plus_numbers' => $this->createAbsoluteNumbersResponse($expectedCountByFlagId, [], 0),
+                'brands_plus_numbers' => $this->createAbsoluteNumbersResponse([], $expectedCountByBrandId, 0),
+                'parameter_plus_numbers_3' => $this->createParameterPlusNumbersResponse($expectedCountByParameterIdAndValueId[self::PARAMETER_ID]),
+                'parameter_plus_numbers_4' => $this->createParameterPlusNumbersResponse($expectedCountByParameterIdAndValueId[self::SECOND_PARAMETER_ID]),
             ]);
 
         $countData = $this->createRepository($multipleSearchRepository)->getProductFilterCountDataInCategory(
             $this->createProductFilterDataWithFlagBrandAndParameterFilter(),
-            $this->createFilterQuery()->filterByCategory(11),
+            $this->createFilterQuery()->filterByCategory(self::CATEGORY_ID),
         );
 
-        $this->assertSame(4, $countData->countInStock);
-        $this->assertSame([9 => 6], $countData->countByFlagId);
-        $this->assertSame([6 => 4], $countData->countByBrandId);
-        $this->assertSame([self::PARAMETER_ID => [31 => 8], self::SECOND_PARAMETER_ID => [41 => 5]], $countData->countByParameterIdAndValueId);
+        $this->assertSame($expectedCountInStock, $countData->countInStock);
+        $this->assertSame($expectedCountByFlagId, $countData->countByFlagId);
+        $this->assertSame($expectedCountByBrandId, $countData->countByBrandId);
+        $this->assertSame($expectedCountByParameterIdAndValueId, $countData->countByParameterIdAndValueId);
     }
 
     public function testCountDataWithoutSelectedFiltersIsTakenFromAbsoluteNumbersOnly(): void
     {
+        $expectedCountInStock = 4;
+        $expectedCountByFlagId = [self::SELECTED_FLAG_ID => 2];
+        $expectedCountByBrandId = [self::SELECTED_BRAND_ID => 3];
+        $expectedCountByParameterIdAndValueId = [self::PARAMETER_ID => [self::SELECTED_PARAMETER_VALUE_ID => 1]];
+
         $multipleSearchRepository = $this->createMock(MultipleSearchRepository::class);
         $multipleSearchRepository->expects($this->once())
             ->method('searchIndexedByKey')
             ->with($this->callback(static fn (array $searchQueriesIndexedByQueryName): bool => array_keys($searchQueriesIndexedByQueryName) === ['absolute_numbers']))
             ->willReturn([
                 'absolute_numbers' => $this->createAbsoluteNumbersResponse(
-                    [self::FLAG_ID => 2],
-                    [self::BRAND_ID => 3],
-                    4,
-                    [self::PARAMETER_ID => [self::PARAMETER_VALUE_ID => 1]],
+                    $expectedCountByFlagId,
+                    $expectedCountByBrandId,
+                    $expectedCountInStock,
+                    $expectedCountByParameterIdAndValueId,
                 ),
             ]);
 
         $countData = $this->createRepository($multipleSearchRepository)->getProductFilterCountDataInCategory(
             new ProductFilterData(),
-            $this->createFilterQuery()->filterByCategory(11),
+            $this->createFilterQuery()->filterByCategory(self::CATEGORY_ID),
         );
 
-        $this->assertSame(4, $countData->countInStock);
-        $this->assertSame([self::FLAG_ID => 2], $countData->countByFlagId);
-        $this->assertSame([self::BRAND_ID => 3], $countData->countByBrandId);
-        $this->assertSame([self::PARAMETER_ID => [self::PARAMETER_VALUE_ID => 1]], $countData->countByParameterIdAndValueId);
+        $this->assertSame($expectedCountInStock, $countData->countInStock);
+        $this->assertSame($expectedCountByFlagId, $countData->countByFlagId);
+        $this->assertSame($expectedCountByBrandId, $countData->countByBrandId);
+        $this->assertSame($expectedCountByParameterIdAndValueId, $countData->countByParameterIdAndValueId);
     }
 
     public function testCountDataOfSearchIsLoadedWithOneMultiSearchIgnoringParameters(): void
     {
+        $expectedCountInStock = 2;
+        $expectedCountByFlagId = [self::OTHER_FLAG_ID => 5];
+        $expectedCountByBrandId = [self::OTHER_BRAND_ID => 4];
+
         $multipleSearchRepository = $this->createMock(MultipleSearchRepository::class);
         $multipleSearchRepository->expects($this->once())
             ->method('searchIndexedByKey')
             ->with($this->callback($this->assertSearchQueriesOfSearch(...)))
             ->willReturn([
-                'absolute_numbers' => $this->createAbsoluteNumbersResponse([self::FLAG_ID => 1, 9 => 3], [self::BRAND_ID => 2, 6 => 1], 2),
-                'flags_plus_numbers' => $this->createAbsoluteNumbersResponse([9 => 5], [], 0),
-                'brands_plus_numbers' => $this->createAbsoluteNumbersResponse([], [6 => 4], 0),
+                'absolute_numbers' => $this->createAbsoluteNumbersResponse(
+                    [self::SELECTED_FLAG_ID => self::COUNT_THAT_MUST_NOT_LEAK, self::OTHER_FLAG_ID => self::COUNT_THAT_MUST_NOT_LEAK],
+                    [self::SELECTED_BRAND_ID => self::COUNT_THAT_MUST_NOT_LEAK, self::OTHER_BRAND_ID => self::COUNT_THAT_MUST_NOT_LEAK],
+                    $expectedCountInStock,
+                ),
+                'flags_plus_numbers' => $this->createAbsoluteNumbersResponse($expectedCountByFlagId, [], 0),
+                'brands_plus_numbers' => $this->createAbsoluteNumbersResponse([], $expectedCountByBrandId, 0),
             ]);
 
         $countData = $this->createRepository($multipleSearchRepository)->getProductFilterCountDataInSearch(
@@ -111,9 +149,9 @@ class ProductFilterCountDataElasticsearchRepositoryTest extends TestCase
             $this->createFilterQuery(),
         );
 
-        $this->assertSame(2, $countData->countInStock);
-        $this->assertSame([9 => 5], $countData->countByFlagId);
-        $this->assertSame([6 => 4], $countData->countByBrandId);
+        $this->assertSame($expectedCountInStock, $countData->countInStock);
+        $this->assertSame($expectedCountByFlagId, $countData->countByFlagId);
+        $this->assertSame($expectedCountByBrandId, $countData->countByBrandId);
         $this->assertSame([], $countData->countByParameterIdAndValueId);
     }
 
@@ -130,29 +168,29 @@ class ProductFilterCountDataElasticsearchRepositoryTest extends TestCase
         $absoluteNumbersBody = $searchQueriesIndexedByQueryName['absolute_numbers']['body'];
         $this->assertSame(self::INDEX_NAME, $searchQueriesIndexedByQueryName['absolute_numbers']['index']);
         $this->assertArrayHasKey('parameters', $absoluteNumbersBody['aggs']);
-        $this->assertContains(['terms' => ['flags' => [self::FLAG_ID]]], $absoluteNumbersBody['query']['bool']['filter']);
+        $this->assertContains(['terms' => ['flags' => [self::SELECTED_FLAG_ID]]], $absoluteNumbersBody['query']['bool']['filter']);
 
         $flagsPlusNumbersBody = $searchQueriesIndexedByQueryName['flags_plus_numbers']['body'];
-        $this->assertSame(['terms' => ['flags' => [self::FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['must_not']);
-        $this->assertNotContains(['terms' => ['flags' => [self::FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContains(['terms' => ['brand' => [self::BRAND_ID]]], $flagsPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::PARAMETER_VALUE_ID), $flagsPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_VALUE_ID), $flagsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertSame(['terms' => ['flags' => [self::SELECTED_FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['must_not']);
+        $this->assertNotContains(['terms' => ['flags' => [self::SELECTED_FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContains(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $flagsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::SELECTED_PARAMETER_VALUE_ID), $flagsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_SELECTED_VALUE_ID), $flagsPlusNumbersBody['query']['bool']['filter']);
 
         $brandsPlusNumbersBody = $searchQueriesIndexedByQueryName['brands_plus_numbers']['body'];
-        $this->assertSame(['terms' => ['brand' => [self::BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['must_not']);
-        $this->assertContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::PARAMETER_VALUE_ID), $brandsPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_VALUE_ID), $brandsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertSame(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['must_not']);
+        $this->assertContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::SELECTED_PARAMETER_VALUE_ID), $brandsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_SELECTED_VALUE_ID), $brandsPlusNumbersBody['query']['bool']['filter']);
 
         $parameterPlusNumbersBody = $searchQueriesIndexedByQueryName['parameter_plus_numbers_3']['body'];
         $this->assertSame(
             self::PARAMETER_ID,
             $parameterPlusNumbersBody['aggs']['parameters']['aggs']['filtered_for_parameter']['filter']['term']['parameters.parameter_id'],
         );
-        $this->assertNotContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::PARAMETER_VALUE_ID), $parameterPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_VALUE_ID), $parameterPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContains(['terms' => ['flags' => [self::FLAG_ID]]], $parameterPlusNumbersBody['query']['bool']['filter']);
-        $this->assertContains(['terms' => ['brand' => [self::BRAND_ID]]], $parameterPlusNumbersBody['query']['bool']['filter']);
+        $this->assertNotContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::SELECTED_PARAMETER_VALUE_ID), $parameterPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_SELECTED_VALUE_ID), $parameterPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContains(['terms' => ['flags' => [self::SELECTED_FLAG_ID]]], $parameterPlusNumbersBody['query']['bool']['filter']);
+        $this->assertContains(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $parameterPlusNumbersBody['query']['bool']['filter']);
 
         return true;
     }
@@ -165,20 +203,20 @@ class ProductFilterCountDataElasticsearchRepositoryTest extends TestCase
         $this->assertSame(['absolute_numbers', 'flags_plus_numbers', 'brands_plus_numbers'], array_keys($searchQueriesIndexedByQueryName));
 
         foreach ($searchQueriesIndexedByQueryName as $searchQuery) {
-            $this->assertNotContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::PARAMETER_VALUE_ID), $searchQuery['body']['query']['bool']['filter']);
-            $this->assertNotContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_VALUE_ID), $searchQuery['body']['query']['bool']['filter']);
+            $this->assertNotContainsEquals($this->createParameterFilter(self::PARAMETER_ID, self::SELECTED_PARAMETER_VALUE_ID), $searchQuery['body']['query']['bool']['filter']);
+            $this->assertNotContainsEquals($this->createParameterFilter(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_SELECTED_VALUE_ID), $searchQuery['body']['query']['bool']['filter']);
         }
 
         $absoluteNumbersBody = $searchQueriesIndexedByQueryName['absolute_numbers']['body'];
         $this->assertArrayNotHasKey('parameters', $absoluteNumbersBody['aggs']);
-        $this->assertContains(['terms' => ['brand' => [self::BRAND_ID]]], $absoluteNumbersBody['query']['bool']['filter']);
+        $this->assertContains(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $absoluteNumbersBody['query']['bool']['filter']);
 
         $flagsPlusNumbersBody = $searchQueriesIndexedByQueryName['flags_plus_numbers']['body'];
-        $this->assertSame(['terms' => ['flags' => [self::FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['must_not']);
+        $this->assertSame(['terms' => ['flags' => [self::SELECTED_FLAG_ID]]], $flagsPlusNumbersBody['query']['bool']['must_not']);
 
         $brandsPlusNumbersBody = $searchQueriesIndexedByQueryName['brands_plus_numbers']['body'];
-        $this->assertSame(['terms' => ['brand' => [self::BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['must_not']);
-        $this->assertNotContains(['terms' => ['brand' => [self::BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['filter']);
+        $this->assertSame(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['must_not']);
+        $this->assertNotContains(['terms' => ['brand' => [self::SELECTED_BRAND_ID]]], $brandsPlusNumbersBody['query']['bool']['filter']);
 
         return true;
     }
@@ -196,17 +234,17 @@ class ProductFilterCountDataElasticsearchRepositoryTest extends TestCase
     private function createProductFilterDataWithFlagBrandAndParameterFilter(): ProductFilterData
     {
         $flag = $this->createStub(Flag::class);
-        $flag->method('getId')->willReturn(self::FLAG_ID);
+        $flag->method('getId')->willReturn(self::SELECTED_FLAG_ID);
 
         $brand = $this->createStub(Brand::class);
-        $brand->method('getId')->willReturn(self::BRAND_ID);
+        $brand->method('getId')->willReturn(self::SELECTED_BRAND_ID);
 
         $productFilterData = new ProductFilterData();
         $productFilterData->flags = [$flag];
         $productFilterData->brands = [$brand];
         $productFilterData->parameters = [
-            $this->createParameterFilterData(self::PARAMETER_ID, self::PARAMETER_VALUE_ID),
-            $this->createParameterFilterData(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_VALUE_ID),
+            $this->createParameterFilterData(self::PARAMETER_ID, self::SELECTED_PARAMETER_VALUE_ID),
+            $this->createParameterFilterData(self::SECOND_PARAMETER_ID, self::SECOND_PARAMETER_SELECTED_VALUE_ID),
         ];
 
         return $productFilterData;
